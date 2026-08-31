@@ -50,12 +50,28 @@
     color: #ffffff !important;
   }
 
-  select option:checked,
-  select option:hover,
-  select option:focus,
-  select option:active {
-    background-color: #0d9488 !important;
-    color: #ffffff !important;
+  /* Global Ultra-Minimal & Discrete Scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(203, 213, 225, 0.35) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(203, 213, 225, 0.35);
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(13, 148, 136, 0.4);
   }
 }
 
@@ -153,19 +169,18 @@
     animation: slideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
   .custom-scrollbar::-webkit-scrollbar {
-    height: 6px;
-    width: 6px;
+    height: 4px;
+    width: 4px;
   }
   .custom-scrollbar::-webkit-scrollbar-track {
-    background: #f1f5f9;
-    border-radius: 9999px;
+    background: transparent;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
+    background: rgba(203, 213, 225, 0.35);
     border-radius: 9999px;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #0d9488;
+    background: rgba(13, 148, 136, 0.5);
   }
   .no-scrollbar::-webkit-scrollbar {
     display: none;
