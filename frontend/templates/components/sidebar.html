@@ -1,16 +1,16 @@
 <!-- templates/components/sidebar.html — SOURCE UNIQUE DE VÉRITÉ CS² HEALTH -->
 <!-- Backdrop Overlay for Mobile Sidebar -->
-<div id="mobile-sidebar-overlay" onclick="closeMobileSidebar()" class="fixed inset-0 z-40 bg-cs2-neutral-950/60 backdrop-blur-xs transition-opacity duration-300 opacity-0 pointer-events-none md:hidden" aria-hidden="true"></div>
+<div id="mobile-sidebar-overlay" onclick="closeMobileSidebar()" class="fixed inset-0 z-40 bg-cs2-neutral-950/60 backdrop-blur-xs opacity-0 pointer-events-none md:hidden" aria-hidden="true"></div>
 
 <!-- Mobile & Desktop Sidebar -->
-<aside id="app-sidebar" aria-label="Navigation principale" class="fixed inset-y-0 left-0 z-50 w-64 flex flex-col justify-between flex-shrink-0 h-full select-none bg-cs2-brand-800 text-cs2-brand-100 border-r border-cs2-brand-700/60 shadow-2xl transition-transform duration-300 transform -translate-x-full md:translate-x-0 md:static md:w-56 md:flex md:h-screen md:shadow-lg">
+<aside id="app-sidebar" aria-label="Navigation principale" class="fixed inset-y-0 left-0 z-50 w-64 flex flex-col justify-between flex-shrink-0 h-full select-none bg-cs2-brand-800 text-cs2-brand-100 border-r border-cs2-brand-700/60 shadow-2xl transform -translate-x-full md:translate-x-0 md:static md:w-56 md:flex md:h-screen md:shadow-lg">
 
   <!-- 🏥 Brand Header -->
   <div class="pt-3 pb-1 px-3 flex items-center justify-between md:justify-center text-center flex-shrink-0">
-    <a href="{% url 'dashboard' %}" data-nav-root class="flex items-center justify-center text-center group mx-auto md:mx-0 transition group-hover:scale-105 duration-300">
+    <a href="{% url 'dashboard' %}" data-nav-root class="flex items-center justify-center text-center group mx-auto md:mx-0">
       <cs2-logo id="sidebar-logo" size="lg" variant="mark"></cs2-logo>
     </a>
-    <button type="button" onclick="closeMobileSidebar()" class="md:hidden p-1.5 rounded-lg text-cs2-brand-200 hover:text-white hover:bg-cs2-brand-700 transition cursor-pointer" title="Fermer le menu">
+    <button type="button" onclick="closeMobileSidebar()" class="md:hidden p-1.5 rounded-lg text-cs2-brand-200 hover:text-white hover:bg-cs2-brand-700 cursor-pointer" title="Fermer le menu">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
     </button>
   </div>
