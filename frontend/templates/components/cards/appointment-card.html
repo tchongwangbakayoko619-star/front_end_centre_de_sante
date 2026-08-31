@@ -1,0 +1,97 @@
+<!-- templates/components/cards/appointment-card.html — COMPOSANT CARTE RENDEZ-VOUS CS² HEALTH -->
+<!--
+  Usage Django Template :
+  {% include "components/cards/appointment-card.html" with time="09:00 - 09:30" patient_name="Bisseck Amadou" doctor_name="Dr. Nsangou" specialty="Cardiologie" status="Confirmé" room="Cabinet 104" %}
+-->
+
+<div
+  class="appointment-card bg-white dark:bg-cs2-neutral-900 border border-cs2-neutral-200/90 dark:border-cs2-neutral-800 rounded-2xl p-4 shadow-2xs hover:border-cs2-brand-400 transition duration-150 flex flex-col justify-between gap-3"
+>
+  <!-- Top Bar: Time Slot + Status -->
+  <div
+    class="flex items-center justify-between gap-2 border-b border-cs2-neutral-100 dark:border-cs2-neutral-800 pb-3"
+  >
+    <div class="flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-cs2-brand-500 animate-pulse"></span>
+      <span
+        class="text-xs font-mono font-extrabold text-cs2-brand-700 dark:text-cs2-brand-300 bg-cs2-brand-50 dark:bg-cs2-brand-950/60 px-2.5 py-1 rounded-lg border border-cs2-brand-200/60"
+      >
+        {{ time|default:"08:00 - 08:30" }}
+      </span>
+    </div>
+
+    <span
+      class="inline-flex items-center gap-1 text-[11px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full border {% if status == 'Annulé' or status == 'annule' %} bg-rose-50 text-rose-600 border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 {% elif status == 'En attente' or status == 'pending' %} bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 {% elif status == 'Terminé' or status == 'completed' %} bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 {% else %} bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 {% endif %}"
+    >
+      {{ status|default:"Confirmé" }}
+    </span>
+  </div>
+
+  <!-- Body: Patient & Doctor Info -->
+  <div class="space-y-1.5">
+    <div class="flex items-center gap-2">
+      <svg
+        class="w-4 h-4 text-cs2-neutral-400 flex-shrink-0"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+        />
+      </svg>
+      <span
+        class="text-sm font-extrabold text-cs2-neutral-950 dark:text-white font-title truncate"
+      >
+        {{ patient_name|default:"Nom du Patient" }}
+      </span>
+    </div>
+
+    <div
+      class="flex items-center gap-2 text-xs text-cs2-neutral-500 dark:text-cs2-neutral-400"
+    >
+      <svg
+        class="w-3.5 h-3.5 text-cs2-brand-600 flex-shrink-0"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+        />
+      </svg>
+      <span
+        class="font-bold text-cs2-neutral-700 dark:text-cs2-neutral-300 truncate"
+        >{{ doctor_name|default:"Médecin Traitant" }}</span
+      >
+      <span>•</span>
+      <span class="truncate">{{ specialty|default:"Médecine Générale" }}</span>
+    </div>
+  </div>
+
+  <!-- Footer Meta & Actions -->
+  <div
+    class="flex items-center justify-between gap-2 pt-2 border-t border-cs2-neutral-100 dark:border-cs2-neutral-800 text-xs"
+  >
+    <span
+      class="text-[11px] font-bold text-cs2-neutral-400 bg-cs2-neutral-100 dark:bg-cs2-neutral-800 px-2 py-0.5 rounded-md"
+    >
+      {{ room|default:"Salle 1" }}
+    </span>
+
+    <div class="flex items-center gap-1.5">
+      <a
+        href="{% url 'agenda' %}"
+        class="px-2.5 py-1 rounded-lg bg-cs2-brand-600 hover:bg-cs2-brand-700 text-white font-extrabold text-[11px] transition"
+      >
+        Détails
+      </a>
+    </div>
+  </div>
+</div>

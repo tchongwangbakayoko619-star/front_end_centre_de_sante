@@ -1,0 +1,68 @@
+<!-- templates/components/cards/notification-card.html — COMPOSANT CARTE NOTIFICATION / SMS CS² HEALTH -->
+<!--
+  Usage Django Template :
+  {% include "components/cards/notification-card.html" with recipient="Ekani Paul" phone="+237 677 89 01 23" type="Rappel RDV" status="Livré" time="Il y a 10 min" message="Votre RDV de demain à 09:00 est confirmé." %}
+-->
+
+<div
+  class="notification-card bg-white dark:bg-cs2-neutral-900 border border-cs2-neutral-200/90 dark:border-cs2-neutral-800 rounded-2xl p-4 shadow-2xs hover:border-cs2-brand-300 transition duration-150 flex flex-col gap-3"
+>
+  <!-- Header: Type & Status Badge -->
+  <div class="flex items-center justify-between gap-2">
+    <div class="flex items-center gap-2 min-w-0">
+      <span
+        class="w-8 h-8 rounded-lg bg-cs2-brand-50 text-cs2-brand-600 dark:bg-cs2-brand-950 dark:text-cs2-brand-400 flex items-center justify-center flex-shrink-0"
+      >
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
+          />
+        </svg>
+      </span>
+      <div class="min-w-0">
+        <h4
+          class="text-xs font-extrabold text-cs2-neutral-950 dark:text-white font-title truncate"
+        >
+          {{ recipient|default:"Destinataire" }}
+        </h4>
+        <p class="text-[10px] font-mono text-cs2-neutral-400 truncate">
+          {{ phone|default:"+237 600 00 00 00" }}
+        </p>
+      </div>
+    </div>
+
+    <span
+      class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider {% if status == 'Échec' or status == 'failed' %} bg-rose-50 text-rose-600 border border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 {% elif status == 'En attente' or status == 'pending' %} bg-amber-50 text-amber-700 border border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 {% else %} bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 {% endif %}"
+    >
+      {{ status|default:"Livré" }}
+    </span>
+  </div>
+
+  <!-- Message Body -->
+  <p
+    class="text-xs font-medium text-cs2-neutral-700 dark:text-cs2-neutral-300 bg-cs2-neutral-50/70 dark:bg-cs2-neutral-900/70 p-3 rounded-xl border border-cs2-neutral-100 dark:border-cs2-neutral-800 line-clamp-2"
+  >
+    {{ message|default:"Contenu du message de notification..." }}
+  </p>
+
+  <!-- Footer Time & Action -->
+  <div
+    class="flex items-center justify-between text-[11px] text-cs2-neutral-400 pt-1"
+  >
+    <span class="font-medium">{{ time|default:"Aujourd'hui" }}</span>
+    <button
+      type="button"
+      class="text-cs2-brand-600 dark:text-cs2-brand-400 hover:underline font-bold"
+    >
+      Détails →
+    </button>
+  </div>
+</div>

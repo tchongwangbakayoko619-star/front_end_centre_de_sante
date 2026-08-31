@@ -1,0 +1,64 @@
+<!-- templates/components/cards/card.html — COMPOSANT CARD DE BASE CS² HEALTH -->
+<!--
+  Usage Django Template :
+  {% include "components/cards/card.html" with title="Titre de la carte" subtitle="Sous-titre explicatif" icon="user" %}
+
+  Variables supportées :
+  - title : Titre principal de la carte
+  - subtitle : Sous-titre optionnel
+  - badge : Badge optionnel dans l'en-tête (ex: "Actif")
+  - badge_type : "success" | "warning" | "danger" | "info" | "neutral"
+  - padding : Classe de padding interne (défaut: "p-6")
+  - header_border : Boolean (défaut: true)
+  - footer_border : Boolean (défaut: true)
+-->
+
+<div
+  class="cs2-card bg-white dark:bg-cs2-neutral-900 border border-cs2-neutral-200/90 dark:border-cs2-neutral-800 rounded-2xl shadow-2xs overflow-hidden flex flex-col {{ extra_classes }}"
+>
+  {% if title or subtitle or badge %}
+  <!-- Card Header -->
+  <div
+    class="px-6 py-4 flex items-center justify-between gap-4 {% if header_border|default:true %}border-b border-cs2-neutral-100 dark:border-cs2-neutral-800{% endif %}"
+  >
+    <div class="min-w-0">
+      {% if title %}
+      <h3
+        class="text-sm font-extrabold text-cs2-neutral-950 dark:text-white font-title truncate"
+      >
+        {{ title }}
+      </h3>
+      {% endif %} {% if subtitle %}
+      <p
+        class="text-xs font-medium text-cs2-neutral-500 dark:text-cs2-neutral-400 mt-0.5 truncate"
+      >
+        {{ subtitle }}
+      </p>
+      {% endif %}
+    </div>
+
+    {% if badge %}
+    <span
+      class="cs2-badge text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full border {% if badge_type == 'danger' %} bg-rose-50 text-rose-600 border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 {% elif badge_type == 'warning' %} bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 {% elif badge_type == 'info' %} bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 {% else %} bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 {% endif %}"
+    >
+      {{ badge }}
+    </span>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  <!-- Card Body -->
+  <div class="{{ padding|default:'p-6' }} flex-1">
+    <!-- Slot pour le contenu principal -->
+    {{ body_content|default:"" }}
+  </div>
+
+  {% if footer_content %}
+  <!-- Card Footer -->
+  <div
+    class="px-6 py-3.5 bg-cs2-neutral-50/60 dark:bg-cs2-neutral-900/60 {% if footer_border|default:true %}border-t border-cs2-neutral-100 dark:border-cs2-neutral-800{% endif %} flex items-center justify-between gap-3 text-xs"
+  >
+    {{ footer_content }}
+  </div>
+  {% endif %}
+</div>

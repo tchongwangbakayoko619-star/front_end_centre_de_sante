@@ -1,0 +1,86 @@
+<!-- templates/components/cards/kpi-card.html — COMPOSANT KPI CARD CS² HEALTH -->
+<!--
+  Usage Django Template :
+  {% include "components/cards/kpi-card.html" with label="RDV du Jour" value="42" trend="↑ 32 confirmés" trend_type="success" theme="teal" icon="calendar" id_prefix="kpi-rdv" %}
+
+  Variables supportées :
+  - label : Libellé de la métrique (ex: "RDV du Jour")
+  - value : Valeur affichée (ex: "42" ou "85%")
+  - trend : Texte de la tendance (ex: "↑ 32 confirmés")
+  - trend_type : "success" | "warning" | "danger" | "info" | "neutral" (défaut: "success")
+  - theme : "teal" | "blue" | "emerald" | "amber" | "rose" | "purple" (défaut: "teal")
+  - id_prefix : Préfixe d'identifiant pour le dynamisme JS (ex: "kpi-rdv")
+-->
+
+{% with theme=theme|default:"teal" trend_type=trend_type|default:"success" %}
+<div
+  class="kpi-card {{ theme }} bg-white dark:bg-cs2-neutral-900 p-5 rounded-2xl border border-cs2-neutral-200/90 dark:border-cs2-neutral-800 shadow-2xs hover:shadow-md transition duration-200 group"
+>
+  <div class="flex items-start justify-between gap-3">
+    <div class="flex-1 min-w-0">
+      <div
+        class="text-xs font-extrabold text-cs2-neutral-500 dark:text-cs2-neutral-400 uppercase tracking-wider truncate"
+        {%
+        if
+        id_prefix
+        %}id="{{ id_prefix }}-label"
+        {%
+        endif
+        %}
+      >
+        {{ label|default:"Statistique" }}
+      </div>
+      <div
+        class="text-2xl font-black text-cs2-neutral-950 dark:text-white font-title mt-1 tracking-tight"
+        {%
+        if
+        id_prefix
+        %}id="{{ id_prefix }}-val"
+        {%
+        endif
+        %}
+      >
+        {{ value|default:"0" }}
+      </div>
+      {% if trend %}
+      <div class="mt-3">
+        <span
+          {%
+          if
+          id_prefix
+          %}id="{{ id_prefix }}-trend"
+          {%
+          endif
+          %}
+          class="inline-flex items-center gap-1 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full border {% if trend_type == 'danger' %} text-rose-600 bg-rose-50 border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-800 {% elif trend_type == 'warning' %} text-amber-700 bg-amber-50 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800 {% elif trend_type == 'info' %} text-blue-700 bg-blue-50 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800 {% elif trend_type == 'neutral' %} text-cs2-neutral-700 bg-cs2-neutral-100 border-cs2-neutral-200 dark:bg-cs2-neutral-800 dark:text-cs2-neutral-300 dark:border-cs2-neutral-700 {% else %} text-emerald-600 bg-emerald-50 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800 {% endif %}"
+        >
+          {{ trend }}
+        </span>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Icon Theme Badge -->
+    <div
+      class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-105 {% if theme == 'blue' %} bg-blue-50 text-blue-600 dark:bg-blue-950/50 dark:text-blue-400 {% elif theme == 'emerald' %} bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-400 {% elif theme == 'amber' %} bg-amber-50 text-amber-600 dark:bg-amber-950/50 dark:text-amber-400 {% elif theme == 'rose' %} bg-rose-50 text-rose-600 dark:bg-rose-950/50 dark:text-rose-400 {% elif theme == 'purple' %} bg-purple-50 text-purple-600 dark:bg-purple-950/50 dark:text-purple-400 {% else %} bg-cs2-brand-50 text-cs2-brand-600 dark:bg-cs2-brand-950/50 dark:text-cs2-brand-400 {% endif %}"
+    >
+      {% if icon_svg %} {{ icon_svg|safe }} {% else %}
+      <svg
+        class="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+        <circle cx="9" cy="7" r="4" />
+        <path d="M22 21v-2a4 4 0 0 0-3.87-4" />
+        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+      </svg>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endwith %}

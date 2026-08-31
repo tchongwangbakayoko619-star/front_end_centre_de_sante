@@ -1,0 +1,119 @@
+<!-- templates/components/cards/patient-card.html — COMPOSANT CARTE PATIENT CS² HEALTH -->
+<!--
+  Usage Django Template :
+  {% include "components/cards/patient-card.html" with name="Mendouga Mbarga Joseph" ipp="IPP-2026-0042" phone="+237 699 12 34 56" gender="M" age="34" status="Actif" %}
+-->
+
+<div
+  class="patient-card bg-white dark:bg-cs2-neutral-900 border border-cs2-neutral-200/90 dark:border-cs2-neutral-800 rounded-2xl p-5 shadow-2xs hover:border-cs2-brand-300 transition duration-150 flex flex-col justify-between gap-4"
+>
+  <!-- Header: Avatar Initials + Info -->
+  <div class="flex items-start gap-3.5">
+    <div
+      class="w-11 h-11 rounded-xl bg-cs2-brand-100 text-cs2-brand-700 dark:bg-cs2-brand-950 dark:text-cs2-brand-300 font-extrabold text-sm flex items-center justify-center flex-shrink-0 border border-cs2-brand-200/60 font-title"
+    >
+      {{ initials|default:"PT" }}
+    </div>
+
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center justify-between gap-2">
+        <h4
+          class="text-sm font-extrabold text-cs2-neutral-950 dark:text-white font-title truncate"
+        >
+          {{ name|default:"Nom du Patient" }}
+        </h4>
+        <span
+          class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400"
+        >
+          {{ status|default:"Actif" }}
+        </span>
+      </div>
+
+      <div
+        class="flex items-center gap-2 mt-1 text-xs text-cs2-neutral-500 dark:text-cs2-neutral-400 font-mono"
+      >
+        <span class="font-bold text-cs2-neutral-700 dark:text-cs2-neutral-300"
+          >{{ ipp|default:"IPP-2026-0000" }}</span
+        >
+        <span>•</span>
+        <span>{{ gender|default:"M" }}, {{ age|default:"0" }} ans</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact & Meta Details -->
+  <div
+    class="grid grid-cols-2 gap-2 py-2 px-3 bg-cs2-neutral-50/80 dark:bg-cs2-neutral-900/80 rounded-xl border border-cs2-neutral-100 dark:border-cs2-neutral-800 text-xs"
+  >
+    <div>
+      <span
+        class="text-[10px] uppercase tracking-wider font-extrabold text-cs2-neutral-400 block"
+        >Téléphone</span
+      >
+      <span
+        class="font-bold text-cs2-neutral-800 dark:text-cs2-neutral-200 truncate block"
+        >{{ phone|default:"+237 600 00 00 00" }}</span
+      >
+    </div>
+    <div>
+      <span
+        class="text-[10px] uppercase tracking-wider font-extrabold text-cs2-neutral-400 block"
+        >Dernière Visite</span
+      >
+      <span
+        class="font-bold text-cs2-neutral-800 dark:text-cs2-neutral-200 truncate block"
+        >{{ last_visit|default:"Aujourd'hui" }}</span
+      >
+    </div>
+  </div>
+
+  <!-- Action Footer -->
+  <div
+    class="flex items-center justify-end gap-2 pt-1 border-t border-cs2-neutral-100 dark:border-cs2-neutral-800"
+  >
+    <a
+      href="{% url 'patients-detail' ipp|default:1 %}"
+      class="px-3 py-1.5 rounded-lg border border-cs2-neutral-200 bg-white hover:bg-cs2-neutral-100 text-cs2-neutral-800 font-bold text-xs transition duration-150 flex items-center gap-1.5"
+    >
+      <svg
+        class="w-3.5 h-3.5 text-cs2-neutral-500"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+        />
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+        />
+      </svg>
+      <span>Dossier</span>
+    </a>
+    <a
+      href="{% url 'appointment-create' %}"
+      class="px-3 py-1.5 rounded-lg bg-cs2-brand-600 hover:bg-cs2-brand-700 text-white font-extrabold text-xs transition duration-150 flex items-center gap-1.5"
+    >
+      <svg
+        class="w-3.5 h-3.5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 4v16m8-8H4"
+        />
+      </svg>
+      <span>Nouveau RDV</span>
+    </a>
+  </div>
+</div>
