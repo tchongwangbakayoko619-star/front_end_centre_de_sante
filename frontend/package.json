@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build:css": "tailwindcss -i ./static/css/input.css -o ./static/css/styles.css --minify",
-    "watch:css": "tailwindcss -i ./static/css/input.css -o ./static/css/styles.css --watch"
+    "watch:css": "tailwindcss -i ./static/css/input.css -o ./static/css/styles.css --watch",
+    "format:css": "prettier --write static/css/**/*.css",
+    "format": "prettier --write static/css/**/*.css static/js/**/*.js templates/**/*.html"
   },
   "keywords": [
     "cs2-health",
