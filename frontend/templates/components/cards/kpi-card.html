@@ -52,7 +52,7 @@
           {%
           endif
           %}
-          class="inline-flex items-center gap-1 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full border {% if trend_type == 'danger' %} text-rose-600 bg-rose-50 border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-800 {% elif trend_type == 'warning' %} text-amber-700 bg-amber-50 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800 {% elif trend_type == 'info' %} text-blue-700 bg-blue-50 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800 {% elif trend_type == 'neutral' %} text-cs2-neutral-700 bg-cs2-neutral-100 border-cs2-neutral-200 dark:bg-cs2-neutral-800 dark:text-cs2-neutral-300 dark:border-cs2-neutral-700 {% else %} text-emerald-600 bg-emerald-50 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800 {% endif %}"
+          class="inline-flex items-center gap-1 text-[11px] font-extrabold {% if trend_type == 'danger' %} text-rose-600 {% elif trend_type == 'warning' %} text-amber-600 {% elif trend_type == 'info' %} text-blue-600 {% elif trend_type == 'neutral' %} text-cs2-neutral-600 {% else %} text-emerald-600 {% endif %}"
         >
           {{ trend }}
         </span>
