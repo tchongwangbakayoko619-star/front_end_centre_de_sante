@@ -1,14 +1,3 @@
-@import "./variables.css";
-@import "./reset.css";
-@import "./base.css";
-@import "./layout.css";
-@import "./components.css";
-@import "./forms.css";
-@import "./tables.css";
-@import "./utilities.css";
-@import "./responsive.css";
-@import "./auth.css";
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
