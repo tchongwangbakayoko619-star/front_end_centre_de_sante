@@ -173,7 +173,7 @@
             </div>
           </div>
 
-          <div class="relative h-64 w-full">
+          <div class="relative h-64 w-full bg-white p-2 rounded-xl border border-cs2-neutral-100 shadow-2xs">
             <canvas id="receptionWeeklyChart"></canvas>
           </div>
         </div>
@@ -188,7 +188,7 @@
             <p class="text-[11px] text-cs2-neutral-500 dark:text-cs2-neutral-400 mt-0.5">Statistiques du jour (42 RDV)</p>
           </div>
 
-          <div class="relative h-48 flex items-center justify-center my-auto">
+          <div class="relative h-48 flex items-center justify-center my-auto bg-white p-2 rounded-xl border border-cs2-neutral-100 shadow-2xs">
             <canvas id="receptionStatusChart"></canvas>
           </div>
 
@@ -223,9 +223,12 @@
             <div class="flex items-center justify-between border-b border-cs2-neutral-200 dark:border-cs2-neutral-800 pb-4">
               <div class="flex items-center gap-2">
                 <h3 class="text-base font-extrabold text-cs2-neutral-950 dark:text-white font-title">File d'Attente &amp; RDV du Jour</h3>
-                <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-cs2-brand-50 text-cs2-brand-700 dark:bg-cs2-brand-950/60 dark:text-cs2-brand-300 border border-cs2-brand-200/80">3 En attente</span>
+                <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-white text-cs2-brand-700 border border-cs2-brand-200 shadow-2xs">3 En attente</span>
               </div>
-              <a href="appointments/agenda.html" class="text-xs font-bold text-cs2-brand-600 dark:text-cs2-brand-400 hover:text-cs2-brand-700 transition">Voir tout l'agenda →</a>
+              <a href="appointments/agenda.html" class="text-xs font-extrabold text-cs2-brand-700 bg-white border border-cs2-neutral-200 hover:border-cs2-brand-500 hover:text-cs2-brand-800 px-3 py-1.5 rounded-xl transition shadow-2xs inline-flex items-center gap-1">
+                <span>Voir tout l'agenda</span>
+                <span>→</span>
+              </a>
             </div>
 
             <!-- Appointment Cards List -->
@@ -242,7 +245,7 @@
                       <p class="text-[11px] text-cs2-neutral-600 dark:text-cs2-neutral-400">NUP: 254-890-412 • Dr. Valois (Cardiologie)</p>
                     </div>
                   </div>
-                  <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400">Confirmé</span>
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-white text-emerald-700 border border-emerald-200 shadow-2xs">Confirmé</span>
                 </div>
               </div>
 
@@ -258,7 +261,7 @@
                       <p class="text-[11px] text-cs2-neutral-600 dark:text-cs2-neutral-400">NUP: 108-765-209 • Dr. Bamba (Médecine Générale)</p>
                     </div>
                   </div>
-                  <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-amber-50 text-amber-700 border border-amber-200 dark:bg-amber-950/40 dark:text-amber-400">En attente</span>
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-white text-amber-700 border border-amber-200 shadow-2xs">En attente</span>
                 </div>
               </div>
 
@@ -274,7 +277,7 @@
                       <p class="text-[11px] text-cs2-neutral-600 dark:text-cs2-neutral-400">NUP: 419-332-901 • Dr. Valois (Cardiologie)</p>
                     </div>
                   </div>
-                  <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400">Confirmé</span>
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-white text-emerald-700 border border-emerald-200 shadow-2xs">Confirmé</span>
                 </div>
               </div>
             </div>
@@ -287,14 +290,17 @@
             <div class="flex items-center justify-between border-b border-cs2-neutral-200 pb-4">
               <div class="flex items-center gap-2">
                 <h3 class="text-base font-extrabold text-cs2-neutral-950 font-title">Patients Récents</h3>
-                <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200">+12 ce jour</span>
+                <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-white text-emerald-700 border border-emerald-200 shadow-2xs">+12 ce jour</span>
               </div>
               <div class="flex items-center gap-2">
                 <a href="patients/create.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cs2-brand-600 hover:bg-cs2-brand-700 active:scale-95 text-white text-xs font-extrabold transition shadow-2xs">
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
                   <span>Patient</span>
                 </a>
-                <a href="patients/list.html" class="text-xs font-bold text-cs2-brand-600 hover:text-cs2-brand-700 transition">Registre →</a>
+                <a href="patients/list.html" class="text-xs font-extrabold text-cs2-brand-700 bg-white border border-cs2-neutral-200 hover:border-cs2-brand-500 hover:text-cs2-brand-800 px-3 py-1.5 rounded-xl transition shadow-2xs inline-flex items-center gap-1">
+                  <span>Registre</span>
+                  <span>→</span>
+                </a>
               </div>
             </div>
 
@@ -303,7 +309,7 @@
               <!-- Patient 1 -->
               <div class="p-3.5 rounded-xl border border-cs2-neutral-200 bg-white hover:border-cs2-brand-500 transition flex items-center justify-between gap-3 shadow-2xs">
                 <div class="flex items-center gap-3">
-                  <div class="w-9 h-9 rounded-lg bg-cs2-brand-100 text-cs2-brand-700 font-extrabold text-xs flex items-center justify-center flex-shrink-0 border border-cs2-brand-200">
+                  <div class="w-9 h-9 rounded-lg bg-white text-cs2-brand-700 font-extrabold text-xs flex items-center justify-center flex-shrink-0 border border-cs2-brand-200 shadow-2xs">
                     JD
                   </div>
                   <div>
@@ -311,13 +317,13 @@
                     <p class="text-[11px] text-cs2-neutral-600">NUP: 254-890-412 • Admis à 09:15</p>
                   </div>
                 </div>
-                <a href="patients/detail.html" class="px-2.5 py-1 rounded-lg bg-white border border-cs2-neutral-200 hover:bg-cs2-neutral-100 text-cs2-neutral-700 text-[11px] font-bold transition">Dossier</a>
+                <a href="patients/detail.html" class="px-2.5 py-1 rounded-lg bg-white border border-cs2-neutral-200 hover:bg-cs2-neutral-50 text-cs2-neutral-700 text-[11px] font-bold transition shadow-2xs">Dossier</a>
               </div>
 
               <!-- Patient 2 -->
               <div class="p-3.5 rounded-xl border border-cs2-neutral-200 bg-white hover:border-cs2-brand-500 transition flex items-center justify-between gap-3 shadow-2xs">
                 <div class="flex items-center gap-3">
-                  <div class="w-9 h-9 rounded-lg bg-blue-100 text-blue-700 font-extrabold text-xs flex items-center justify-center flex-shrink-0 border border-blue-200">
+                  <div class="w-9 h-9 rounded-lg bg-white text-blue-700 font-extrabold text-xs flex items-center justify-center flex-shrink-0 border border-blue-200 shadow-2xs">
                     KE
                   </div>
                   <div>
@@ -325,13 +331,13 @@
                     <p class="text-[11px] text-cs2-neutral-600">NUP: 108-765-209 • Admis à 10:00</p>
                   </div>
                 </div>
-                <a href="patients/detail.html" class="px-2.5 py-1 rounded-lg bg-white border border-cs2-neutral-200 hover:bg-cs2-neutral-100 text-cs2-neutral-700 text-[11px] font-bold transition">Dossier</a>
+                <a href="patients/detail.html" class="px-2.5 py-1 rounded-lg bg-white border border-cs2-neutral-200 hover:bg-cs2-neutral-50 text-cs2-neutral-700 text-[11px] font-bold transition shadow-2xs">Dossier</a>
               </div>
 
               <!-- Patient 3 -->
               <div class="p-3.5 rounded-xl border border-cs2-neutral-200 bg-white hover:border-cs2-brand-500 transition flex items-center justify-between gap-3 shadow-2xs">
                 <div class="flex items-center gap-3">
-                  <div class="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-700 font-extrabold text-xs flex items-center justify-center flex-shrink-0 border border-emerald-200">
+                  <div class="w-9 h-9 rounded-lg bg-white text-emerald-700 font-extrabold text-xs flex items-center justify-center flex-shrink-0 border border-emerald-200 shadow-2xs">
                     AD
                   </div>
                   <div>
@@ -339,7 +345,7 @@
                     <p class="text-[11px] text-cs2-neutral-600">NUP: 419-332-901 • Admis à 10:45</p>
                   </div>
                 </div>
-                <a href="patients/detail.html" class="px-2.5 py-1 rounded-lg bg-white border border-cs2-neutral-200 hover:bg-cs2-neutral-100 text-cs2-neutral-700 text-[11px] font-bold transition">Dossier</a>
+                <a href="patients/detail.html" class="px-2.5 py-1 rounded-lg bg-white border border-cs2-neutral-200 hover:bg-cs2-neutral-50 text-cs2-neutral-700 text-[11px] font-bold transition shadow-2xs">Dossier</a>
               </div>
             </div>
           </div>
