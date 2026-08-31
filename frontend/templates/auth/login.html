@@ -197,11 +197,75 @@
 
     </div>
 
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- 🌊 SPLASH SCREEN — Écran de chargement lors de la connexion -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div id="cs2-splash" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center pointer-events-none opacity-0"
+         style="background: linear-gradient(145deg, #042f2e 0%, #0b4f4c 42%, #0f766e 80%, #0d9488 100%); transition: opacity 0.35s ease;">
+
+      <!-- Dot Grid Overlay -->
+      <div style="position:absolute;inset:0;opacity:.07;background-image:radial-gradient(#ffffff 1.5px,transparent 1.5px);background-size:28px 28px;pointer-events:none;"></div>
+
+      <!-- Ambient Glow Orbs -->
+      <div style="position:absolute;top:20%;left:15%;width:22rem;height:22rem;background:rgba(45,212,191,.18);border-radius:9999px;filter:blur(72px);pointer-events:none;"></div>
+      <div style="position:absolute;bottom:15%;right:10%;width:20rem;height:20rem;background:rgba(52,211,153,.12);border-radius:9999px;filter:blur(72px);pointer-events:none;"></div>
+
+      <!-- Content -->
+      <div id="cs2-splash-content" class="relative z-10 flex flex-col items-center gap-7 text-white"
+           style="transform:scale(0.78) translateY(32px);opacity:0;transition:transform 0.7s cubic-bezier(.16,1,.3,1),opacity 0.7s ease;">
+
+        <!-- Logo SVG inline dans cadre glassmorphism -->
+        <div id="cs2-splash-logo-wrap" style="width:136px;height:136px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:2.2rem;box-shadow:0 0 0 0 rgba(45,212,191,.5);backdrop-filter:blur(14px);animation:cs2-logo-pulse 2.4s ease-in-out infinite;">
+          <!-- SVG logo inline -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="90" height="90" style="filter:drop-shadow(0 0 20px rgba(45,212,191,.75));flex-shrink:0;">
+            <defs>
+              <linearGradient id="sp-grad-auth" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#5eead4"/>
+                <stop offset="55%" stop-color="#2dd4bf"/>
+                <stop offset="100%" stop-color="#0d9488"/>
+              </linearGradient>
+              <mask id="sp-mask-auth">
+                <rect width="64" height="64" fill="black"/>
+                <rect x="26" y="12" width="12" height="40" rx="3.5" fill="white"/>
+                <rect x="12" y="26" width="40" height="12" rx="3.5" fill="white"/>
+                <path d="M14 32 H24 L27.5 24 L32 42 L36.5 22 L40 38 L43 32 H50"
+                      fill="none" stroke="black" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </mask>
+            </defs>
+            <rect width="64" height="64" rx="16" fill="url(#sp-grad-auth)"/>
+            <rect width="64" height="64" fill="#ffffff" mask="url(#sp-mask-auth)"/>
+          </svg>
+        </div>
+
+        <!-- App Name -->
+        <div class="text-center" style="opacity:0;transform:translateY(18px);transition:opacity 0.55s ease 0.4s,transform 0.55s cubic-bezier(.16,1,.3,1) 0.4s;" id="cs2-splash-text">
+          <div style="font-family:'Plus Jakarta Sans',Inter,sans-serif;font-size:2rem;font-weight:900;letter-spacing:-.035em;color:#ffffff;line-height:1.1;">
+            CS<sup style="font-size:.65em;vertical-align:super;">²</sup> Health
+          </div>
+          <div style="font-size:.7rem;font-weight:600;color:rgba(94,234,212,.9);letter-spacing:.1em;text-transform:uppercase;margin-top:.5rem;">
+            Système de Santé Intelligent
+          </div>
+        </div>
+
+        <!-- Loading dots -->
+        <div id="cs2-splash-dots" style="display:flex;gap:.6rem;margin-top:.25rem;opacity:0;transition:opacity 0.4s ease 0.8s;">
+          <span style="width:8px;height:8px;border-radius:9999px;background:#2dd4bf;animation:cs2-dot 1.4s ease-in-out infinite;"></span>
+          <span style="width:8px;height:8px;border-radius:9999px;background:#2dd4bf;animation:cs2-dot 1.4s ease-in-out .22s infinite;"></span>
+          <span style="width:8px;height:8px;border-radius:9999px;background:#2dd4bf;animation:cs2-dot 1.4s ease-in-out .44s infinite;"></span>
+        </div>
+      </div>
+
+      <!-- Progress bar -->
+      <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,.07);">
+        <div id="cs2-splash-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#2dd4bf,#5eead4,#99f6e4);border-radius:0 2px 2px 0;"></div>
+      </div>
+    </div>
+
     <script src="{% static 'js/cs2-logo.js' %}"></script>
     <script src="../../static/js/core/cs2-paths.js"></script>
     <script src="../../static/js/components/cs2-logo.js"></script>
-    <script src="{% static 'js/auth-button-loader.js' %}"></script>
-    <script src="../../../static/js/modules/auth/auth-button-loader.js"></script>
+    <script src="../../static/js/components/password-toggle.js"></script>
+    <script src="../../static/js/modules/auth/login.js"></script>
     <!-- Django: {% endblock %} -->
 </body>
 </html>
