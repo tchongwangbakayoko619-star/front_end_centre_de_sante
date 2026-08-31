@@ -12,7 +12,7 @@
       ? document.currentScript.src
       : Array.from(document.querySelectorAll('script[src*="header-loader"]'))
              .pop()?.src || '';
-    return scriptSrc.replace(/\/static\/js\/header-loader\.js.*$/, '');
+    return scriptSrc.replace(/\/static\/js\/.*$/, '');
   }
 
   function resolveHeaderPath() {

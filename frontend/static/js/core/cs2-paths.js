@@ -30,11 +30,10 @@
   }
 
   function projectRootFromScript(scriptName) {
-    const needle = '/static/js/' + scriptName;
     const scriptSrc = document.currentScript
       ? document.currentScript.src
       : (Array.from(document.querySelectorAll('script[src*="' + scriptName + '"]')).pop() || {}).src || '';
-    return scriptSrc.replace(new RegExp(needle.replace('.', '\\.') + '.*$'), '');
+    return scriptSrc.replace(/\/static\/js\/.*$/, '');
   }
 
   window.CS2 = window.CS2 || {};

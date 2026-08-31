@@ -19,7 +19,7 @@
       ? document.currentScript.src
       : Array.from(document.querySelectorAll('script[src*="sidebar-loader"]'))
              .pop()?.src || '';
-    return scriptSrc.replace(/\/static\/js\/sidebar-loader\.js.*$/, '');
+    return scriptSrc.replace(/\/static\/js\/.*$/, '');
   }
 
   function resolveComponentPath() {

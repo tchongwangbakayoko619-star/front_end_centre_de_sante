@@ -60,11 +60,15 @@ frontend/templates/
 
 ---
 
-## 🚀 Pipeline d'Assets & Build Tailwind CLI
+## 🚀 Pipeline d'Assets & Architecture JavaScript
 
 Les assets sont regroupés exclusivement dans `frontend/static/` :
 - `frontend/static/css/` : Fichiers CSS source et CSS compilé (`styles.css`).
-- `frontend/static/js/` : Scripts de l'application (`navigation.js`, `modal.js`, `theme.js`, `dropdown.js`).
+- `frontend/static/js/` : Architecture JavaScript modulaire structurée par scénarios :
+  - `core/` : Initialisation, résolution de chemins (`cs2-paths.js`), thème (`theme.js`), utilitaires (`utils.js`), application (`app.js`).
+  - `components/` : Scripts de composants UI globaux (`cs2-logo.js`, `modal.js`, `dropdown.js`, `navigation.js`, `sidebar.js`, `toast.js`).
+  - `loaders/` : Chargeurs dynamiques de mise en page (`header-loader.js`, `sidebar-loader.js`).
+  - `modules/auth/` : Scénarios métier d'authentification (`login.js`, `password-toggle.js`, `password-strength.js`, `forgot-password.js`, `reset-password.js`, `form-validation.js`, `auth-state.js`, `auth-button-loader.js`).
 
 ### Commandes de Build CSS (Tailwind CLI local) :
 
