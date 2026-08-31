@@ -1,3 +1,14 @@
+@import "./variables.css";
+@import "./reset.css";
+@import "./base.css";
+@import "./layout.css";
+@import "./components.css";
+@import "./forms.css";
+@import "./tables.css";
+@import "./utilities.css";
+@import "./responsive.css";
+@import "./auth.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -64,7 +75,6 @@
   .animate-slide-down {
     animation: slideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
-  /* Custom sleek scrollbar for DataTables */
   .custom-scrollbar::-webkit-scrollbar {
     height: 6px;
     width: 6px;
