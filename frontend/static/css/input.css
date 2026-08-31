@@ -79,17 +79,17 @@
   /* CS² Form Controls & Inputs */
   .cs2-input,
   .form-control {
-    @apply w-full px-3.5 py-2.5 text-xs font-medium text-cs2-neutral-900 bg-cs2-neutral-50/50 dark:bg-cs2-neutral-900/50 border border-cs2-neutral-200 dark:border-cs2-neutral-700 rounded-xl focus:bg-white dark:focus:bg-cs2-neutral-900 focus:border-cs2-brand-600 focus:ring-2 focus:ring-cs2-brand-500/20 outline-none transition placeholder:text-cs2-neutral-400;
+    @apply w-full px-3.5 py-2.5 text-xs font-medium text-cs2-neutral-900 bg-white border border-cs2-neutral-200 rounded-xl focus:bg-white focus:border-cs2-brand-600 focus:ring-2 focus:ring-cs2-brand-500/20 outline-none transition placeholder:text-cs2-neutral-400;
   }
 
-  /* CS² Cards */
-  .cs2-card {
-    @apply bg-white dark:bg-cs2-neutral-900 border border-cs2-neutral-200/80 dark:border-cs2-neutral-800 rounded-2xl p-6 shadow-2xs;
-  }
-
-  /* KPI Cards */
-  .kpi-card {
-    @apply relative overflow-hidden bg-white dark:bg-cs2-neutral-900 border border-cs2-neutral-200/80 dark:border-cs2-neutral-800 rounded-2xl p-5 shadow-2xs transition duration-200 hover:-translate-y-1 hover:shadow-md;
+  /* CS² Cards — Blanc pur (#ffffff) pour le fond des cartes */
+  .cs2-card,
+  .kpi-card,
+  .patient-card,
+  .appointment-card,
+  .notification-card {
+    @apply bg-white border border-cs2-neutral-200/90 rounded-2xl p-5 shadow-2xs transition duration-200;
+    background-color: #ffffff !important;
   }
 
   /* Badges */
@@ -117,16 +117,17 @@
     @apply absolute inset-0 bg-cs2-neutral-950/60 backdrop-blur-sm;
   }
   .modal-content {
-    @apply relative w-full max-w-lg bg-white dark:bg-cs2-neutral-900 border border-cs2-neutral-200 dark:border-cs2-neutral-800 rounded-2xl shadow-2xl overflow-hidden z-10;
+    @apply relative w-full max-w-lg bg-white border border-cs2-neutral-200 rounded-2xl shadow-2xl overflow-hidden z-10;
+    background-color: #ffffff !important;
   }
   .modal-header {
-    @apply px-6 py-4 border-b border-cs2-neutral-100 dark:border-cs2-neutral-800 flex items-center justify-between;
+    @apply px-6 py-4 border-b border-cs2-neutral-100 flex items-center justify-between bg-white;
   }
   .modal-body {
-    @apply p-6;
+    @apply p-6 bg-white;
   }
   .modal-footer {
-    @apply px-6 py-4 border-t border-cs2-neutral-100 dark:border-cs2-neutral-800 flex items-center justify-end gap-3 bg-cs2-neutral-50/50 dark:bg-cs2-neutral-900/50;
+    @apply px-6 py-4 border-t border-cs2-neutral-100 flex items-center justify-end gap-3 bg-white;
   }
 
   /* Toasts */
@@ -134,7 +135,8 @@
     @apply fixed top-5 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-3 w-full max-w-md px-4 pointer-events-none;
   }
   .toast {
-    @apply pointer-events-auto flex items-center justify-between p-4 rounded-2xl bg-white/95 dark:bg-cs2-neutral-900/95 backdrop-blur-md border border-cs2-neutral-200/80 dark:border-cs2-neutral-800 shadow-xl animate-slide-down;
+    @apply pointer-events-auto flex items-center justify-between p-4 rounded-2xl bg-white border border-cs2-neutral-200/80 shadow-xl animate-slide-down;
+    background-color: #ffffff !important;
   }
 }
 
