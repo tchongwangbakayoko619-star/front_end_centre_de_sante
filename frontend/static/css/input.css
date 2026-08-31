@@ -54,6 +54,85 @@
   }
 }
 
+@layer components {
+  /* CS² Buttons */
+  .btn-primary,
+  .cs2-btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-cs2-brand-600 hover:bg-cs2-brand-700 text-white font-bold text-xs rounded-xl shadow-sm transition duration-150 focus:outline-none focus:ring-2 focus:ring-cs2-brand-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary,
+  .cs2-btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white hover:bg-cs2-neutral-100 text-cs2-neutral-800 font-bold text-xs rounded-xl border border-cs2-neutral-200 shadow-2xs transition duration-150 focus:outline-none focus:ring-2 focus:ring-cs2-brand-500 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-danger,
+  .cs2-btn-danger {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl shadow-sm transition duration-150 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* CS² Form Controls & Inputs */
+  .cs2-input,
+  .form-control {
+    @apply w-full px-3.5 py-2.5 text-xs font-medium text-cs2-neutral-900 bg-cs2-neutral-50/50 dark:bg-cs2-neutral-900/50 border border-cs2-neutral-200 dark:border-cs2-neutral-700 rounded-xl focus:bg-white dark:focus:bg-cs2-neutral-900 focus:border-cs2-brand-600 focus:ring-2 focus:ring-cs2-brand-500/20 outline-none transition placeholder:text-cs2-neutral-400;
+  }
+
+  /* CS² Cards */
+  .cs2-card {
+    @apply bg-white dark:bg-cs2-neutral-900 border border-cs2-neutral-200/80 dark:border-cs2-neutral-800 rounded-2xl p-6 shadow-2xs;
+  }
+
+  /* KPI Cards */
+  .kpi-card {
+    @apply relative overflow-hidden bg-white dark:bg-cs2-neutral-900 border border-cs2-neutral-200/80 dark:border-cs2-neutral-800 rounded-2xl p-5 shadow-2xs transition duration-200 hover:-translate-y-1 hover:shadow-md;
+  }
+
+  /* Badges */
+  .cs2-badge {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider;
+  }
+  .cs2-badge-emergency {
+    @apply bg-rose-50 text-rose-600 border border-rose-200;
+  }
+  .cs2-badge-warning {
+    @apply bg-amber-50 text-amber-700 border border-amber-200;
+  }
+  .cs2-badge-success {
+    @apply bg-emerald-50 text-emerald-700 border border-emerald-200;
+  }
+  .cs2-badge-info {
+    @apply bg-blue-50 text-blue-700 border border-blue-200;
+  }
+
+  /* Modals */
+  .modal {
+    @apply fixed inset-0 z-50 flex items-center justify-center p-4;
+  }
+  .modal-backdrop {
+    @apply absolute inset-0 bg-cs2-neutral-950/60 backdrop-blur-sm;
+  }
+  .modal-content {
+    @apply relative w-full max-w-lg bg-white dark:bg-cs2-neutral-900 border border-cs2-neutral-200 dark:border-cs2-neutral-800 rounded-2xl shadow-2xl overflow-hidden z-10;
+  }
+  .modal-header {
+    @apply px-6 py-4 border-b border-cs2-neutral-100 dark:border-cs2-neutral-800 flex items-center justify-between;
+  }
+  .modal-body {
+    @apply p-6;
+  }
+  .modal-footer {
+    @apply px-6 py-4 border-t border-cs2-neutral-100 dark:border-cs2-neutral-800 flex items-center justify-end gap-3 bg-cs2-neutral-50/50 dark:bg-cs2-neutral-900/50;
+  }
+
+  /* Toasts */
+  .toast-container {
+    @apply fixed top-5 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-3 w-full max-w-md px-4 pointer-events-none;
+  }
+  .toast {
+    @apply pointer-events-auto flex items-center justify-between p-4 rounded-2xl bg-white/95 dark:bg-cs2-neutral-900/95 backdrop-blur-md border border-cs2-neutral-200/80 dark:border-cs2-neutral-800 shadow-xl animate-slide-down;
+  }
+}
+
 @layer utilities {
   .shadow-2xs {
     box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.03);
@@ -79,15 +158,22 @@
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: #0d9488;
   }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
 
 @keyframes slideDown {
   from {
     opacity: 0;
-    transform: translate(-50%, -1.25rem);
+    transform: translateY(-0.75rem);
   }
   to {
     opacity: 1;
-    transform: translate(-50%, 0);
+    transform: translateY(0);
   }
 }
