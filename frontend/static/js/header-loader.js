@@ -55,8 +55,13 @@
 
     document.querySelectorAll('header a[href]').forEach(link => {
       const href = link.getAttribute('href');
-      if (href && (href.includes('dashboard.html') || href === '../dashboard.html')) {
+      if (!href || href === '#' || href.startsWith('javascript:')) return;
+      if (href.includes('dashboard.html') || href === '../dashboard.html') {
         link.href = computeRelativePath(pageUrl, rootBase + '/templates/pages/reception/dashboard.html');
+      } else if (href.includes('notifications/history.html') || href.includes('history.html')) {
+        link.href = computeRelativePath(pageUrl, rootBase + '/templates/pages/reception/notifications/history.html');
+      } else if (href.includes('profile/index.html') || href.includes('profile')) {
+        link.href = computeRelativePath(pageUrl, rootBase + '/templates/pages/profile/index.html');
       }
     });
 
