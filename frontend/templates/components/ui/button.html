@@ -1,10 +1,75 @@
-<!-- templates/components/ui/button.html -->
-<!-- Usage: Primary Button: bg-cs2-brand-600 hover:bg-cs2-brand-700 text-white -->
-<!-- Usage: Secondary Button: bg-white border border-cs2-neutral-200 text-cs2-neutral-800 hover:bg-cs2-neutral-100 -->
-<!-- Usage: Danger Button: bg-red-600 hover:bg-red-700 text-white -->
-<button
-  type="button"
-  class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm focus:outline-none focus:ring-2 focus:ring-cs2-brand-100 disabled:opacity-50 disabled:cursor-not-allowed"
+<!-- templates/components/ui/button.html — COMPOSANT BOUTON UNIFIÉ CS² HEALTH -->
+<!--
+  Usage Django Template :
+  - Bouton Primaire : {% include "components/ui/button.html" with label="Enregistrer" variant="primary" type="submit" %}
+  - Bouton Secondaire : {% include "components/ui/button.html" with label="Annuler" variant="secondary" %}
+  - Bouton Danger : {% include "components/ui/button.html" with label="Supprimer" variant="danger" %}
+  - Lien stylisé en bouton : {% include "components/ui/button.html" with label="Voir Agenda" href="appointments/agenda.html" variant="outline" %}
+
+  Variables supportées :
+  - label : Texte du bouton (ex: "Valider")
+  - href : Si présent, rend une balise <a> au lieu d'un <button>
+  - variant : "primary" (défaut) | "secondary" | "outline" | "ghost" | "danger" | "success" | "link"
+  - size : "sm" | "md" (défaut) | "lg" | "icon"
+  - type : "button" (défaut) | "submit" | "reset"
+  - id : Identifiant HTML optionnel
+  - disabled : True | False (désactive le bouton)
+  - icon_left_svg : SVG injecté à gauche du texte
+  - icon_right_svg : SVG injecté à droite du texte
+  - extra_classes : Classes Tailwind additionnelles
+-->
+
+{% with variant=variant|default:"primary" size=size|default:"md" type=type|default:"button" %}
+
+{% if href %}
+<a
+  href="{{ href }}"
+  {% if id %}id="{{ id }}"{% endif %}
+  class="inline-flex items-center justify-center gap-2 font-extrabold transition-all duration-150 active:scale-95 focus:outline-none focus:ring-2 focus:ring-cs2-brand-500/30
+  {% if size == 'sm' %} px-3 py-1.5 text-[11px] rounded-lg
+  {% elif size == 'lg' %} px-5 py-2.5 text-sm rounded-xl
+  {% elif size == 'icon' %} p-2 rounded-xl text-xs
+  {% else %} px-4 py-2 text-xs rounded-xl
+  {% endif %}
+  {% if variant == 'secondary' %} bg-white border border-cs2-neutral-200 hover:bg-cs2-neutral-50 hover:border-cs2-brand-500 text-cs2-neutral-800 shadow-2xs
+  {% elif variant == 'outline' %} bg-transparent border border-cs2-neutral-300 hover:bg-cs2-neutral-100 hover:border-cs2-brand-500 text-cs2-neutral-700
+  {% elif variant == 'ghost' %} bg-transparent hover:bg-cs2-neutral-100 text-cs2-neutral-700
+  {% elif variant == 'danger' %} bg-rose-600 hover:bg-rose-700 text-white shadow-2xs
+  {% elif variant == 'success' %} bg-emerald-600 hover:bg-emerald-700 text-white shadow-2xs
+  {% elif variant == 'link' %} bg-transparent text-cs2-brand-600 hover:text-cs2-brand-700 underline-offset-4 hover:underline p-0 shadow-none
+  {% else %} bg-cs2-brand-600 hover:bg-cs2-brand-700 text-white shadow-2xs
+  {% endif %}
+  {{ extra_classes }}"
 >
-  <span>Bouton</span>
+  {% if icon_left_svg %}<span class="flex-shrink-0">{{ icon_left_svg|safe }}</span>{% endif %}
+  {% if label %}<span>{{ label }}</span>{% endif %}
+  {% if icon_right_svg %}<span class="flex-shrink-0">{{ icon_right_svg|safe }}</span>{% endif %}
+</a>
+{% else %}
+<button
+  type="{{ type }}"
+  {% if id %}id="{{ id }}"{% endif %}
+  {% if disabled %}disabled{% endif %}
+  class="inline-flex items-center justify-center gap-2 font-extrabold transition-all duration-150 active:scale-95 focus:outline-none focus:ring-2 focus:ring-cs2-brand-500/30 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100
+  {% if size == 'sm' %} px-3 py-1.5 text-[11px] rounded-lg
+  {% elif size == 'lg' %} px-5 py-2.5 text-sm rounded-xl
+  {% elif size == 'icon' %} p-2 rounded-xl text-xs
+  {% else %} px-4 py-2 text-xs rounded-xl
+  {% endif %}
+  {% if variant == 'secondary' %} bg-white border border-cs2-neutral-200 hover:bg-cs2-neutral-50 hover:border-cs2-brand-500 text-cs2-neutral-800 shadow-2xs
+  {% elif variant == 'outline' %} bg-transparent border border-cs2-neutral-300 hover:bg-cs2-neutral-100 hover:border-cs2-brand-500 text-cs2-neutral-700
+  {% elif variant == 'ghost' %} bg-transparent hover:bg-cs2-neutral-100 text-cs2-neutral-700
+  {% elif variant == 'danger' %} bg-rose-600 hover:bg-rose-700 text-white shadow-2xs
+  {% elif variant == 'success' %} bg-emerald-600 hover:bg-emerald-700 text-white shadow-2xs
+  {% elif variant == 'link' %} bg-transparent text-cs2-brand-600 hover:text-cs2-brand-700 underline-offset-4 hover:underline p-0 shadow-none
+  {% else %} bg-cs2-brand-600 hover:bg-cs2-brand-700 text-white shadow-2xs
+  {% endif %}
+  {{ extra_classes }}"
+>
+  {% if icon_left_svg %}<span class="flex-shrink-0">{{ icon_left_svg|safe }}</span>{% endif %}
+  {% if label %}<span>{{ label }}</span>{% endif %}
+  {% if icon_right_svg %}<span class="flex-shrink-0">{{ icon_right_svg|safe }}</span>{% endif %}
 </button>
+{% endif %}
+
+{% endwith %}
