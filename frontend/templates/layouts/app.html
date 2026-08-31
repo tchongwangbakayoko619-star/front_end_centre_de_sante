@@ -14,19 +14,7 @@
 
   <!-- Tailwind CDN & Dynamic Config -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'cs2-brand': { 50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4', 300: '#5eead4', 400: '#2dd4bf', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e', 800: '#115e59', 900: '#134e4a', 950: '#042f2e' },
-            'cs2-neutral': { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1', 400: '#94a3b8', 500: '#64748b', 600: '#475569', 700: '#334155', 800: '#1e293b', 900: '#0f172a', 950: '#020617' }
-          },
-          fontFamily: { sans: ['Inter', 'sans-serif'], title: ['Plus Jakarta Sans', 'sans-serif'] }
-        }
-      }
-    }
-  </script>
+  <script src="../../../static/js/tailwind-config.js"></script>
 
   <!-- Chart.js for Interactive Dashboard Charts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -40,20 +28,6 @@
   <link rel="stylesheet" href="../../../static/css/layout.css">
   <link rel="stylesheet" href="../../../static/css/components.css">
   <link rel="stylesheet" href="../../../static/css/utilities.css">
-  <style>
-    *::selection, ::selection {
-      background-color: #0d9488 !important;
-      color: #ffffff !important;
-    }
-    *::-moz-selection, ::-moz-selection {
-      background-color: #0d9488 !important;
-      color: #ffffff !important;
-    }
-    select option:checked, select option:hover, select option:focus, select option:active {
-      background-color: #0d9488 !important;
-      color: #ffffff !important;
-    }
-  </style>
   <!-- {% block extra_head %} --><!-- {% endblock %} -->
 </head>
 <body class="h-full bg-cs2-neutral-50 text-cs2-neutral-900 font-sans flex flex-col antialiased selection:bg-cs2-brand-600 selection:text-white">

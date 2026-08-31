@@ -182,7 +182,12 @@ const CS2Modal = (() => {
   return { open, close, closeLast, confirm, init };
 })();
 
-window.CS2Modal = CS2Modal;
+window.openConfirmationModal = function() {
+  document.getElementById('confirmation-modal')?.classList.remove('hidden');
+};
+window.closeConfirmationModal = function() {
+  document.getElementById('confirmation-modal')?.classList.add('hidden');
+};
 
 // Auto-init
 document.addEventListener('DOMContentLoaded', () => CS2Modal.init());

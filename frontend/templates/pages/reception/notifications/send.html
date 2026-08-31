@@ -15,19 +15,7 @@
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   <link rel="stylesheet" href="../../../../static/css/styles.css">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'cs2-brand': { 50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4', 300: '#5eead4', 400: '#2dd4bf', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e', 800: '#115e59', 900: '#134e4a', 950: '#042f2e' },
-            'cs2-neutral': { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1', 400: '#94a3b8', 500: '#64748b', 600: '#475569', 700: '#334155', 800: '#1e293b', 900: '#0f172a', 950: '#020617' }
-          },
-          fontFamily: { sans: ['Inter', 'sans-serif'], title: ['Plus Jakarta Sans', 'sans-serif'] }
-        }
-      }
-    }
-  </script>
+  <script src="../../../../static/js/tailwind-config.js"></script>
 </head>
 <body class="h-full bg-cs2-neutral-50 text-cs2-neutral-900 font-sans flex flex-col antialiased selection:bg-cs2-brand-600 selection:text-white">
   <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-cs2-brand-600 focus:text-white focus:rounded-xl focus:shadow-lg focus:font-extrabold focus:outline-none">
@@ -129,89 +117,7 @@
   <script src="../../../../static/js/components/dropdown.js"></script>
   <script src="../../../../static/js/core/app.js"></script>
   <!-- {% block extra_js %} -->
-<script>
-
-  function updateCharCount(textarea) {
-    const len = textarea.value.length;
-    const counter = document.getElementById('sms-counter');
-    const preview = document.getElementById('sms-preview');
-    const smsCount = Math.ceil(len / 160) || 1;
-    if (counter) counter.innerText = `${len} / 160 caractères (${smsCount} SMS)`;
-    if (preview) preview.innerText = textarea.value || 'Aperçu du message...';
-  }
-
-  const patientsData = [
-    { id: 'Jeanne DUPONT', name: 'Jeanne DUPONT', tel: '+225 07 08 45 12 90', email: 'jeanne.dupont@exemple.org', fullText: 'Jeanne DUPONT (+225 07 08 45 12 90 • jeanne.dupont@exemple.org)' },
-    { id: 'Koffi EMMANUEL', name: 'Koffi EMMANUEL', tel: '+225 05 44 11 89 02', email: 'koffi.emmanuel@exemple.org', fullText: 'Koffi EMMANUEL (+225 05 44 11 89 02 • koffi.emmanuel@exemple.org)' },
-    { id: 'Awa KONE', name: 'Awa KONE', tel: '+225 01 23 45 67 89', email: 'awa.kone@exemple.org', fullText: 'Awa KONE (+225 01 23 45 67 89 • awa.kone@exemple.org)' },
-    { id: 'Mamadou DIARRA', name: 'Mamadou DIARRA', tel: '+225 07 99 88 77 66', email: 'mamadou.diarra@exemple.org', fullText: 'Mamadou DIARRA (+225 07 99 88 77 66 • mamadou.diarra@exemple.org)' },
-    { id: 'Marie-Claire KOUASSI', name: 'Marie-Claire KOUASSI', tel: '+225 05 12 34 56 78', email: 'mc.kouassi@exemple.org', fullText: 'Marie-Claire KOUASSI (+225 05 12 34 56 78 • mc.kouassi@exemple.org)' }
-  ];
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const inputEl = document.getElementById('id_patient_input');
-    const hiddenEl = document.getElementById('id_patient');
-    const menuEl = document.getElementById('patient-dropdown-menu');
-
-    function renderMenu(filterText = '') {
-      const query = filterText.toLowerCase().trim();
-      const filtered = patientsData.filter(item => 
-        item.fullText.toLowerCase().includes(query) ||
-        item.tel.toLowerCase().includes(query) ||
-        item.email.toLowerCase().includes(query)
-      );
-
-      if (filtered.length === 0) {
-        menuEl.innerHTML = '<div class="p-3 text-xs text-cs2-neutral-400 font-medium text-center">Aucun patient trouvé</div>';
-      } else {
-        menuEl.innerHTML = filtered.map(item => `
-          <div data-id="${item.id}" data-text="${item.fullText}" data-name="${item.name}"
-               class="combobox-item p-3 text-xs cursor-pointer hover:bg-cs2-brand-50 transition flex items-center justify-between">
-            <div>
-              <div class="font-extrabold text-cs2-neutral-900">${item.name}</div>
-              <div class="text-[11px] text-cs2-neutral-500 font-medium mt-0.5">${item.tel} • ${item.email}</div>
-            </div>
-            <svg class="w-4 h-4 text-cs2-brand-600 opacity-0 check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-          </div>
-        `).join('');
-
-        menuEl.querySelectorAll('.combobox-item').forEach(el => {
-          el.addEventListener('click', () => {
-            inputEl.value = el.dataset.text;
-            hiddenEl.value = el.dataset.id;
-            menuEl.classList.add('hidden');
-
-            // Mise à jour de l'aperçu du SMS
-            const msgArea = document.getElementById('id_message');
-            if (msgArea) {
-              msgArea.value = `CS2 Health: Mme/M. ${el.dataset.name}, nous vous confirmons votre RDV du 26/08 à 09h30 avec le Dr Valois.`;
-              updateCharCount(msgArea);
-            }
-          });
-        });
-      }
-    }
-
-    if (inputEl && menuEl) {
-      inputEl.addEventListener('focus', () => {
-        renderMenu(inputEl.value);
-        menuEl.classList.remove('hidden');
-      });
-
-      inputEl.addEventListener('input', () => {
-        renderMenu(inputEl.value);
-        menuEl.classList.remove('hidden');
-      });
-
-      document.addEventListener('click', (e) => {
-        if (!inputEl.contains(e.target) && !menuEl.contains(e.target)) {
-          menuEl.classList.add('hidden');
-        }
-      });
-    }
-  });
-
-</script>
+  <script src="../../../../static/js/modules/reception/send-notification.js"></script>
   <!-- {% endblock %} -->
 </body>
 </html>

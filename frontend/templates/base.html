@@ -20,45 +20,7 @@
 
   <!-- Tailwind CSS via CDN with CS² Theme Configuration -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            cs2: {
-              brand: {
-                50: '#f0fdfa',
-                100: '#ccfbf1',
-                500: '#0d9488',
-                600: '#0f766e',
-                700: '#115e59',
-                950: '#042f2e',
-              },
-              neutral: {
-                50: '#f8fafc',
-                100: '#f1f5f9',
-                200: '#e2e8f0',
-                300: '#cbd5e1',
-                600: '#475569',
-                800: '#1e293b',
-                950: '#020617',
-              },
-              status: {
-                emergency: '#dc2626',
-                warning: '#d97706',
-                success: '#059669',
-                info: '#2563eb',
-              }
-            }
-          },
-          fontFamily: {
-            title: ['Plus Jakarta Sans', 'sans-serif'],
-            sans: ['Inter', 'sans-serif'],
-          }
-        }
-      }
-    }
-  </script>
+  <script src="../static/js/tailwind-config.js"></script>
 
   <!-- Favicon -->
   <!-- Django: <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon"> -->
@@ -108,14 +70,7 @@
     Appliquer le thème immédiatement pour éviter le flash
     (doit rester ici, avant le rendu du body)
   -->
-  <script>
-    (function() {
-      var stored = localStorage.getItem('cs2-theme');
-      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      var theme = stored || (prefersDark ? 'dark' : 'light');
-      document.documentElement.setAttribute('data-theme', theme);
-    })();
-  </script>
+  <script src="../static/js/core/theme-init.js"></script>
 </head>
 <body>
 

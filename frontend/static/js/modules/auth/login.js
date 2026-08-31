@@ -1,13 +1,12 @@
 // js/auth/login.js
 document.addEventListener('DOMContentLoaded', () => {
-    const loginForm = document.getElementById('login-form');
-    const btnLogin = document.getElementById('btn-login');
+    const loginForm = document.querySelector('form');
 
-    if (loginForm && btnLogin) {
+    if (loginForm) {
         loginForm.addEventListener('submit', (e) => {
-            // Le form-validation.js global bloque si invalid
-            if (loginForm.checkValidity()) {
-                // Formulaire valide, soumission normale sans état de chargement
+            if (loginForm.checkValidity && loginForm.checkValidity()) {
+                e.preventDefault();
+                window.location.href = '../reception/dashboard.html';
             }
         });
     }

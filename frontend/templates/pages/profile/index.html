@@ -17,35 +17,13 @@
   <link rel="icon" href="../../../static/images/logo.svg" type="image/svg+xml">
 
   <!-- Active Sidebar Link -->
-  <script>
-    window.SIDEBAR_ACTIVE = 'profile';
-  </script>
-
   <!-- Tailwind CDN & Dynamic Config -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'cs2-brand': { 50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4', 300: '#5eead4', 400: '#2dd4bf', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e', 800: '#115e59', 900: '#134e4a', 950: '#042f2e' },
-            'cs2-neutral': { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1', 400: '#94a3b8', 500: '#64748b', 600: '#475569', 700: '#334155', 800: '#1e293b', 900: '#0f172a', 950: '#020617' }
-          },
-          fontFamily: { sans: ['Inter', 'sans-serif'], title: ['Plus Jakarta Sans', 'sans-serif'] }
-        }
-      }
-    }
-  </script>
+  <script src="../../../static/js/tailwind-config.js"></script>
 
   <!-- Compiled Tailwind CSS & Design System -->
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   <link rel="stylesheet" href="../../../static/css/styles.css">
-  <style>
-    *::selection, ::selection {
-      background-color: #0d9488 !important;
-      color: #ffffff !important;
-    }
-  </style>
 </head>
 <body class="h-full bg-cs2-neutral-50 text-cs2-neutral-900 font-sans flex flex-col antialiased selection:bg-cs2-brand-600 selection:text-white">
 
@@ -335,44 +313,6 @@
   <script src="../../../static/js/components/dropdown.js"></script>
   <script src="../../../static/js/core/app.js"></script>
 
-  <script>
-    function switchTab(tabId) {
-      document.querySelectorAll('.profile-tab-btn').forEach(btn => {
-        btn.setAttribute('aria-selected', 'false');
-        btn.classList.remove('border-cs2-brand-600', 'text-cs2-brand-700');
-        btn.classList.add('border-transparent', 'text-cs2-neutral-600');
-      });
-      document.querySelectorAll('.profile-tab-content').forEach(content => {
-        content.classList.add('hidden');
-      });
-
-      const activeBtn = document.getElementById('tab-' + tabId);
-      const activeContent = document.getElementById('content-' + tabId);
-      if (activeBtn && activeContent) {
-        activeBtn.setAttribute('aria-selected', 'true');
-        activeBtn.classList.remove('border-transparent', 'text-cs2-neutral-600');
-        activeBtn.classList.add('border-cs2-brand-600', 'text-cs2-brand-700');
-        activeContent.classList.remove('hidden');
-      }
-    }
-
-    function saveProfileChanges() {
-      const toast = document.getElementById('profile-toast');
-      if (toast) {
-        toast.classList.remove('hidden');
-        setTimeout(() => {
-          toast.classList.add('hidden');
-        }, 4000);
-      }
-    }
-
-    // Gestion de l'ancre Hash dans l'URL (#info, #security, #preferences, #activity)
-    window.addEventListener('DOMContentLoaded', () => {
-      const hash = window.location.hash.replace('#', '');
-      if (['info', 'security', 'preferences', 'activity'].includes(hash)) {
-        switchTab(hash);
-      }
-    });
-  </script>
+  <script src="../../../static/js/modules/profile/index.js"></script>
 </body>
 </html>

@@ -167,6 +167,19 @@ window.selectLanguage = function(lang) {
   if (langMenu) langMenu.classList.add('hidden');
 };
 
+window.toggleMobileSearchBar = function() {
+  const bar = document.getElementById('mobile-search-bar');
+  if (bar) {
+    bar.classList.toggle('hidden');
+    if (!bar.classList.contains('hidden')) {
+      const input = bar.querySelector('input');
+      if (input) {
+        setTimeout(function() { input.focus(); }, 50);
+      }
+    }
+  }
+};
+
 document.addEventListener('click', (e) => {
   const notifMenu = document.getElementById('notifications-dropdown-menu');
   const notifBtn = document.getElementById('notif-menu-btn');

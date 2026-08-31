@@ -15,19 +15,7 @@
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   <link rel="stylesheet" href="../../../../static/css/styles.css">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'cs2-brand': { 50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4', 300: '#5eead4', 400: '#2dd4bf', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e', 800: '#115e59', 900: '#134e4a', 950: '#042f2e' },
-            'cs2-neutral': { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1', 400: '#94a3b8', 500: '#64748b', 600: '#475569', 700: '#334155', 800: '#1e293b', 900: '#0f172a', 950: '#020617' }
-          },
-          fontFamily: { sans: ['Inter', 'sans-serif'], title: ['Plus Jakarta Sans', 'sans-serif'] }
-        }
-      }
-    }
-  </script>
+  <script src="../../../../static/js/tailwind-config.js"></script>
 </head>
 <body class="h-full bg-cs2-neutral-50 text-cs2-neutral-900 font-sans flex flex-col antialiased selection:bg-cs2-brand-600 selection:text-white">
   <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-cs2-brand-600 focus:text-white focus:rounded-xl focus:shadow-lg focus:font-extrabold focus:outline-none">
@@ -459,94 +447,7 @@
   <script src="../../../../static/js/components/dropdown.js"></script>
   <script src="../../../../static/js/core/app.js"></script>
   <!-- {% block extra_js %} -->
-  <script>
-    function markAllNotifsReadInHistory() {
-      document.querySelectorAll('#notif-table-body .notif-row').forEach(row => {
-        row.setAttribute('data-read', 'true');
-        const dot = row.querySelector('.unread-dot');
-        if (dot) {
-          dot.classList.remove('bg-cs2-brand-600');
-          dot.classList.add('bg-transparent');
-        }
-        const nameEl = row.querySelector('.notif-patient-name');
-        if (nameEl) {
-          nameEl.classList.remove('font-extrabold', 'text-cs2-neutral-950');
-          nameEl.classList.add('font-bold', 'text-cs2-neutral-900');
-        }
-      });
-      if (typeof window.markAllNotifsRead === 'function') {
-        window.markAllNotifsRead();
-      }
-    }
-
-    function toggleReadState(btn) {
-      const row = btn.closest('.notif-row');
-      if (!row) return;
-      const isRead = row.getAttribute('data-read') === 'true';
-      row.setAttribute('data-read', !isRead ? 'true' : 'false');
-      
-      const dot = row.querySelector('.unread-dot');
-      if (dot) {
-        if (!isRead) {
-          dot.classList.remove('bg-cs2-brand-600');
-          dot.classList.add('bg-transparent');
-        } else {
-          dot.classList.remove('bg-transparent');
-          dot.classList.add('bg-cs2-brand-600');
-        }
-      }
-    }
-
-    function deleteNotifRow(btn) {
-      const row = btn.closest('.notif-row');
-      if (row) row.remove();
-    }
-
-    function openNotifModal(patient, contact, channel, status, date, origin, content) {
-      document.getElementById('modal-notif-patient').textContent = patient;
-      document.getElementById('modal-notif-contact').textContent = contact;
-      document.getElementById('modal-notif-channel').textContent = channel;
-      document.getElementById('modal-notif-status').textContent = status;
-      document.getElementById('modal-notif-date').textContent = date;
-      document.getElementById('modal-notif-origin').textContent = origin;
-      document.getElementById('modal-notif-content').textContent = content;
-
-      const modal = document.getElementById('notification-detail-modal');
-      if (modal) modal.classList.remove('hidden');
-    }
-
-    function closeNotifModal() {
-      const modal = document.getElementById('notification-detail-modal');
-      if (modal) modal.classList.add('hidden');
-    }
-
-    function filterNotificationsTable() {
-      const searchVal = (document.getElementById('notif-search')?.value || '').toLowerCase();
-      const channelVal = (document.getElementById('filter-channel')?.value || '').toLowerCase();
-
-      document.querySelectorAll('#notif-table-body .notif-row').forEach(row => {
-        const text = row.textContent.toLowerCase();
-        const rowChannel = (row.getAttribute('data-channel') || '').toLowerCase();
-
-        const matchesSearch = !searchVal || text.includes(searchVal);
-        const matchesChannel = !channelVal || rowChannel === channelVal;
-
-        if (matchesSearch && matchesChannel) {
-          row.style.display = '';
-        } else {
-          row.style.display = 'none';
-        }
-      });
-    }
-
-    function resetNotifFilters() {
-      const searchInput = document.getElementById('notif-search');
-      const channelSelect = document.getElementById('filter-channel');
-      if (searchInput) searchInput.value = '';
-      if (channelSelect) channelSelect.value = '';
-      filterNotificationsTable();
-    }
-  </script>
+  <script src="../../../../static/js/modules/reception/history.js"></script>
   <!-- {% endblock %} -->
 </body>
 </html>

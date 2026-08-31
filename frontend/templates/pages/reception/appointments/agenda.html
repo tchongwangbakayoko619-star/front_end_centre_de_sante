@@ -15,19 +15,7 @@
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   <link rel="stylesheet" href="../../../../static/css/styles.css">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'cs2-brand': { 50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4', 300: '#5eead4', 400: '#2dd4bf', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e', 800: '#115e59', 900: '#134e4a', 950: '#042f2e' },
-            'cs2-neutral': { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1', 400: '#94a3b8', 500: '#64748b', 600: '#475569', 700: '#334155', 800: '#1e293b', 900: '#0f172a', 950: '#020617' }
-          },
-          fontFamily: { sans: ['Inter', 'sans-serif'], title: ['Plus Jakarta Sans', 'sans-serif'] }
-        }
-      }
-    }
-  </script>
+  <script src="../../../../static/js/tailwind-config.js"></script>
 </head>
 <body class="h-full bg-cs2-neutral-50 text-cs2-neutral-900 font-sans flex flex-col antialiased selection:bg-cs2-brand-600 selection:text-white">
   <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-cs2-brand-600 focus:text-white focus:rounded-xl focus:shadow-lg focus:font-extrabold focus:outline-none">
@@ -570,92 +558,8 @@
   <script src="../../../../static/js/components/dropdown.js"></script>
   <script src="../../../../static/js/core/app.js"></script>
   <!-- {% block extra_js %} -->
-<script>
-  window.SIDEBAR_ACTIVE = 'agenda';
-
-  function filterAgendaSlots() {
-    const searchVal = document.getElementById('agenda-patient-search')?.value.toLowerCase() || '';
-    const docVal = document.getElementById('agenda-doctor-select')?.value.toLowerCase() || '';
-    const statusVal = document.getElementById('agenda-status-select')?.value.toLowerCase() || '';
-
-    const rows = document.querySelectorAll('.agenda-slot-row');
-    rows.forEach(row => {
-      const patient = (row.getAttribute('data-patient') || '').toLowerCase();
-      const doctor = (row.getAttribute('data-doctor') || '').toLowerCase();
-      const status = (row.getAttribute('data-status') || '').toLowerCase();
-
-      const matchSearch = !searchVal || patient.includes(searchVal) || row.textContent.toLowerCase().includes(searchVal);
-      const matchDoc = !docVal || doctor.includes(docVal);
-      const matchStatus = !statusVal || status.includes(statusVal) || row.textContent.toLowerCase().includes(statusVal);
-
-      if (matchSearch && matchDoc && matchStatus) {
-        row.style.display = '';
-      } else {
-        row.style.display = 'none';
-      }
-    });
-  }
-</script>
-<!-- {% endblock %} -->
-
-<script>
-  function openCancelModal(rdvId = 'RDV-0042', patientName = 'Jeanne DUPONT', doctorName = 'Dr. Valois') {
-    const modal = document.getElementById('cancel-appointment-modal');
-    const rdvEl = document.getElementById('modal-cancel-rdv-id');
-    const patientEl = document.getElementById('modal-cancel-patient');
-    const doctorEl = document.getElementById('modal-cancel-doctor');
-
-    if (rdvEl) rdvEl.textContent = rdvId;
-    if (patientEl) patientEl.textContent = patientName;
-    if (doctorEl) doctorEl.textContent = doctorName;
-
-    if (modal) {
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    }
-  }
-
-  function closeCancelModal() {
-    const modal = document.getElementById('cancel-appointment-modal');
-    if (modal) {
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    }
-  }
-
-  function handleCancelAppointment(e) {
-    e.preventDefault();
-    closeCancelModal();
-
-    const alertBanner = document.getElementById('operation-alert-banner');
-    if (alertBanner) {
-      const title = alertBanner.querySelector('h4');
-      const subtitle = alertBanner.querySelector('p');
-      const rdvId = document.getElementById('modal-cancel-rdv-id')?.textContent || 'le RDV';
-      const patient = document.getElementById('modal-cancel-patient')?.textContent || '';
-      
-      if (title) title.textContent = 'Rendez-vous Annulé avec Succès';
-      if (subtitle) subtitle.textContent = 'Le créneau ' + rdvId + ' (' + patient + ') a été annulé. Une notification SMS a été transmise au patient.';
-      
-      alertBanner.className = 'fixed top-5 left-1/2 -translate-x-1/2 z-[100] w-[calc(100%-2rem)] max-w-2xl p-3.5 sm:p-4 rounded-2xl bg-red-50/95 backdrop-blur-md border border-red-300/90 text-red-950 shadow-2xl flex items-center justify-between gap-4 transition-all duration-300 animate-slide-down';
-      
-      const iconContainer = alertBanner.querySelector('.w-9');
-      if (iconContainer) {
-        iconContainer.className = 'w-9 h-9 rounded-xl bg-red-100 text-red-700 font-extrabold flex items-center justify-center flex-shrink-0 border border-red-200 shadow-2xs';
-        iconContainer.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>';
-      }
-      alertBanner.style.display = 'flex';
-    }
-  }
-
-  // Auto open modal if requested or on cancel.html
-  document.addEventListener('DOMContentLoaded', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('cancel') === 'true' || window.AUTO_OPEN_CANCEL === true) {
-      openCancelModal(urlParams.get('rdv') || 'RDV-0042', urlParams.get('patient') || 'Jeanne DUPONT', urlParams.get('doctor') || 'Dr. Valois');
-    }
-  });
-</script>
+  <script src="../../../../static/js/modules/reception/agenda.js"></script>
+  <!-- {% endblock %} -->
 
 </body>
 </html>

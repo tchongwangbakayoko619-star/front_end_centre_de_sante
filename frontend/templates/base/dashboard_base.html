@@ -53,15 +53,6 @@
     <script src="../../static/js/core/theme.js"></script>
     <script src="../../static/js/components/navigation.js"></script>
     <script src="../../static/js/components/dropdown.js"></script>
-    <!-- A small script to load components for static HTML viewing purposes only (won't be used in Django) -->
-    <script>
-        // Only for static preview. In Django, {% include %} will handle this.
-        fetch('../../templates/components/sidebar.html')
-            .then(r => r.text())
-            .then(html => document.getElementById('sidebar-container').outerHTML = html);
-        fetch('../../templates/components/header.html')
-            .then(r => r.text())
-            .then(html => document.getElementById('header-container').outerHTML = html);
-    </script>
+    <script src="../../static/js/loaders/static-preview-loader.js"></script>
 </body>
 </html>
