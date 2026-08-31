@@ -153,21 +153,21 @@
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         <!-- Chart 1: Évolution Hebdomadaire des Rendez-Vous (Line Chart) -->
-        <div class="lg:col-span-2 bg-white rounded-2xl border border-cs2-neutral-200 shadow-sm p-6 space-y-4">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-cs2-neutral-100 pb-4">
+        <div class="lg:col-span-2 bg-white dark:bg-cs2-neutral-900 rounded-2xl border border-cs2-neutral-200/90 dark:border-cs2-neutral-800 shadow-2xs p-6 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-cs2-neutral-100 dark:border-cs2-neutral-800 pb-4">
             <div>
-              <h3 class="text-base font-extrabold text-cs2-neutral-950 font-title flex items-center gap-2">
-                <svg class="w-5 h-5 text-cs2-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
-                <span>Activité Hebdomadaire & Prise en Charge</span>
+              <h3 class="text-base font-extrabold text-cs2-neutral-950 dark:text-white font-title flex items-center gap-2">
+                <svg class="w-5 h-5 text-cs2-brand-600 dark:text-cs2-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
+                <span>Activité Hebdomadaire &amp; Prise en Charge</span>
               </h3>
-              <p class="text-[11px] text-cs2-neutral-500 mt-0.5">Évolution comparative des RDV planifiés vs patients accueillis au guichet</p>
+              <p class="text-[11px] text-cs2-neutral-500 dark:text-cs2-neutral-400 mt-0.5">Évolution comparative des RDV planifiés vs patients accueillis au guichet</p>
             </div>
             
             <div class="flex items-center gap-2">
-              <span class="inline-flex items-center gap-1.5 text-[10px] font-bold text-cs2-neutral-700 bg-cs2-neutral-100 px-3 py-1 rounded-lg">
+              <span class="inline-flex items-center gap-1.5 text-[10px] font-bold text-cs2-neutral-700 dark:text-cs2-neutral-300 bg-cs2-neutral-100 dark:bg-cs2-neutral-800 px-3 py-1 rounded-lg">
                 <span class="w-2.5 h-2.5 rounded-full bg-cs2-brand-600"></span> RDV Planifiés
               </span>
-              <span class="inline-flex items-center gap-1.5 text-[10px] font-bold text-cs2-neutral-700 bg-cs2-neutral-100 px-3 py-1 rounded-lg">
+              <span class="inline-flex items-center gap-1.5 text-[10px] font-bold text-cs2-neutral-700 dark:text-cs2-neutral-300 bg-cs2-neutral-100 dark:bg-cs2-neutral-800 px-3 py-1 rounded-lg">
                 <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Accueil Effectué
               </span>
             </div>
@@ -179,35 +179,35 @@
         </div>
 
         <!-- Chart 2: Répartition des RDV par Statut (Doughnut Chart) -->
-        <div class="bg-white rounded-2xl border border-cs2-neutral-200 shadow-sm p-6 space-y-4 flex flex-col justify-between">
-          <div class="border-b border-cs2-neutral-100 pb-3">
-            <h3 class="text-base font-extrabold text-cs2-neutral-950 font-title flex items-center gap-2">
-              <svg class="w-5 h-5 text-cs2-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/></svg>
+        <div class="bg-white dark:bg-cs2-neutral-900 rounded-2xl border border-cs2-neutral-200/90 dark:border-cs2-neutral-800 shadow-2xs p-6 space-y-4 flex flex-col justify-between">
+          <div class="border-b border-cs2-neutral-100 dark:border-cs2-neutral-800 pb-3">
+            <h3 class="text-base font-extrabold text-cs2-neutral-950 dark:text-white font-title flex items-center gap-2">
+              <svg class="w-5 h-5 text-cs2-brand-600 dark:text-cs2-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/></svg>
               <span>Répartition des Statuts</span>
             </h3>
-            <p class="text-[11px] text-cs2-neutral-500 mt-0.5">Statistiques du jour (42 RDV)</p>
+            <p class="text-[11px] text-cs2-neutral-500 dark:text-cs2-neutral-400 mt-0.5">Statistiques du jour (42 RDV)</p>
           </div>
 
           <div class="relative h-48 flex items-center justify-center my-auto">
             <canvas id="receptionStatusChart"></canvas>
           </div>
 
-          <div class="grid grid-cols-2 gap-2 text-[11px] pt-3 border-t border-cs2-neutral-100">
+          <div class="grid grid-cols-2 gap-2 text-[11px] pt-3 border-t border-cs2-neutral-100 dark:border-cs2-neutral-800">
             <div class="flex items-center gap-1.5">
               <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-              <span class="font-medium text-cs2-neutral-700">Confirmés: <strong>76%</strong></span>
+              <span class="font-medium text-cs2-neutral-700 dark:text-cs2-neutral-300">Confirmés: <strong>76%</strong></span>
             </div>
             <div class="flex items-center gap-1.5">
               <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
-              <span class="font-medium text-cs2-neutral-700">En attente: <strong>14%</strong></span>
+              <span class="font-medium text-cs2-neutral-700 dark:text-cs2-neutral-300">En attente: <strong>14%</strong></span>
             </div>
             <div class="flex items-center gap-1.5">
               <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
-              <span class="font-medium text-cs2-neutral-700">Annulés: <strong>7%</strong></span>
+              <span class="font-medium text-cs2-neutral-700 dark:text-cs2-neutral-300">Annulés: <strong>7%</strong></span>
             </div>
             <div class="flex items-center gap-1.5">
               <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
-              <span class="font-medium text-cs2-neutral-700">Décalés: <strong>3%</strong></span>
+              <span class="font-medium text-cs2-neutral-700 dark:text-cs2-neutral-300">Décalés: <strong>3%</strong></span>
             </div>
           </div>
         </div>
@@ -218,63 +218,63 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
         <!-- Column 1: Today's Appointments Queue -->
-        <div class="bg-white rounded-2xl border border-cs2-neutral-200 shadow-sm p-6 space-y-6 flex flex-col justify-between">
+        <div class="bg-white dark:bg-cs2-neutral-900 rounded-2xl border border-cs2-neutral-200/90 dark:border-cs2-neutral-800 shadow-2xs p-6 space-y-6 flex flex-col justify-between">
           <div class="space-y-4">
-            <div class="flex items-center justify-between border-b border-cs2-neutral-200 pb-4">
+            <div class="flex items-center justify-between border-b border-cs2-neutral-200 dark:border-cs2-neutral-800 pb-4">
               <div class="flex items-center gap-2">
-                <h3 class="text-base font-extrabold text-cs2-neutral-950 font-title">File d'Attente & RDV du Jour</h3>
-                <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-cs2-brand-50 text-cs2-brand-700 border border-cs2-brand-200/80">3 En attente</span>
+                <h3 class="text-base font-extrabold text-cs2-neutral-950 dark:text-white font-title">File d'Attente &amp; RDV du Jour</h3>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-cs2-brand-50 text-cs2-brand-700 dark:bg-cs2-brand-950/60 dark:text-cs2-brand-300 border border-cs2-brand-200/80">3 En attente</span>
               </div>
-              <a href="appointments/agenda.html" class="text-xs font-bold text-cs2-brand-600 hover:text-cs2-brand-700 transition">Voir tout l'agenda →</a>
+              <a href="appointments/agenda.html" class="text-xs font-bold text-cs2-brand-600 dark:text-cs2-brand-400 hover:text-cs2-brand-700 transition">Voir tout l'agenda →</a>
             </div>
 
             <!-- Appointment Cards List -->
             <div class="space-y-3">
               <!-- Item 1 -->
-              <div class="p-3.5 rounded-xl border border-cs2-neutral-200 bg-cs2-neutral-50 hover:bg-white hover:border-cs2-brand-500 transition">
+              <div class="p-3.5 rounded-xl border border-cs2-neutral-200/90 dark:border-cs2-neutral-800 bg-cs2-neutral-50/70 dark:bg-cs2-neutral-900/70 hover:bg-white dark:hover:bg-cs2-neutral-900 hover:border-cs2-brand-500 transition">
                 <div class="flex items-center justify-between gap-3">
                   <div class="flex items-center gap-3">
                     <div class="px-3 py-1.5 rounded-lg bg-cs2-brand-600 text-white font-extrabold text-xs font-mono text-center flex-shrink-0">
                       09:30
                     </div>
                     <div>
-                      <h4 class="text-xs font-extrabold text-cs2-neutral-950">Jeanne DUPONT</h4>
-                      <p class="text-[11px] text-cs2-neutral-600">NUP: 254-890-412 • Dr. Valois (Cardiologie)</p>
+                      <h4 class="text-xs font-extrabold text-cs2-neutral-950 dark:text-white">Jeanne DUPONT</h4>
+                      <p class="text-[11px] text-cs2-neutral-600 dark:text-cs2-neutral-400">NUP: 254-890-412 • Dr. Valois (Cardiologie)</p>
                     </div>
                   </div>
-                  <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200">Confirmé</span>
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400">Confirmé</span>
                 </div>
               </div>
 
               <!-- Item 2 -->
-              <div class="p-3.5 rounded-xl border border-cs2-neutral-200 bg-cs2-neutral-50 hover:bg-white hover:border-cs2-brand-500 transition">
+              <div class="p-3.5 rounded-xl border border-cs2-neutral-200/90 dark:border-cs2-neutral-800 bg-cs2-neutral-50/70 dark:bg-cs2-neutral-900/70 hover:bg-white dark:hover:bg-cs2-neutral-900 hover:border-cs2-brand-500 transition">
                 <div class="flex items-center justify-between gap-3">
                   <div class="flex items-center gap-3">
                     <div class="px-3 py-1.5 rounded-lg bg-cs2-brand-600 text-white font-extrabold text-xs font-mono text-center flex-shrink-0">
                       10:15
                     </div>
                     <div>
-                      <h4 class="text-xs font-extrabold text-cs2-neutral-950">Koffi EMMANUEL</h4>
-                      <p class="text-[11px] text-cs2-neutral-600">NUP: 108-765-209 • Dr. Bamba (Médecine Générale)</p>
+                      <h4 class="text-xs font-extrabold text-cs2-neutral-950 dark:text-white">Koffi EMMANUEL</h4>
+                      <p class="text-[11px] text-cs2-neutral-600 dark:text-cs2-neutral-400">NUP: 108-765-209 • Dr. Bamba (Médecine Générale)</p>
                     </div>
                   </div>
-                  <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-amber-50 text-amber-700 border border-amber-200">En attente</span>
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-amber-50 text-amber-700 border border-amber-200 dark:bg-amber-950/40 dark:text-amber-400">En attente</span>
                 </div>
               </div>
 
               <!-- Item 3 -->
-              <div class="p-3.5 rounded-xl border border-cs2-neutral-200 bg-cs2-neutral-50 hover:bg-white hover:border-cs2-brand-500 transition">
+              <div class="p-3.5 rounded-xl border border-cs2-neutral-200/90 dark:border-cs2-neutral-800 bg-cs2-neutral-50/70 dark:bg-cs2-neutral-900/70 hover:bg-white dark:hover:bg-cs2-neutral-900 hover:border-cs2-brand-500 transition">
                 <div class="flex items-center justify-between gap-3">
                   <div class="flex items-center gap-3">
                     <div class="px-3 py-1.5 rounded-lg bg-cs2-brand-600 text-white font-extrabold text-xs font-mono text-center flex-shrink-0">
                       11:00
                     </div>
                     <div>
-                      <h4 class="text-xs font-extrabold text-cs2-neutral-950">Awa DIABATÉ</h4>
-                      <p class="text-[11px] text-cs2-neutral-600">NUP: 419-332-901 • Dr. Valois (Cardiologie)</p>
+                      <h4 class="text-xs font-extrabold text-cs2-neutral-950 dark:text-white">Awa DIABATÉ</h4>
+                      <p class="text-[11px] text-cs2-neutral-600 dark:text-cs2-neutral-400">NUP: 419-332-901 • Dr. Valois (Cardiologie)</p>
                     </div>
                   </div>
-                  <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200">Confirmé</span>
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400">Confirmé</span>
                 </div>
               </div>
             </div>
@@ -282,7 +282,7 @@
         </div>
 
         <!-- Column 2: Recent Patients & Admission -->
-        <div class="bg-white rounded-2xl border border-cs2-neutral-200 shadow-sm p-6 space-y-6 flex flex-col justify-between">
+        <div class="bg-white dark:bg-cs2-neutral-900 rounded-2xl border border-cs2-neutral-200/90 dark:border-cs2-neutral-800 shadow-2xs p-6 space-y-6 flex flex-col justify-between">
           <div class="space-y-4">
             <div class="flex items-center justify-between border-b border-cs2-neutral-200 pb-4">
               <div class="flex items-center gap-2">
