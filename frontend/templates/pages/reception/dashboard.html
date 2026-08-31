@@ -80,72 +80,20 @@
         </div>
       </div>
 
-      <!-- KPI Cards Premium -->
+      <!-- KPI Cards Premium — Composants intégrés -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
         <!-- KPI 1: RDV du Jour -->
-        <div class="kpi-card teal bg-white p-5 rounded-2xl border border-cs2-neutral-200/90 shadow-xs hover:border-cs2-brand-300 transition">
-          <div class="flex items-start justify-between gap-3">
-            <div class="flex-1">
-              <div class="text-xs font-extrabold text-cs2-neutral-500 uppercase tracking-wider" id="kpi-rdv-label">RDV du Jour</div>
-              <div class="text-2xl font-black text-cs2-neutral-950 font-title mt-1" id="kpi-rdv-val">42</div>
-              <div class="mt-3">
-                <span class="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200" id="kpi-rdv-trend">↑ 32 confirmés</span>
-              </div>
-            </div>
-            <div class="w-10 h-10 rounded-xl bg-cs2-brand-600 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-            </div>
-          </div>
-        </div>
+        {% include "components/cards/kpi-card.html" with label="RDV du Jour" value="42" trend="↑ 32 confirmés" trend_type="success" theme="teal" id_prefix="kpi-rdv" %}
 
         <!-- KPI 2: Nouveaux Patients -->
-        <div class="kpi-card green bg-white p-5 rounded-2xl border border-cs2-neutral-200/90 shadow-xs hover:border-emerald-300 transition">
-          <div class="flex items-start justify-between gap-3">
-            <div class="flex-1">
-              <div class="text-xs font-extrabold text-cs2-neutral-500 uppercase tracking-wider" id="kpi-patients-label">Nouveaux Patients</div>
-              <div class="text-2xl font-black text-cs2-neutral-950 font-title mt-1" id="kpi-patients-val">12</div>
-              <div class="mt-3">
-                <span class="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200" id="kpi-patients-trend">↑ +4 aujourd'hui</span>
-              </div>
-            </div>
-            <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-            </div>
-          </div>
-        </div>
+        {% include "components/cards/kpi-card.html" with label="Nouveaux Patients" value="12" trend="↑ +4 aujourd'hui" trend_type="success" theme="emerald" id_prefix="kpi-patients" %}
 
         <!-- KPI 3: RDV à Venir -->
-        <div class="kpi-card blue bg-white p-5 rounded-2xl border border-cs2-neutral-200/90 shadow-xs hover:border-blue-300 transition">
-          <div class="flex items-start justify-between gap-3">
-            <div class="flex-1">
-              <div class="text-xs font-extrabold text-cs2-neutral-500 uppercase tracking-wider" id="kpi-avenir-label">RDV à Venir</div>
-              <div class="text-2xl font-black text-cs2-neutral-950 font-title mt-1" id="kpi-avenir-val">128</div>
-              <div class="mt-3">
-                <span class="inline-flex items-center gap-1 text-[11px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200" id="kpi-avenir-trend">↗ Prochains créneaux</span>
-              </div>
-            </div>
-            <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            </div>
-          </div>
-        </div>
+        {% include "components/cards/kpi-card.html" with label="RDV à Venir" value="128" trend="↗ Prochains créneaux" trend_type="info" theme="blue" id_prefix="kpi-avenir" %}
 
         <!-- KPI 4: RDV Annulés -->
-        <div class="kpi-card red bg-white p-5 rounded-2xl border border-cs2-neutral-200/90 shadow-xs hover:border-red-300 transition">
-          <div class="flex items-start justify-between gap-3">
-            <div class="flex-1">
-              <div class="text-xs font-extrabold text-cs2-neutral-500 uppercase tracking-wider" id="kpi-cancel-label">RDV Annulés</div>
-              <div class="text-2xl font-black text-red-600 font-title mt-1" id="kpi-cancel-val">3</div>
-              <div class="mt-3">
-                <span class="inline-flex items-center gap-1 text-[11px] font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded-full border border-red-200" id="kpi-cancel-trend">↓ Motifs enregistrés</span>
-              </div>
-            </div>
-            <div class="w-10 h-10 rounded-xl bg-red-500 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-            </div>
-          </div>
-        </div>
+        {% include "components/cards/kpi-card.html" with label="RDV Annulés" value="3" trend="↓ Motifs enregistrés" trend_type="danger" theme="rose" id_prefix="kpi-cancel" %}
 
       </div>
 
