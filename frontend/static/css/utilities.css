@@ -228,17 +228,16 @@
   height: 0 !important;
 }
 
-/* ── Animation & Bouton Chargement (Global Loading State) ───── */
+/* ── Animation & Bouton Chargement (Effet Désactivé) ───── */
 .is-loading,
 button.is-loading,
 .btn.is-loading,
 a.btn.is-loading,
 [role="button"].is-loading {
-  position: relative !important;
-  opacity: 0.85 !important;
-  cursor: wait !important;
-  pointer-events: none !important;
-  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.25) !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  opacity: 1 !important;
+  box-shadow: none !important;
 }
 
 @keyframes spin {

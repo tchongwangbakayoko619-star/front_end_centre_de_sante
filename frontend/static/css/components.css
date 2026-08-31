@@ -135,7 +135,7 @@
     line-height: 1.5;
 }
 
-.btn:disabled, .btn.is-loading {
+.btn:disabled {
     opacity: 0.7;
     cursor: not-allowed;
 }
@@ -164,19 +164,13 @@
     width: 100%;
 }
 
-/* Spinner for Loading Buttons */
+/* Spinner for Loading Buttons (Disabled) */
 .spinner {
-    width: 1rem;
-    height: 1rem;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    border-top-color: white;
-    animation: spin 0.8s linear infinite;
-    display: none;
+    display: none !important;
 }
 
 .btn.is-loading .spinner {
-    display: block;
+    display: none !important;
 }
 
 @keyframes spin {

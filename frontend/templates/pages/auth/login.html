@@ -153,7 +153,7 @@
                 </svg>
               </span>
               <input type="password" id="id_password" name="password" required placeholder="••••••••" class="w-full bg-slate-50/80 border border-slate-200/90 rounded-xl py-3 pl-10 pr-11 text-xs font-medium text-slate-950 focus:bg-white focus:border-teal-600 focus:ring-2 focus:ring-teal-100 focus:outline-none placeholder:text-slate-400 transition shadow-2xs">
-              <button type="button" onclick="togglePasswordVisibility('id_password', this)" class="absolute right-3.5 p-1 cursor-pointer" style="color:#94a3b8;transition:none;background:transparent;border:none;outline:none;" onmouseover="this.style.color='#94a3b8'" onmouseout="this.style.color='#94a3b8'" aria-label="Afficher ou masquer le mot de passe">
+              <button type="button" onclick="togglePasswordVisibility('id_password', this)" class="absolute right-3.5 p-1 cursor-pointer text-slate-400 focus:outline-none" aria-label="Afficher ou masquer le mot de passe">
                 <svg class="w-4 h-4 icon-eye" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                   <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -179,7 +179,7 @@
           </div>
 
           <!-- Submit Button -->
-          <button type="submit" class="w-full bg-teal-700 hover:bg-teal-800 active:scale-[0.99] text-white text-xs lg:text-sm font-bold py-3.5 px-6 rounded-xl transition-all shadow-lg shadow-teal-700/25 flex items-center justify-center gap-2 cursor-pointer mt-2">
+          <button type="submit" class="w-full bg-teal-700 hover:bg-teal-800 text-white text-xs lg:text-sm font-bold py-3.5 px-6 rounded-xl shadow-lg shadow-teal-700/25 flex items-center justify-center gap-2 cursor-pointer mt-2">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
             </svg>
@@ -303,58 +303,14 @@
       }
     }
 
-    // ── Splash screen on form submit ─────────────────────────
+    // ── Redirection directe sur la soumission du formulaire (sans écran de chargement/splash) ─────────────────────────
     (function() {
       const form = document.querySelector('form');
       if (!form) return;
 
       form.addEventListener('submit', function(e) {
-        e.preventDefault(); // on stoppe la redirection native
-
-        const splash   = document.getElementById('cs2-splash');
-        const content  = document.getElementById('cs2-splash-content');
-        const text     = document.getElementById('cs2-splash-text');
-        const dots     = document.getElementById('cs2-splash-dots');
-        const bar      = document.getElementById('cs2-splash-bar');
-        const dest     = '../../reception/dashboard.html'; // chemin vers le dashboard
-
-        // 1. Afficher le splash (fade in rapide)
-        splash.style.pointerEvents = 'all';
-        splash.style.opacity = '1';
-
-        requestAnimationFrame(() => {
-          // 2. Logo + contenu : spring in
-          setTimeout(() => {
-            content.style.transform = 'scale(1) translateY(0)';
-            content.style.opacity   = '1';
-          }, 80);
-
-          // 3. Nom de l'app
-          setTimeout(() => {
-            text.style.opacity   = '1';
-            text.style.transform = 'translateY(0)';
-          }, 420);
-
-          // 4. Dots de chargement
-          setTimeout(() => {
-            dots.style.opacity = '1';
-          }, 820);
-
-          // 5. Barre de progression (dure toute la durée : 29s)
-          setTimeout(() => {
-            bar.style.transition = 'width 29s cubic-bezier(.25,0,.1,1)';
-            bar.style.width = '100%';
-          }, 180);
-
-          // 6. Fade out + redirection après 30s
-          setTimeout(() => {
-            splash.style.transition = 'opacity 0.6s ease';
-            splash.style.opacity = '0';
-            setTimeout(() => {
-              window.location.href = dest;
-            }, 650);
-          }, 30000);
-        });
+        e.preventDefault();
+        window.location.href = '../reception/dashboard.html';
       });
     })();
   </script>
