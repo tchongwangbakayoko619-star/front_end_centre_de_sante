@@ -1,0 +1,47 @@
+<!-- Django Pagination Component -->
+<!-- 
+{% if page_obj.has_other_pages %}
+<div class="pagination">
+    <div class="pagination-info">
+        Affichage de {{ page_obj.start_index }} à {{ page_obj.end_index }} sur {{ paginator.count }} résultats
+    </div>
+    <div class="pagination-controls">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="pagination-btn">&laquo;</a>
+        {% else %}
+            <button class="pagination-btn" disabled>&laquo;</button>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <button class="pagination-btn active">{{ num }}</button>
+            {% else %}
+                <a href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="pagination-btn">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="pagination-btn">&raquo;</a>
+        {% else %}
+            <button class="pagination-btn" disabled>&raquo;</button>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+-->
+
+<!-- Static HTML Preview -->
+<div class="pagination">
+    <div class="pagination-info">
+        Affichage de 1 à 10 sur 45 résultats
+    </div>
+    <div class="pagination-controls">
+        <button class="pagination-btn" disabled>&laquo;</button>
+        <button class="pagination-btn active">1</button>
+        <a href="#" class="pagination-btn">2</a>
+        <a href="#" class="pagination-btn">3</a>
+        <span class="pagination-btn" style="border:none;background:transparent;cursor:default;">...</span>
+        <a href="#" class="pagination-btn">5</a>
+        <a href="#" class="pagination-btn">&raquo;</a>
+    </div>
+</div>

@@ -1,0 +1,192 @@
+<!-- {% extends "layouts/app.html" %} -->
+<!-- {% load static %} -->
+
+<!-- {% block title %}CS² Health — Annulation de Rendez-vous{% endblock %} -->
+
+<!DOCTYPE html>
+<html lang="fr" class="h-full bg-cs2-neutral-50 antialiased text-cs2-neutral-900 scroll-smooth" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS² Health — Annulation de Rendez-vous</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="../../../../static/css/styles.css">
+  <style>
+    *::selection, ::selection {
+      background-color: #0d9488 !important;
+      color: #ffffff !important;
+    }
+    *::-moz-selection, ::-moz-selection {
+      background-color: #0d9488 !important;
+      color: #ffffff !important;
+    }
+    select option:checked, select option:hover, select option:focus, select option:active {
+      background-color: #0d9488 !important;
+      color: #ffffff !important;
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'cs2-brand': { 50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4', 300: '#5eead4', 400: '#2dd4bf', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e', 800: '#115e59', 900: '#134e4a', 950: '#042f2e' },
+            'cs2-neutral': { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1', 400: '#94a3b8', 500: '#64748b', 600: '#475569', 700: '#334155', 800: '#1e293b', 900: '#0f172a', 950: '#020617' }
+          },
+          fontFamily: { sans: ['Inter', 'sans-serif'], title: ['Plus Jakarta Sans', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="h-full bg-cs2-neutral-50 text-cs2-neutral-900 font-sans flex flex-col antialiased selection:bg-cs2-brand-600 selection:text-white">
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-cs2-brand-600 focus:text-white focus:rounded-xl focus:shadow-lg focus:font-extrabold focus:outline-none">
+    Aller au contenu principal
+  </a>
+  <div class="flex h-screen overflow-hidden bg-cs2-neutral-50">
+    <div id="sidebar-mount"></div>
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <div id="header-mount"></div>
+      <main id="main-content" tabindex="-1" class="flex-1 overflow-y-auto p-4 md:p-8 max-w-4xl w-full mx-auto space-y-6 focus:outline-none">
+        <!-- {% block content %} -->
+
+        <!-- Fil d'Ariane -->
+        <nav aria-label="Fil d'Ariane" class="flex items-center gap-2 text-xs font-semibold text-cs2-neutral-600 mb-3">
+          <a href="../dashboard.html" class="flex items-center gap-1.5 text-cs2-neutral-500 hover:text-cs2-brand-600 transition font-medium">
+            <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+            <span>Accueil</span>
+          </a>
+          <svg class="w-3 h-3 text-cs2-neutral-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+          <a href="agenda.html" class="text-cs2-neutral-500 hover:text-cs2-brand-600 transition font-medium">Agenda &amp; RDV</a>
+          <svg class="w-3 h-3 text-cs2-neutral-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-cs2-brand-600 font-extrabold">Annulation de Rendez-vous</span>
+        </nav>
+
+        <!-- Page Header -->
+        <div class="pb-4 border-b border-cs2-neutral-200">
+          <h1 class="text-2xl font-black text-cs2-neutral-950 font-title tracking-tight">Formulaire d'Annulation de Rendez-vous</h1>
+          <p class="text-xs text-cs2-neutral-600 mt-1">Confirmation d'annulation administrative et notification du créneau au patient.</p>
+        </div>
+
+        <!-- Form Card Container (CS² Health Design System Teal) -->
+        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-cs2-neutral-200 shadow-sm space-y-6">
+          <form action="agenda.html" method="GET" onsubmit="handleCancelFormSubmit(event)" class="space-y-6">
+            
+            <!-- Section Badge 1 -->
+            <div class="space-y-4">
+              <h3 class="text-xs font-extrabold uppercase tracking-wider text-cs2-brand-700 bg-cs2-brand-50 px-3 py-1.5 rounded-lg inline-block border border-cs2-brand-200/60">
+                1. Détails du Rendez-vous à Annuler
+              </h3>
+
+              <!-- Patient & RDV Recap Box (Brand Teal Card) -->
+              <div class="p-4 sm:p-5 rounded-xl bg-cs2-brand-50/60 border border-cs2-brand-200/80 space-y-3 shadow-2xs">
+                <div class="flex items-center justify-between pb-3 border-b border-cs2-brand-200/60">
+                  <div class="flex items-center gap-2">
+                    <span class="font-extrabold text-cs2-brand-700 font-mono text-sm" id="cancel-rdv-id">RDV-0042</span>
+                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-100 text-amber-800 border border-amber-200">Créneau Réservé</span>
+                  </div>
+                  <span class="text-xs font-extrabold text-cs2-brand-800 font-mono">26/08/2026 à 09:30</span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                  <div>
+                    <span class="text-cs2-neutral-500 font-semibold block text-[10px] uppercase tracking-wider">Patient Convoqué</span>
+                    <strong class="text-cs2-neutral-950 font-extrabold text-sm" id="cancel-patient">Jeanne DUPONT</strong>
+                    <p class="text-[11px] text-cs2-neutral-600 font-mono font-bold mt-0.5">NUP: 254-890-412 • +225 07 08 45 12 90</p>
+                  </div>
+                  <div>
+                    <span class="text-cs2-neutral-500 font-semibold block text-[10px] uppercase tracking-wider">Médecin &amp; Spécialité</span>
+                    <strong class="text-cs2-neutral-950 font-extrabold text-sm" id="cancel-doctor">Dr. Marc VALOIS</strong>
+                    <p class="text-[11px] text-cs2-neutral-600 font-medium mt-0.5">Service de Cardiologie • Consultation</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Section Badge 2 -->
+            <div class="space-y-4 pt-4 border-t border-cs2-neutral-200">
+              <h3 class="text-xs font-extrabold uppercase tracking-wider text-cs2-brand-700 bg-cs2-brand-50 px-3 py-1.5 rounded-lg inline-block border border-cs2-brand-200/60">
+                2. Motif &amp; Traitement Administratif
+              </h3>
+
+              <!-- Select Motif -->
+              <div class="space-y-1.5">
+                <label for="id_motif_annulation" class="block text-xs font-bold text-cs2-neutral-800">Motif de l'annulation <span class="text-red-500">*</span></label>
+                <div class="relative">
+                  <select id="id_motif_annulation" name="motif" required class="w-full appearance-none bg-white border border-cs2-neutral-200/90 rounded-xl py-2.5 pl-3.5 pr-9 text-xs font-medium text-cs2-neutral-950 focus:bg-white focus:border-cs2-brand-600 focus:ring-2 focus:ring-cs2-brand-100 focus:outline-none transition shadow-2xs cursor-pointer">
+                    <option value="" disabled selected>Sélectionner le motif d'annulation...</option>
+                    <option value="imprevu_patient">Imprévu ou indisponibilité du patient</option>
+                    <option value="absence_medecin">Absence / Urgence médicale du praticien</option>
+                    <option value="erreur_saisie">Erreur de saisie lors de la prise de RDV</option>
+                    <option value="report_demande">Demande de report de consultation</option>
+                    <option value="autre">Autre motif administratif</option>
+                  </select>
+                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-cs2-neutral-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Notes textarea -->
+              <div class="space-y-1.5">
+                <label for="id_notes" class="block text-xs font-bold text-cs2-neutral-800">Commentaire / Précisions complémentaires</label>
+                <textarea id="id_notes" name="notes" rows="3" placeholder="Saisir des précisions concernant l'annulation..." class="w-full bg-cs2-neutral-50 border border-cs2-neutral-200/90 rounded-xl p-3.5 text-xs font-medium text-cs2-neutral-950 placeholder-cs2-neutral-400 focus:bg-white focus:border-cs2-brand-600 focus:ring-2 focus:ring-cs2-brand-100 focus:outline-none transition shadow-2xs"></textarea>
+              </div>
+
+              <!-- Checkbox SMS -->
+              <label class="flex items-center gap-3 cursor-pointer p-3.5 rounded-xl bg-cs2-neutral-50 border border-cs2-neutral-200 hover:bg-cs2-brand-50/50 transition shadow-2xs">
+                <input type="checkbox" name="notify_sms" checked class="w-4 h-4 rounded text-cs2-brand-600 focus:ring-cs2-brand-500 border-cs2-neutral-300 accent-cs2-brand-600 cursor-pointer">
+                <div>
+                  <span class="text-xs font-extrabold text-cs2-neutral-900 block">Envoyer automatiquement un SMS d'annulation au patient</span>
+                  <span class="text-[11px] text-cs2-neutral-500 font-medium">Notification transmise au numéro enregisté</span>
+                </div>
+              </label>
+            </div>
+
+            <!-- Footer Action Buttons -->
+            <div class="pt-6 border-t border-cs2-neutral-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <a href="agenda.html" class="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-cs2-neutral-200 bg-white hover:bg-cs2-neutral-100 text-cs2-neutral-700 text-xs font-extrabold transition text-center cursor-pointer">
+                ← Retourner à l'Agenda
+              </a>
+              <button type="submit" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-cs2-brand-600 hover:bg-cs2-brand-700 active:scale-95 text-white text-xs font-extrabold transition shadow-md shadow-cs2-brand-600/20 cursor-pointer flex items-center justify-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                <span>Confirmer l'annulation</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- {% endblock %} -->
+      </main>
+    </div>
+  </div>
+  <script src="../../../../static/js/cs2-paths.js"></script>
+  <script src="../../../../static/js/cs2-logo.js"></script>
+  <script src="../../../../static/js/sidebar-loader.js"></script>
+  <script src="../../../../static/js/header-loader.js"></script>
+  <script src="../../../../static/js/theme.js"></script>
+  <script src="../../../../static/js/navigation.js"></script>
+  <script src="../../../../static/js/modal.js"></script>
+  <script src="../../../../static/js/dropdown.js"></script>
+  <script src="../../../../static/js/app.js"></script>
+  <script>
+    window.SIDEBAR_ACTIVE = 'agenda';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('rdv')) document.getElementById('cancel-rdv-id').textContent = urlParams.get('rdv');
+      if (urlParams.get('patient')) document.getElementById('cancel-patient').textContent = urlParams.get('patient');
+      if (urlParams.get('doctor')) document.getElementById('cancel-doctor').textContent = urlParams.get('doctor');
+    });
+
+    function handleCancelFormSubmit(e) {
+      e.preventDefault();
+      window.location.href = 'agenda.html?operation=cancelled';
+    }
+  </script>
+</body>
+</html>

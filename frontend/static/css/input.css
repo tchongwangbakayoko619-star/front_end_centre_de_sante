@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --cs2-brand-50: #f0fdfa;
+    --cs2-brand-100: #ccfbf1;
+    --cs2-brand-500: #14b8a6;
+    --cs2-brand-600: #0d9488;
+    --cs2-brand-700: #0f766e;
+    --cs2-brand-950: #042f2e;
+    --cs2-bg: #f8fafc;
+    --cs2-card-bg: #ffffff;
+    --cs2-text-main: #0f172a;
+    --cs2-text-muted: #475569;
+    --cs2-border: #e2e8f0;
+  }
+
+  [data-theme="dark"] {
+    --cs2-bg: #0f172a;
+    --cs2-card-bg: #1e293b;
+    --cs2-text-main: #f8fafc;
+    --cs2-text-muted: #94a3b8;
+    --cs2-border: #334155;
+  }
+
+  html, body {
+    background-color: var(--cs2-bg);
+    color: var(--cs2-text-main);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  *::selection,
+  ::selection {
+    background-color: #0d9488 !important;
+    color: #ffffff !important;
+  }
+
+  *::-moz-selection,
+  ::-moz-selection {
+    background-color: #0d9488 !important;
+    color: #ffffff !important;
+  }
+
+  select option:checked,
+  select option:hover,
+  select option:focus,
+  select option:active {
+    background-color: #0d9488 !important;
+    color: #ffffff !important;
+  }
+}
+
+@layer utilities {
+  .shadow-2xs {
+    box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.03);
+  }
+  .shadow-xs {
+    box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.05), 0 1px 2px -1px rgba(15, 23, 42, 0.03);
+  }
+  .animate-slide-down {
+    animation: slideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  /* Custom sleek scrollbar for DataTables */
+  .custom-scrollbar::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 9999px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 9999px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #0d9488;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}

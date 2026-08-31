@@ -1,0 +1,661 @@
+<!-- {% extends "layouts/app.html" %} -->
+<!-- {% load static %} -->
+
+<!-- {% block title %}CS² Health — Planning & Agenda des Rendez-Vous{% endblock %} -->
+
+<!DOCTYPE html>
+<html lang="fr" class="h-full bg-cs2-neutral-50 antialiased text-cs2-neutral-900 scroll-smooth" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS² Health — Planning & Agenda des Rendez-Vous</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="../../../../static/css/styles.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'cs2-brand': { 50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4', 300: '#5eead4', 400: '#2dd4bf', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e', 800: '#115e59', 900: '#134e4a', 950: '#042f2e' },
+            'cs2-neutral': { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1', 400: '#94a3b8', 500: '#64748b', 600: '#475569', 700: '#334155', 800: '#1e293b', 900: '#0f172a', 950: '#020617' }
+          },
+          fontFamily: { sans: ['Inter', 'sans-serif'], title: ['Plus Jakarta Sans', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="h-full bg-cs2-neutral-50 text-cs2-neutral-900 font-sans flex flex-col antialiased selection:bg-cs2-brand-600 selection:text-white">
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-cs2-brand-600 focus:text-white focus:rounded-xl focus:shadow-lg focus:font-extrabold focus:outline-none">
+    Aller au contenu principal
+  </a>
+  <div class="flex h-screen overflow-hidden bg-cs2-neutral-50">
+    <div id="sidebar-mount"></div>
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <div id="header-mount"></div>
+      <main id="main-content" tabindex="-1" class="flex-1 overflow-y-auto p-4 md:p-8 max-w-7xl w-full mx-auto space-y-6 focus:outline-none">
+        <!-- {% block content %} -->
+
+      <!-- Modal d'Annulation de Rendez-vous Overlay (CS² Health Design System) -->
+      <div id="cancel-appointment-modal" style="display: none;" class="hidden fixed inset-0 z-[100] bg-cs2-neutral-950/65 backdrop-blur-md items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-lg w-full border border-cs2-neutral-200 shadow-2xl overflow-hidden my-auto animate-scale-up">
+          
+          <!-- Modal Header (Warning Theme) -->
+          <div class="p-5 sm:p-6 bg-red-50/70 border-b border-red-100 flex items-start justify-between gap-4">
+            <div class="flex items-center gap-3.5">
+              <div class="w-12 h-12 rounded-2xl bg-red-100 text-red-600 flex items-center justify-center flex-shrink-0 border border-red-200/80 shadow-2xs">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+              </div>
+              <div>
+                <h3 class="text-base sm:text-lg font-black text-cs2-neutral-950 font-title tracking-tight">Confirmer l'annulation du RDV</h3>
+                <p class="text-xs font-medium text-cs2-neutral-600 mt-0.5">Le créneau sera libéré et retiré du planning du médecin.</p>
+              </div>
+            </div>
+            <button type="button" onclick="closeCancelModal()" class="p-2 text-cs2-neutral-400 hover:text-cs2-neutral-800 hover:bg-white rounded-xl transition cursor-pointer" title="Fermer la fenêtre">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <!-- Body Form -->
+          <form id="cancel-appointment-form" onsubmit="handleCancelAppointment(event)" class="p-5 sm:p-6 space-y-5">
+            
+            <!-- Recap Card -->
+            <div class="p-4 rounded-2xl bg-cs2-neutral-50 border border-cs2-neutral-200/90 text-xs space-y-2.5 shadow-2xs">
+              <div class="flex items-center justify-between pb-2 border-b border-cs2-neutral-200/80">
+                <span class="font-extrabold text-cs2-brand-700 font-mono text-xs" id="modal-cancel-rdv-id">RDV-0042</span>
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-red-50 text-red-700 border border-red-200">En attente d'annulation</span>
+              </div>
+              <div class="grid grid-cols-2 gap-3 text-cs2-neutral-700 pt-1">
+                <div>
+                  <span class="text-cs2-neutral-500 font-semibold block text-[10px] uppercase tracking-wider">Patient</span>
+                  <strong class="text-cs2-neutral-950 font-extrabold text-xs" id="modal-cancel-patient">Jeanne DUPONT</strong>
+                </div>
+                <div>
+                  <span class="text-cs2-neutral-500 font-semibold block text-[10px] uppercase tracking-wider">Médecin Praticien</span>
+                  <strong class="text-cs2-neutral-950 font-extrabold text-xs" id="modal-cancel-doctor">Dr. Valois</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- Select Motif -->
+            <div class="space-y-1.5">
+              <label for="cancel-reason-select" class="block text-xs font-extrabold text-cs2-neutral-950">Motif de l'annulation <span class="text-red-500">*</span></label>
+              <div class="relative">
+                <select id="cancel-reason-select" required class="w-full bg-cs2-neutral-50 border border-cs2-neutral-200 rounded-xl py-2.5 px-3 text-xs font-bold text-cs2-neutral-900 focus:bg-white focus:border-cs2-brand-600 focus:outline-none transition cursor-pointer appearance-none pr-8">
+                  <option value="" disabled selected>Sélectionner le motif d'annulation...</option>
+                  <option value="imprevu_patient">Imprévu ou indisponibilité du patient</option>
+                  <option value="absence_medecin">Absence / Urgence médicale du praticien</option>
+                  <option value="erreur_saisie">Erreur de saisie lors de la prise de RDV</option>
+                  <option value="report_demande">Demande de report de consultation</option>
+                  <option value="autre">Autre motif administratif</option>
+                </select>
+                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-cs2-neutral-400">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- Notes input -->
+            <div class="space-y-1.5">
+              <label for="cancel-notes-input" class="block text-xs font-extrabold text-cs2-neutral-950">Commentaire / Précisions</label>
+              <textarea id="cancel-notes-input" rows="2" placeholder="Saisir des précisions explicatives (optionnel)..." class="w-full bg-cs2-neutral-50 border border-cs2-neutral-200 rounded-xl p-3 text-xs font-medium text-cs2-neutral-900 placeholder-cs2-neutral-400 focus:bg-white focus:border-cs2-brand-600 focus:outline-none transition shadow-2xs"></textarea>
+            </div>
+
+            <!-- Checkbox SMS -->
+            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-xl bg-cs2-neutral-50 border border-cs2-neutral-200 hover:bg-cs2-neutral-100 transition shadow-2xs">
+              <input type="checkbox" id="cancel-sms-checkbox" checked class="w-4 h-4 rounded text-cs2-brand-600 focus:ring-cs2-brand-500 border-cs2-neutral-300 accent-cs2-brand-600 cursor-pointer">
+              <span class="text-xs font-extrabold text-cs2-neutral-800">Transmettre une notification SMS d'annulation au patient</span>
+            </label>
+
+            <!-- Footer Action Buttons -->
+            <div class="pt-4 border-t border-cs2-neutral-100 flex items-center justify-end gap-3">
+              <button type="button" onclick="closeCancelModal()" class="px-4.5 py-2.5 rounded-xl border border-cs2-neutral-200 bg-white hover:bg-cs2-neutral-100 text-cs2-neutral-700 text-xs font-extrabold transition cursor-pointer">
+                Conserver le RDV
+              </button>
+              <button type="submit" class="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 active:scale-95 text-white text-xs font-extrabold transition shadow-md shadow-red-600/20 cursor-pointer flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 001-1h-4a1 1 0 001 1v3M4 7h16"/></svg>
+                <span>Confirmer l'annulation</span>
+              </button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+
+<nav aria-label="Fil d'Ariane" class="flex items-center gap-2 text-xs font-semibold text-cs2-neutral-600 mb-3"><a href="../dashboard.html" class="flex items-center gap-1.5 text-cs2-neutral-500 hover:text-cs2-brand-600 transition font-medium"><svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg><span>Accueil</span></a><svg class="w-3 h-3 text-cs2-neutral-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg><span class="text-cs2-brand-600 font-extrabold">Agenda & Rendez-vous</span></nav>
+      <!-- Operation Success Alert Banner (Floating Top Overlay) -->
+      <div id="operation-alert-banner" class="fixed top-5 left-1/2 -translate-x-1/2 z-[100] w-[calc(100%-2rem)] max-w-2xl p-3.5 sm:p-4 rounded-2xl bg-emerald-50/95 backdrop-blur-md border border-emerald-300/90 text-emerald-950 shadow-2xl flex items-center justify-between gap-4 transition-all duration-300 animate-slide-down" role="alert">
+        <div class="flex items-center gap-3.5">
+          <div class="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-700 font-extrabold flex items-center justify-center flex-shrink-0 border border-emerald-200 shadow-2xs">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <div>
+            <h4 class="text-xs sm:text-sm font-extrabold text-emerald-950">Rendez-vous Enregistré avec Succès</h4>
+            <p class="text-[11px] sm:text-xs text-emerald-800 font-medium leading-snug">Créneau confirmé pour Jeanne DUPONT le 26/08/2026 à 08:30 avec le Dr. Valois. Notification SMS envoyée au patient.</p>
+          </div>
+        </div>
+        <button type="button" onclick="this.closest('#operation-alert-banner').remove()" class="p-1.5 text-emerald-600 hover:text-emerald-950 hover:bg-emerald-100 rounded-lg transition cursor-pointer flex-shrink-0" title="Fermer l'alerte">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Page Header -->
+      <div class="space-y-2">
+
+        <!-- Title & Subtitle + CTA -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
+          <div class="space-y-1">
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-cs2-neutral-950 font-title tracking-tight">
+              Planning &amp; Agenda des Rendez-Vous
+            </h1>
+            <p class="text-xs font-medium text-cs2-neutral-600">
+              Gérez les rendez-vous, consultations et le planning des médecins de votre établissement.
+            </p>
+          </div>
+
+          <!-- Nouveau RDV CTA Button (Design System Teal) -->
+          <a href="create.html" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-cs2-brand-600 hover:bg-cs2-brand-700 active:scale-98 text-white text-xs font-bold transition shadow-md shadow-cs2-brand-600/20 whitespace-nowrap flex-shrink-0">
+            <svg class="w-4 h-4 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+            <span>Nouveau RDV</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Filter Bar Card (White Box with Rounded Corners) -->
+      <div class="bg-white p-3 sm:p-4 rounded-2xl border border-cs2-neutral-200/90 shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 text-xs">
+        
+        <!-- Search Input with gray dot and magnifying glass -->
+        <div class="relative flex-1 min-w-[220px]">
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-cs2-brand-600 gap-2">
+            <span class="w-2 h-2 rounded-full bg-cs2-brand-500 inline-block flex-shrink-0 animate-pulse"></span>
+            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </div>
+          <input type="text" id="agenda-patient-search" onkeyup="filterAgendaSlots()" placeholder="Rechercher un rendez-vous, patient..." class="w-full bg-cs2-neutral-50 border border-cs2-neutral-200/90 rounded-xl py-2 pl-10 pr-3 text-xs font-semibold text-cs2-neutral-950 placeholder-cs2-neutral-400 focus:bg-white focus:border-cs2-brand-600 focus:ring-2 focus:ring-cs2-brand-100 focus:outline-none transition shadow-2xs">
+        </div>
+
+        <!-- Filter Dropdowns Row -->
+        <div class="flex items-center gap-2 flex-nowrap overflow-x-auto flex-shrink-0 py-0.5">
+          
+          <!-- Date Filter Pill -->
+          <div class="inline-flex items-center gap-1.5 bg-white border border-cs2-neutral-300 hover:border-cs2-brand-600 focus-within:border-cs2-brand-600 focus-within:ring-2 focus-within:ring-cs2-brand-100 rounded-xl px-3 py-1.5 shadow-2xs text-xs font-medium whitespace-nowrap flex-shrink-0 transition cursor-pointer">
+            <span class="text-cs2-neutral-600 font-medium whitespace-nowrap">Date:</span>
+            <div class="relative inline-flex items-center">
+              <select id="agenda-date-select" onchange="filterAgendaSlots()" style="color: #0f172a !important; background-color: #ffffff !important; font-weight: 500 !important;" class="appearance-none bg-white text-cs2-neutral-900 font-medium focus:outline-none cursor-pointer border-none p-0 pr-4 inline-block">
+                <option value="2026-08-26" selected style="color: #0f172a !important; background-color: #ffffff !important;" class="bg-white text-cs2-neutral-900 font-medium py-1.5 px-3">Aujourd'hui</option>
+                <option value="2026-08-27" style="color: #0f172a !important; background-color: #ffffff !important;" class="bg-white text-cs2-neutral-900 font-medium py-1.5 px-3">Demain</option>
+                <option value="week" style="color: #0f172a !important; background-color: #ffffff !important;" class="bg-white text-cs2-neutral-900 font-medium py-1.5 px-3">Cette semaine</option>
+                <option value="month" style="color: #0f172a !important; background-color: #ffffff !important;" class="bg-white text-cs2-neutral-900 font-medium py-1.5 px-3">Ce mois</option>
+              </select>
+              <svg class="w-3.5 h-3.5 text-cs2-brand-600 pointer-events-none absolute right-0 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+          </div>
+
+          <!-- Doctor Filter Pill -->
+          <div class="inline-flex items-center gap-1.5 bg-white border border-cs2-neutral-300 hover:border-cs2-brand-600 focus-within:border-cs2-brand-600 focus-within:ring-2 focus-within:ring-cs2-brand-100 rounded-xl px-3 py-1.5 shadow-2xs text-xs font-medium whitespace-nowrap flex-shrink-0 transition cursor-pointer">
+            <span class="text-cs2-neutral-600 font-medium whitespace-nowrap">Médecin:</span>
+            <div class="relative inline-flex items-center">
+              <select id="agenda-doctor-select" onchange="filterAgendaSlots()" style="color: #0f172a !important; background-color: #ffffff !important; font-weight: 500 !important;" class="appearance-none bg-white text-cs2-neutral-900 font-medium focus:outline-none cursor-pointer border-none p-0 pr-4 inline-block">
+                <option value="" selected style="color: #0f172a !important; background-color: #ffffff !important;" class="bg-white text-cs2-neutral-900 font-medium py-1.5 px-3">Tous</option>
+                <option value="Amadou" style="color: #0f172a !important; background-color: #ffffff !important;" class="bg-white text-cs2-neutral-900 font-medium py-1.5 px-3">Dr. Amadou</option>
+                <option value="Valois" style="color: #0f172a !important; background-color: #ffffff !important;" class="bg-white text-cs2-neutral-900 font-medium py-1.5 px-3">Dr. Valois</option>
+                <option value="Bamba" style="color: #0f172a !important; background-color: #ffffff !important;" class="bg-white text-cs2-neutral-900 font-medium py-1.5 px-3">Dr. Bamba</option>
+                <option value="Ngando" style="color: #0f172a !important; background-color: #ffffff !important;" class="bg-white text-cs2-neutral-900 font-medium py-1.5 px-3">Dr. Ngando</option>
+                <option value="Bella" style="color: #0f172a !important; background-color: #ffffff !important;" class="bg-white text-cs2-neutral-900 font-medium py-1.5 px-3">Dr. Bella</option>
+              </select>
+              <svg class="w-3.5 h-3.5 text-cs2-brand-600 pointer-events-none absolute right-0 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+          </div>
+
+          <!-- Status Filter Pill -->
+          <div class="inline-flex items-center gap-1.5 bg-white border border-cs2-neutral-300 hover:border-cs2-brand-600 focus-within:border-cs2-brand-600 focus-within:ring-2 focus-within:ring-cs2-brand-100 rounded-xl px-3 py-1.5 shadow-2xs text-xs font-medium whitespace-nowrap flex-shrink-0 transition cursor-pointer">
+            <span class="text-cs2-neutral-600 font-medium whitespace-nowrap">Statut:</span>
+            <div class="relative inline-flex items-center">
+              <select id="agenda-status-select" onchange="filterAgendaSlots()" style="color: #0f172a !important; background-color: #ffffff !important; font-weight: 500 !important;" class="appearance-none bg-white text-cs2-neutral-900 font-medium focus:outline-none cursor-pointer border-none p-0 pr-4 inline-block">
+                <option value="" selected style="color: #0f172a !important; background-color: #ffffff !important;" class="bg-white text-cs2-neutral-900 font-medium py-1.5 px-3">Tous</option>
+                <option value="Confirmé" style="color: #0f172a !important; background-color: #ffffff !important;" class="bg-white text-cs2-neutral-900 font-medium py-1.5 px-3">Confirmé / Actif</option>
+                <option value="En attente" style="color: #0f172a !important; background-color: #ffffff !important;" class="bg-white text-cs2-neutral-900 font-medium py-1.5 px-3">En attente / Hospitalisé</option>
+                <option value="Annulé" style="color: #0f172a !important; background-color: #ffffff !important;" class="bg-white text-cs2-neutral-900 font-medium py-1.5 px-3">Annulé / Inactif</option>
+              </select>
+              <svg class="w-3.5 h-3.5 text-cs2-brand-600 pointer-events-none absolute right-0 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Main Data Table Card -->
+      <div class="bg-white rounded-2xl border border-cs2-neutral-200/90 shadow-sm overflow-hidden">
+        <!-- Mobile Scroll Indicator Hint -->
+        <div class="md:hidden flex items-center justify-between px-4 py-2 bg-cs2-brand-50/70 border-b border-cs2-neutral-200/60 text-[11px] font-bold text-cs2-brand-800">
+          <span class="flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-cs2-brand-600 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+            <span>Faites glisser le tableau pour tout voir</span>
+          </span>
+          <span class="text-[10px] font-extrabold bg-cs2-brand-100 text-cs2-brand-800 px-2 py-0.5 rounded-full">↔ Défiler</span>
+        </div>
+        <div class="overflow-x-auto custom-scrollbar">
+          <table class="w-full min-w-[780px] text-left border-collapse whitespace-nowrap">
+            <!-- Table Header -->
+            <thead>
+              <tr class="border-b border-cs2-neutral-200/80 bg-cs2-neutral-50/50 text-[11px] font-extrabold text-cs2-neutral-600 uppercase tracking-wider whitespace-nowrap">
+                <th class="py-3.5 px-3 lg:px-4">ID RDV</th>
+                <th class="py-3.5 px-3 lg:px-4">Patient</th>
+                <th class="py-3.5 px-3 lg:px-4 text-center">Sexe</th>
+                <th class="py-3.5 px-3 lg:px-4">Date &amp; Heure</th>
+                <th class="py-3.5 px-3 lg:px-4">Téléphone</th>
+                <th class="py-3.5 px-3 lg:px-4">Médecin Traitant</th>
+                <th class="py-3.5 px-3 lg:px-4">Statut</th>
+                <th class="py-3.5 px-3 lg:px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <!-- Table Body -->
+            <tbody id="agenda-slots-container" class="divide-y divide-cs2-neutral-100 text-xs font-medium text-cs2-neutral-800">
+              
+              <!-- Row 1 -->
+              <tr class="agenda-slot-row hover:bg-cs2-neutral-50/70 transition" data-patient="Chantal Mbida Nkolo 254-890-412" data-doctor="Amadou" data-status="Confirmé">
+                <td class="py-3.5 px-4 font-extrabold text-cs2-brand-600 font-mono">
+                  <a href="detail.html" class="hover:underline">RDV-0042</a>
+                </td>
+                <td class="py-3.5 px-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-cs2-brand-100 text-cs2-brand-700 font-bold flex items-center justify-center text-xs flex-shrink-0">
+                      CM
+                    </div>
+                    <span class="font-extrabold text-cs2-neutral-950">Chantal Mbida Nkolo</span>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4 text-center font-semibold text-cs2-neutral-500">F</td>
+                <td class="py-3.5 px-4 font-mono text-[11px] text-cs2-neutral-700 font-bold">26/08/2026 à 08:30</td>
+                <td class="py-3.5 px-4 font-mono text-[11px] text-cs2-neutral-600">+237 677 89 21 04</td>
+                <td class="py-3.5 px-4 font-semibold text-cs2-neutral-700">Dr. Amadou</td>
+                <td class="py-3.5 px-4">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200">Actif</span>
+                </td>
+                <td class="py-3.5 px-4 text-right">
+                  <div class="inline-flex items-center justify-end gap-1.5">
+                    <a href="detail.html" class="p-1.5 text-cs2-neutral-600 hover:text-cs2-brand-600 hover:bg-cs2-brand-50 rounded-lg transition cursor-pointer shadow-2xs hover:scale-110" title="Consulter la fiche">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                    </a>
+                    <a href="edit.html" class="p-1.5 text-cs2-neutral-600 hover:text-cs2-brand-600 hover:bg-cs2-brand-50 rounded-lg transition cursor-pointer shadow-2xs hover:scale-110" title="Modifier">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                    </a>
+                    <a href="cancel.html" onclick="openCancelModal('RDV-0042', 'Jeanne DUPONT', 'Dr. Valois'); return false;" class="p-1.5 text-cs2-neutral-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition cursor-pointer shadow-2xs hover:scale-110" title="Annuler le RDV">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Row 2 -->
+              <tr class="agenda-slot-row hover:bg-cs2-neutral-50/70 transition" data-patient="Amadou Bello Oumarou 108-442-990" data-doctor="Ngando" data-status="En attente">
+                <td class="py-3.5 px-4 font-extrabold text-cs2-brand-600 font-mono">
+                  <a href="detail.html" class="hover:underline">RDV-0043</a>
+                </td>
+                <td class="py-3.5 px-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center text-xs flex-shrink-0">
+                      AB
+                    </div>
+                    <span class="font-extrabold text-cs2-neutral-950">Amadou Bello Oumarou</span>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4 text-center font-semibold text-cs2-neutral-500">H</td>
+                <td class="py-3.5 px-4 font-mono text-[11px] text-cs2-neutral-700 font-bold">26/08/2026 à 09:00</td>
+                <td class="py-3.5 px-4 font-mono text-[11px] text-cs2-neutral-600">+237 699 12 34 56</td>
+                <td class="py-3.5 px-4 font-semibold text-cs2-neutral-700">Dr. Ngando</td>
+                <td class="py-3.5 px-4">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-sky-50 text-sky-700 border border-sky-200">Hospitalisé</span>
+                </td>
+                <td class="py-3.5 px-4 text-right">
+                  <div class="inline-flex items-center justify-end gap-1.5">
+                    <a href="detail.html" class="p-1.5 text-cs2-neutral-600 hover:text-cs2-brand-600 hover:bg-cs2-brand-50 rounded-lg transition cursor-pointer shadow-2xs hover:scale-110" title="Consulter la fiche">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                    </a>
+                    <a href="edit.html" class="p-1.5 text-cs2-neutral-600 hover:text-cs2-brand-600 hover:bg-cs2-brand-50 rounded-lg transition cursor-pointer shadow-2xs hover:scale-110" title="Modifier">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                    </a>
+                    <a href="cancel.html" onclick="openCancelModal('RDV-0043', 'Amadou Bello Oumarou', 'Dr. Ngando'); return false;" class="p-1.5 text-cs2-neutral-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition cursor-pointer shadow-2xs hover:scale-110" title="Annuler le RDV">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Row 3 -->
+              <tr class="agenda-slot-row hover:bg-cs2-neutral-50/70 transition" data-patient="Thérèse Atangana 312-901-512" data-doctor="Bella" data-status="Confirmé">
+                <td class="py-3.5 px-4 font-extrabold text-cs2-brand-600 font-mono">
+                  <a href="detail.html" class="hover:underline">RDV-0044</a>
+                </td>
+                <td class="py-3.5 px-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-700 font-bold flex items-center justify-center text-xs flex-shrink-0">
+                      TA
+                    </div>
+                    <span class="font-extrabold text-cs2-neutral-950">Thérèse Atangana</span>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4 text-center font-semibold text-cs2-neutral-500">F</td>
+                <td class="py-3.5 px-4 font-mono text-[11px] text-cs2-neutral-700 font-bold">26/08/2026 à 09:30</td>
+                <td class="py-3.5 px-4 font-mono text-[11px] text-cs2-neutral-600">+237 655 45 67 89</td>
+                <td class="py-3.5 px-4 font-semibold text-cs2-neutral-700">Dr. Bella</td>
+                <td class="py-3.5 px-4">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200">Actif</span>
+                </td>
+                <td class="py-3.5 px-4 text-right">
+                  <div class="inline-flex items-center justify-end gap-1.5">
+                    <a href="detail.html" class="p-1.5 text-cs2-neutral-600 hover:text-cs2-brand-600 hover:bg-cs2-brand-50 rounded-lg transition cursor-pointer shadow-2xs hover:scale-110" title="Consulter la fiche">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                    </a>
+                    <a href="edit.html" class="p-1.5 text-cs2-neutral-600 hover:text-cs2-brand-600 hover:bg-cs2-brand-50 rounded-lg transition cursor-pointer shadow-2xs hover:scale-110" title="Modifier">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                    </a>
+                    <a href="cancel.html" onclick="openCancelModal('RDV-0044', 'Thérèse Atangana', 'Dr. Bella'); return false;" class="p-1.5 text-cs2-neutral-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition cursor-pointer shadow-2xs hover:scale-110" title="Annuler le RDV">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Row 4 -->
+              <tr class="agenda-slot-row hover:bg-cs2-neutral-50/70 transition" data-patient="Marc Fouda Noah 449-102-883" data-doctor="Ngando" data-status="Annulé">
+                <td class="py-3.5 px-4 font-extrabold text-cs2-brand-600 font-mono">
+                  <a href="detail.html" class="hover:underline">RDV-0045</a>
+                </td>
+                <td class="py-3.5 px-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-700 font-bold flex items-center justify-center text-xs flex-shrink-0">
+                      MF
+                    </div>
+                    <span class="font-extrabold text-cs2-neutral-950">Marc Fouda Noah</span>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4 text-center font-semibold text-cs2-neutral-500">H</td>
+                <td class="py-3.5 px-4 font-mono text-[11px] text-cs2-neutral-700 font-bold">26/08/2026 à 10:00</td>
+                <td class="py-3.5 px-4 font-mono text-[11px] text-cs2-neutral-600">+237 678 90 12 34</td>
+                <td class="py-3.5 px-4 font-semibold text-cs2-neutral-700">Dr. Ngando</td>
+                <td class="py-3.5 px-4">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-cs2-neutral-100 text-cs2-neutral-600 border border-cs2-neutral-200">Inactif</span>
+                </td>
+                <td class="py-3.5 px-4 text-right">
+                  <div class="inline-flex items-center justify-end gap-1.5">
+                    <a href="detail.html" class="p-1.5 text-cs2-neutral-600 hover:text-cs2-brand-600 hover:bg-cs2-brand-50 rounded-lg transition cursor-pointer shadow-2xs hover:scale-110" title="Consulter la fiche">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                    </a>
+                    <a href="edit.html" class="p-1.5 text-cs2-neutral-600 hover:text-cs2-brand-600 hover:bg-cs2-brand-50 rounded-lg transition cursor-pointer shadow-2xs hover:scale-110" title="Modifier">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                    </a>
+                    <a href="cancel.html" onclick="openCancelModal('RDV-0045', 'Marc Fouda Noah', 'Dr. Ngando'); return false;" class="p-1.5 text-cs2-neutral-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition cursor-pointer shadow-2xs hover:scale-110" title="Annuler le RDV">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Row 5 -->
+              <tr class="agenda-slot-row hover:bg-cs2-neutral-50/70 transition" data-patient="Jeanne Ngono 551-882-104" data-doctor="Amadou" data-status="Confirmé">
+                <td class="py-3.5 px-4 font-extrabold text-cs2-brand-600 font-mono">
+                  <a href="detail.html" class="hover:underline">RDV-0046</a>
+                </td>
+                <td class="py-3.5 px-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-teal-100 text-teal-700 font-bold flex items-center justify-center text-xs flex-shrink-0">
+                      JN
+                    </div>
+                    <span class="font-extrabold text-cs2-neutral-950">Jeanne Ngono</span>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4 text-center font-semibold text-cs2-neutral-500">F</td>
+                <td class="py-3.5 px-4 font-mono text-[11px] text-cs2-neutral-700 font-bold">26/08/2026 à 10:30</td>
+                <td class="py-3.5 px-4 font-mono text-[11px] text-cs2-neutral-600">+237 691 23 45 67</td>
+                <td class="py-3.5 px-4 font-semibold text-cs2-neutral-700">Dr. Amadou</td>
+                <td class="py-3.5 px-4">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200">Actif</span>
+                </td>
+                <td class="py-3.5 px-4 text-right">
+                  <div class="inline-flex items-center justify-end gap-1.5">
+                    <a href="detail.html" class="p-1.5 text-cs2-neutral-600 hover:text-cs2-brand-600 hover:bg-cs2-brand-50 rounded-lg transition cursor-pointer shadow-2xs hover:scale-110" title="Consulter la fiche">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                    </a>
+                    <a href="edit.html" class="p-1.5 text-cs2-neutral-600 hover:text-cs2-brand-600 hover:bg-cs2-brand-50 rounded-lg transition cursor-pointer shadow-2xs hover:scale-110" title="Modifier">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                    </a>
+                    <a href="cancel.html" onclick="openCancelModal('RDV-0046', 'Jeanne Ngono', 'Dr. Amadou'); return false;" class="p-1.5 text-cs2-neutral-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition cursor-pointer shadow-2xs hover:scale-110" title="Annuler le RDV">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Row 6 -->
+              <tr class="agenda-slot-row hover:bg-cs2-neutral-50/70 transition" data-patient="Paul Kamga 672-119-034" data-doctor="Bella" data-status="En attente">
+                <td class="py-3.5 px-4 font-extrabold text-cs2-brand-600 font-mono">
+                  <a href="detail.html" class="hover:underline">RDV-0047</a>
+                </td>
+                <td class="py-3.5 px-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-xs flex-shrink-0">
+                      PK
+                    </div>
+                    <span class="font-extrabold text-cs2-neutral-950">Paul Kamga</span>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4 text-center font-semibold text-cs2-neutral-500">H</td>
+                <td class="py-3.5 px-4 font-mono text-[11px] text-cs2-neutral-700 font-bold">26/08/2026 à 11:00</td>
+                <td class="py-3.5 px-4 font-mono text-[11px] text-cs2-neutral-600">+237 651 89 01 23</td>
+                <td class="py-3.5 px-4 font-semibold text-cs2-neutral-700">Dr. Bella</td>
+                <td class="py-3.5 px-4">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-sky-50 text-sky-700 border border-sky-200">Hospitalisé</span>
+                </td>
+                <td class="py-3.5 px-4 text-right">
+                  <div class="inline-flex items-center justify-end gap-1.5">
+                    <a href="detail.html" class="p-1.5 text-cs2-neutral-600 hover:text-cs2-brand-600 hover:bg-cs2-brand-50 rounded-lg transition cursor-pointer shadow-2xs hover:scale-110" title="Consulter la fiche">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                    </a>
+                    <a href="edit.html" class="p-1.5 text-cs2-neutral-600 hover:text-cs2-brand-600 hover:bg-cs2-brand-50 rounded-lg transition cursor-pointer shadow-2xs hover:scale-110" title="Modifier">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                    </a>
+                    <a href="cancel.html" onclick="openCancelModal('RDV-0047', 'Paul Kamga', 'Dr. Bella'); return false;" class="p-1.5 text-cs2-neutral-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition cursor-pointer shadow-2xs hover:scale-110" title="Annuler le RDV">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Row 7 -->
+              <tr class="agenda-slot-row hover:bg-cs2-neutral-50/70 transition" data-patient="Cécile Eboa 889-204-115" data-doctor="Ngando" data-status="Confirmé">
+                <td class="py-3.5 px-4 font-extrabold text-cs2-brand-600 font-mono">
+                  <a href="detail.html" class="hover:underline">RDV-0048</a>
+                </td>
+                <td class="py-3.5 px-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-pink-100 text-pink-700 font-bold flex items-center justify-center text-xs flex-shrink-0">
+                      CE
+                    </div>
+                    <span class="font-extrabold text-cs2-neutral-950">Cécile Eboa</span>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4 text-center font-semibold text-cs2-neutral-500">F</td>
+                <td class="py-3.5 px-4 font-mono text-[11px] text-cs2-neutral-700 font-bold">26/08/2026 à 11:30</td>
+                <td class="py-3.5 px-4 font-mono text-[11px] text-cs2-neutral-600">+237 679 45 67 81</td>
+                <td class="py-3.5 px-4 font-semibold text-cs2-neutral-700">Dr. Ngando</td>
+                <td class="py-3.5 px-4">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200">Actif</span>
+                </td>
+                <td class="py-3.5 px-4 text-right">
+                  <div class="inline-flex items-center justify-end gap-1.5">
+                    <a href="detail.html" class="p-1.5 text-cs2-neutral-600 hover:text-cs2-brand-600 hover:bg-cs2-brand-50 rounded-lg transition cursor-pointer shadow-2xs hover:scale-110" title="Consulter la fiche">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                    </a>
+                    <a href="edit.html" class="p-1.5 text-cs2-neutral-600 hover:text-cs2-brand-600 hover:bg-cs2-brand-50 rounded-lg transition cursor-pointer shadow-2xs hover:scale-110" title="Modifier">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                    </a>
+                    <a href="cancel.html" onclick="openCancelModal('RDV-0048', 'Cécile Eboa', 'Dr. Ngando'); return false;" class="p-1.5 text-cs2-neutral-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition cursor-pointer shadow-2xs hover:scale-110" title="Annuler le RDV">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Row 8 -->
+              <tr class="agenda-slot-row hover:bg-cs2-neutral-50/70 transition" data-patient="Samuel Eto'o Junior 901-334-771" data-doctor="Amadou" data-status="Annulé">
+                <td class="py-3.5 px-4 font-extrabold text-cs2-brand-600 font-mono">
+                  <a href="detail.html" class="hover:underline">RDV-0049</a>
+                </td>
+                <td class="py-3.5 px-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-orange-100 text-orange-700 font-bold flex items-center justify-center text-xs flex-shrink-0">
+                      SE
+                    </div>
+                    <span class="font-extrabold text-cs2-neutral-950">Samuel Eto'o Junior</span>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4 text-center font-semibold text-cs2-neutral-500">H</td>
+                <td class="py-3.5 px-4 font-mono text-[11px] text-cs2-neutral-700 font-bold">26/08/2026 à 14:00</td>
+                <td class="py-3.5 px-4 font-mono text-[11px] text-cs2-neutral-600">+237 695 67 89 01</td>
+                <td class="py-3.5 px-4 font-semibold text-cs2-neutral-700">Dr. Amadou</td>
+                <td class="py-3.5 px-4">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-cs2-neutral-100 text-cs2-neutral-600 border border-cs2-neutral-200">Inactif</span>
+                </td>
+                <td class="py-3.5 px-4 text-right">
+                  <div class="inline-flex items-center justify-end gap-1.5">
+                    <a href="detail.html" class="p-1.5 text-cs2-neutral-600 hover:text-cs2-brand-600 hover:bg-cs2-brand-50 rounded-lg transition cursor-pointer shadow-2xs hover:scale-110" title="Consulter la fiche">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                    </a>
+                    <a href="edit.html" class="p-1.5 text-cs2-neutral-600 hover:text-cs2-brand-600 hover:bg-cs2-brand-50 rounded-lg transition cursor-pointer shadow-2xs hover:scale-110" title="Modifier">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                    </a>
+                    <a href="cancel.html" onclick="openCancelModal('RDV-0049', 'Samuel Eto'o Junior', 'Dr. Amadou'); return false;" class="p-1.5 text-cs2-neutral-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition cursor-pointer shadow-2xs hover:scale-110" title="Annuler le RDV">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Table Footer / Pagination -->
+        <div class="px-4 py-3.5 bg-white border-t border-cs2-neutral-200/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+          <span class="text-cs2-neutral-600 font-medium">Affichage de <span class="font-bold text-cs2-neutral-950">1-8</span> sur <span class="font-bold text-cs2-neutral-950">247</span> rendez-vous</span>
+          
+          <div class="flex items-center gap-1">
+            <button type="button" class="px-2.5 py-1 rounded-lg border border-cs2-neutral-200 bg-white text-cs2-neutral-500 hover:bg-cs2-neutral-100 font-bold transition flex items-center justify-center">‹</button>
+            <button type="button" class="px-3 py-1 rounded-lg bg-cs2-brand-600 text-white font-extrabold transition shadow-2xs">1</button>
+            <button type="button" class="px-3 py-1 rounded-lg border border-cs2-neutral-200 bg-white text-cs2-neutral-700 hover:bg-cs2-neutral-100 font-bold transition">2</button>
+            <button type="button" class="px-3 py-1 rounded-lg border border-cs2-neutral-200 bg-white text-cs2-neutral-700 hover:bg-cs2-neutral-100 font-bold transition">3</button>
+            <span class="px-1 text-cs2-neutral-400 font-bold">...</span>
+            <button type="button" class="px-3 py-1 rounded-lg border border-cs2-neutral-200 bg-white text-cs2-neutral-700 hover:bg-cs2-neutral-100 font-bold transition">31</button>
+            <button type="button" class="px-2.5 py-1 rounded-lg border border-cs2-neutral-200 bg-white text-cs2-neutral-700 hover:bg-cs2-neutral-100 font-bold transition flex items-center justify-center">›</button>
+          </div>
+        </div>
+
+      </div>
+        <!-- {% endblock %} -->
+      </main>
+    </div>
+  </div>
+  <script src="../../../../static/js/cs2-paths.js"></script>
+  <script src="../../../../static/js/cs2-logo.js"></script>
+  <script src="../../../../static/js/sidebar-loader.js"></script>
+  <script src="../../../../static/js/header-loader.js"></script>
+  <script src="../../../../static/js/theme.js"></script>
+  <script src="../../../../static/js/navigation.js"></script>
+  <script src="../../../../static/js/modal.js"></script>
+  <script src="../../../../static/js/dropdown.js"></script>
+  <script src="../../../../static/js/app.js"></script>
+  <!-- {% block extra_js %} -->
+<script>
+  window.SIDEBAR_ACTIVE = 'agenda';
+
+  function filterAgendaSlots() {
+    const searchVal = document.getElementById('agenda-patient-search')?.value.toLowerCase() || '';
+    const docVal = document.getElementById('agenda-doctor-select')?.value.toLowerCase() || '';
+    const statusVal = document.getElementById('agenda-status-select')?.value.toLowerCase() || '';
+
+    const rows = document.querySelectorAll('.agenda-slot-row');
+    rows.forEach(row => {
+      const patient = (row.getAttribute('data-patient') || '').toLowerCase();
+      const doctor = (row.getAttribute('data-doctor') || '').toLowerCase();
+      const status = (row.getAttribute('data-status') || '').toLowerCase();
+
+      const matchSearch = !searchVal || patient.includes(searchVal) || row.textContent.toLowerCase().includes(searchVal);
+      const matchDoc = !docVal || doctor.includes(docVal);
+      const matchStatus = !statusVal || status.includes(statusVal) || row.textContent.toLowerCase().includes(statusVal);
+
+      if (matchSearch && matchDoc && matchStatus) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+</script>
+<!-- {% endblock %} -->
+
+<script>
+  function openCancelModal(rdvId = 'RDV-0042', patientName = 'Jeanne DUPONT', doctorName = 'Dr. Valois') {
+    const modal = document.getElementById('cancel-appointment-modal');
+    const rdvEl = document.getElementById('modal-cancel-rdv-id');
+    const patientEl = document.getElementById('modal-cancel-patient');
+    const doctorEl = document.getElementById('modal-cancel-doctor');
+
+    if (rdvEl) rdvEl.textContent = rdvId;
+    if (patientEl) patientEl.textContent = patientName;
+    if (doctorEl) doctorEl.textContent = doctorName;
+
+    if (modal) {
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+  }
+
+  function closeCancelModal() {
+    const modal = document.getElementById('cancel-appointment-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+  }
+
+  function handleCancelAppointment(e) {
+    e.preventDefault();
+    closeCancelModal();
+
+    const alertBanner = document.getElementById('operation-alert-banner');
+    if (alertBanner) {
+      const title = alertBanner.querySelector('h4');
+      const subtitle = alertBanner.querySelector('p');
+      const rdvId = document.getElementById('modal-cancel-rdv-id')?.textContent || 'le RDV';
+      const patient = document.getElementById('modal-cancel-patient')?.textContent || '';
+      
+      if (title) title.textContent = 'Rendez-vous Annulé avec Succès';
+      if (subtitle) subtitle.textContent = 'Le créneau ' + rdvId + ' (' + patient + ') a été annulé. Une notification SMS a été transmise au patient.';
+      
+      alertBanner.className = 'fixed top-5 left-1/2 -translate-x-1/2 z-[100] w-[calc(100%-2rem)] max-w-2xl p-3.5 sm:p-4 rounded-2xl bg-red-50/95 backdrop-blur-md border border-red-300/90 text-red-950 shadow-2xl flex items-center justify-between gap-4 transition-all duration-300 animate-slide-down';
+      
+      const iconContainer = alertBanner.querySelector('.w-9');
+      if (iconContainer) {
+        iconContainer.className = 'w-9 h-9 rounded-xl bg-red-100 text-red-700 font-extrabold flex items-center justify-center flex-shrink-0 border border-red-200 shadow-2xs';
+        iconContainer.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>';
+      }
+      alertBanner.style.display = 'flex';
+    }
+  }
+
+  // Auto open modal if requested or on cancel.html
+  document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('cancel') === 'true' || window.AUTO_OPEN_CANCEL === true) {
+      openCancelModal(urlParams.get('rdv') || 'RDV-0042', urlParams.get('patient') || 'Jeanne DUPONT', urlParams.get('doctor') || 'Dr. Valois');
+    }
+  });
+</script>
+
+</body>
+</html>

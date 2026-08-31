@@ -1,0 +1,438 @@
+<!--
+  CS² Health — Dashboard Layout Template
+  ─────────────────────────────────────────────────────────────
+  Ce layout enveloppe toutes les pages de l'application principale.
+  Il fournit la sidebar, le header et le conteneur de page.
+  
+  DJANGO MIGRATION NOTES:
+  - Ce fichier sera un partial inclus dans les templates de page
+  - Les chemins statiques devront être remplacés par {% static '...' %}
+  - Les données dynamiques (user, centre) viendront du contexte Django
+  ─────────────────────────────────────────────────────────────
+  
+  Utilisation (page enfant) :
+    Ouvrir ce layout, puis insérer le contenu de la page dans
+    le placeholder <!-- PAGE CONTENT -->
+-->
+
+<!-- SVG Sprite (injection unique) -->
+<!-- Django: {% include 'partials/icons_sprite.html' %} -->
+<div style="display:none" aria-hidden="true">
+  <!-- Le sprite SVG est injecté ici par le serveur ou un script -->
+</div>
+
+<!-- Overlay Sidebar (mobile) -->
+<div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- LAYOUT PRINCIPAL                                        -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="dashboard-layout">
+
+  <!-- ── SIDEBAR ──────────────────────────────────────── -->
+  <aside id="sidebar" class="sidebar" role="navigation" aria-label="Navigation principale">
+
+    <!-- Entête Sidebar: Logo -->
+    <div class="sidebar-header">
+      <a href="../dashboard/index.html" class="sidebar-logo" aria-label="CS² Health">
+        <cs2-logo size="sm" variant="full"></cs2-logo>
+      </a>
+    </div>
+
+    <!-- Navigation principale -->
+    <div class="sidebar-content" role="list">
+
+      <!-- Groupe: PRINCIPAL -->
+      <nav class="sidebar-nav-group">
+        <div class="sidebar-nav-label">Principal</div>
+        <ul class="sidebar-menu">
+          <li role="listitem">
+            <a href="../dashboard/index.html"
+               class="sidebar-item"
+               data-active-on="/dashboard/"
+               aria-label="Tableau de bord">
+              <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <use href="../static/icons/icons.svg#icon-dashboard"/>
+              </svg>
+              <span class="sidebar-item-label">Tableau de bord</span>
+            </a>
+          </li>
+          <li role="listitem">
+            <a href="../patients/index.html"
+               class="sidebar-item"
+               data-active-on="/patients/">
+              <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <use href="../static/icons/icons.svg#icon-patients"/>
+              </svg>
+              <span class="sidebar-item-label">Patients</span>
+            </a>
+          </li>
+          <li role="listitem">
+            <a href="../consultation/index.html"
+               class="sidebar-item"
+               data-active-on="/consultation/">
+              <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <use href="../static/icons/icons.svg#icon-consultation"/>
+              </svg>
+              <span class="sidebar-item-label">Consultations</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Groupe: SERVICES -->
+      <nav class="sidebar-nav-group">
+        <div class="sidebar-nav-label">Services</div>
+        <ul class="sidebar-menu">
+          <li role="listitem">
+            <a href="../pharmacy/index.html"
+               class="sidebar-item"
+               data-active-on="/pharmacy/">
+              <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <use href="../static/icons/icons.svg#icon-pharmacy"/>
+              </svg>
+              <span class="sidebar-item-label">Pharmacie</span>
+            </a>
+          </li>
+          <li role="listitem">
+            <a href="../cash/index.html"
+               class="sidebar-item"
+               data-active-on="/cash/">
+              <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <use href="../static/icons/icons.svg#icon-cash"/>
+              </svg>
+              <span class="sidebar-item-label">Caisse</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Groupe: ADMINISTRATION -->
+      <nav class="sidebar-nav-group">
+        <div class="sidebar-nav-label">Administration</div>
+        <ul class="sidebar-menu">
+          <li role="listitem">
+            <a href="../reports/index.html"
+               class="sidebar-item"
+               data-active-on="/reports/">
+              <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <use href="../static/icons/icons.svg#icon-reports"/>
+              </svg>
+              <span class="sidebar-item-label">Rapports</span>
+            </a>
+          </li>
+          <li role="listitem">
+            <a href="../audit/index.html"
+               class="sidebar-item"
+               data-active-on="/audit/">
+              <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <use href="../static/icons/icons.svg#icon-audit"/>
+              </svg>
+              <span class="sidebar-item-label">Journaux d'audit</span>
+            </a>
+          </li>
+          <li role="listitem">
+            <a href="../settings/index.html"
+               class="sidebar-item"
+               data-active-on="/settings/">
+              <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <use href="../static/icons/icons.svg#icon-settings"/>
+              </svg>
+              <span class="sidebar-item-label">Paramètres</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+    </div><!-- /.sidebar-content -->
+
+    <!-- Footer Sidebar: Profil utilisateur -->
+    <div class="sidebar-footer">
+      <div class="dropdown">
+        <button class="sidebar-user w-full" data-dropdown="toggle" aria-haspopup="true" aria-expanded="false">
+          <div class="avatar avatar-sm" aria-hidden="true">DR</div>
+          <div class="sidebar-user-info">
+            <!-- Django: {{ request.user.get_full_name }} -->
+            <div class="sidebar-user-name">Dr. Robert</div>
+            <!-- Django: {{ request.user.profile.role }} -->
+            <div class="sidebar-user-role">Médecin Chef</div>
+          </div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0;color:var(--text-tertiary)">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+        <div class="dropdown-menu dropdown-menu-left" style="bottom: calc(100% + 6px); top: auto;">
+          <div class="dropdown-header">Mon compte</div>
+          <a href="../profile/index.html" class="dropdown-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/></svg>
+            Mon profil
+          </a>
+          <a href="../settings/index.html" class="dropdown-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            Paramètres
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="../auth/login.html" class="dropdown-item is-danger">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Déconnexion
+          </a>
+        </div>
+      </div>
+    </div><!-- /.sidebar-footer -->
+
+  </aside><!-- /#sidebar -->
+
+
+  <!-- ── MAIN WRAPPER ────────────────────────────────── -->
+  <div class="main-wrapper">
+
+    <!-- ── HEADER ──────────────────────────────────── -->
+    <!-- Topbar Header Component -->
+    <!-- Django: {% include "components/navigation/topbar.html" %} -->
+<!-- Topbar Header (sans bordure brute) -->
+    <header class="bg-white/95 backdrop-blur-md h-20 px-4 md:px-8 flex items-center justify-between sticky top-0 z-40 flex-shrink-0 shadow-2xs">
+      <div class="flex items-center gap-3 md:gap-4">
+        <button type="button" onclick="toggleMobileSidebar()" class="md:hidden p-2 text-cs2-neutral-600 hover:text-cs2-brand-700 hover:bg-cs2-brand-50 rounded-xl transition cursor-pointer" title="Menu Mobile">
+          <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <!-- Mobile Logo Display -->
+        <a href="../dashboard.html" class="md:hidden flex items-center gap-2 group">
+          <span class="font-title font-black text-lg text-cs2-neutral-950 tracking-tight">CS² <span class="text-cs2-brand-600">Health</span></span>
+        </a>
+      </div>
+
+    <!-- Desktop Sleek Search Bar -->
+    <div class="hidden sm:flex flex-1 max-w-md mx-8">
+      <div class="relative w-full">
+        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-cs2-neutral-400">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </div>
+        <input type="search" placeholder="Rechercher un patient, RDV, NUP..." class="w-full bg-cs2-neutral-50/80 border border-cs2-neutral-200/80 rounded-xl py-2 pl-10 pr-12 text-xs font-medium text-cs2-neutral-900 placeholder-cs2-neutral-400 focus:bg-white focus:border-cs2-brand-600 focus:outline-none transition shadow-2xs">
+        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+          <kbd class="px-1.5 py-0.5 text-[10px] font-mono font-semibold text-cs2-neutral-400 bg-white border border-cs2-neutral-200 rounded-md">⌘K</kbd>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-1.5 sm:gap-4">
+      <!-- Mobile Quick Search Icon Button -->
+      <button type="button" onclick="toggleMobileSearchBar()" class="sm:hidden p-2 text-cs2-neutral-600 hover:text-cs2-brand-700 hover:bg-cs2-brand-50 rounded-xl transition cursor-pointer" title="Rechercher">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      </button>
+
+      <!-- Notifications Bell Button & Interactive Dropdown Menu -->
+      <div class="relative">
+        <button type="button" onclick="toggleNotificationsDropdown(event)" id="notif-menu-btn" class="p-2 sm:p-2.5 text-cs2-neutral-600 hover:text-cs2-brand-700 hover:bg-cs2-brand-50 rounded-xl transition relative cursor-pointer" title="Notifications Réception">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg>
+          <span id="notif-badge-dot" class="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 w-2.5 h-2.5 rounded-full bg-red-500 ring-2 ring-white animate-pulse"></span>
+        </button>
+
+        <!-- Notifications Popover Card with 5 Rich Receptionist Fake Notifications -->
+        <div id="notifications-dropdown-menu" class="hidden absolute right-0 mt-2 w-80 sm:w-96 bg-white border border-cs2-neutral-200 rounded-2xl shadow-2xl z-50 overflow-hidden divide-y divide-cs2-neutral-100">
+          <div class="p-3.5 bg-cs2-neutral-50/90 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="font-extrabold text-xs text-cs2-neutral-950">Notifications Réception</span>
+              <span id="notif-count-badge" class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-red-100 text-red-700 border border-red-200">5 nouvelles</span>
+            </div>
+            <button type="button" onclick="markAllNotifsRead()" class="text-[10px] font-bold text-cs2-brand-600 hover:text-cs2-brand-700 transition">Tout marquer comme lu</button>
+          </div>
+
+          <div class="max-h-96 overflow-y-auto divide-y divide-cs2-neutral-100 text-xs">
+            <!-- Fake Notif 1 -->
+            <a href="../notifications/history.html" class="p-3.5 flex items-start gap-3 hover:bg-cs2-brand-50/40 transition bg-cs2-brand-50/20">
+              <div class="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0 mt-0.5 border border-amber-200">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+              </div>
+              <div class="flex-1 space-y-0.5">
+                <div class="flex items-center justify-between">
+                  <p class="font-bold text-cs2-neutral-950 leading-tight">Patient arrivé à l'accueil</p>
+                  <span class="text-[9px] text-cs2-neutral-400 font-mono">Il y a 2 min</span>
+                </div>
+                <p class="text-[11px] text-cs2-neutral-600">Jeanne DUPONT présente au guichet. Orientée Salle d'attente 1 (Dr. Valois).</p>
+              </div>
+            </a>
+
+            <!-- Fake Notif 2 -->
+            <a href="../notifications/history.html" class="p-3.5 flex items-start gap-3 hover:bg-cs2-brand-50/40 transition bg-cs2-brand-50/20">
+              <div class="w-8 h-8 rounded-xl bg-red-100 text-red-700 flex items-center justify-center flex-shrink-0 mt-0.5 border border-red-200">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <div class="flex-1 space-y-0.5">
+                <div class="flex items-center justify-between">
+                  <p class="font-bold text-cs2-neutral-950 leading-tight">Retard de Consultation</p>
+                  <span class="text-[9px] text-cs2-neutral-400 font-mono">Il y a 8 min</span>
+                </div>
+                <p class="text-[11px] text-cs2-neutral-600">Dr. Bamba signale 15 minutes de retard sur les rendez-vous de cardiologie.</p>
+              </div>
+            </a>
+
+            <!-- Fake Notif 3 -->
+            <a href="../notifications/history.html" class="p-3.5 flex items-start gap-3 hover:bg-cs2-neutral-50 transition">
+              <div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 mt-0.5 border border-emerald-200">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <div class="flex-1 space-y-0.5">
+                <div class="flex items-center justify-between">
+                  <p class="font-bold text-cs2-neutral-950 leading-tight">Accusé de Réception SMS</p>
+                  <span class="text-[9px] text-cs2-neutral-400 font-mono">Il y a 25 min</span>
+                </div>
+                <p class="text-[11px] text-cs2-neutral-600">SMS de convocation délivré avec succès à Koffi EMMANUEL (+225 05 44...).</p>
+              </div>
+            </a>
+
+            <!-- Fake Notif 4 -->
+            <a href="../notifications/history.html" class="p-3.5 flex items-start gap-3 hover:bg-cs2-neutral-50 transition">
+              <div class="w-8 h-8 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center flex-shrink-0 mt-0.5 border border-blue-200">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              </div>
+              <div class="flex-1 space-y-0.5">
+                <div class="flex items-center justify-between">
+                  <p class="font-bold text-cs2-neutral-950 leading-tight">RDV Décalé par l'Accueil</p>
+                  <span class="text-[9px] text-cs2-neutral-400 font-mono">Il y a 45 min</span>
+                </div>
+                <p class="text-[11px] text-cs2-neutral-600">Le rendez-vous de Mme Awa SOW a été reprogrammé à 14h30 aujourd'hui.</p>
+              </div>
+            </a>
+
+            <!-- Fake Notif 5 -->
+            <a href="../notifications/history.html" class="p-3.5 flex items-start gap-3 hover:bg-cs2-neutral-50 transition">
+              <div class="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0 mt-0.5 border border-purple-200">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/></svg>
+              </div>
+              <div class="flex-1 space-y-0.5">
+                <div class="flex items-center justify-between">
+                  <p class="font-bold text-cs2-neutral-950 leading-tight">Demande de Renseignement</p>
+                  <span class="text-[9px] text-cs2-neutral-400 font-mono">Il y a 1 heure</span>
+                </div>
+                <p class="text-[11px] text-cs2-neutral-600">Question patient concernant les pièces justificatives d'assurance à fournir.</p>
+              </div>
+            </a>
+          </div>
+
+          <div class="p-3 bg-cs2-neutral-50/80 text-center">
+            <a href="../notifications/history.html" class="text-xs font-bold text-cs2-brand-600 hover:text-cs2-brand-700 transition block">
+              Voir tout l'historique des notifications (142) →
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Language Dropdown Menu -->
+      <div class="relative">
+        <button type="button" onclick="toggleLanguageDropdown(event)" id="lang-menu-btn" class="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl border border-cs2-neutral-200 hover:bg-cs2-neutral-50 text-xs font-bold text-cs2-neutral-800 transition focus:outline-none cursor-pointer">
+          <span class="flex items-center gap-1 sm:gap-1.5">
+            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-cs2-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2h1.5a2.5 2.5 0 002.5-2.5V7a2 2 0 00-2-2h-1.5a2 2 0 01-2-2V3.055M11 20.055V18a2 2 0 012-2h1.5a2.5 2.5 0 002.5-2.5V11"/></svg>
+            <span id="current-lang-label">FR</span>
+          </span>
+          <svg id="lang-chevron" class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-cs2-neutral-400 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+
+        <div id="language-dropdown-menu" class="hidden absolute right-0 mt-2 w-48 bg-white border border-cs2-neutral-200 rounded-2xl shadow-xl p-1.5 z-50 space-y-0.5">
+          <div class="px-3 py-1.5 border-b border-cs2-neutral-100 mb-1">
+            <span class="text-[10px] font-extrabold uppercase tracking-widest text-cs2-neutral-400">Langues disponibles</span>
+          </div>
+          <button type="button" onclick="selectLanguage('FR')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-extrabold text-cs2-brand-700 bg-cs2-brand-50 transition text-left">
+            <span class="flex items-center gap-2">
+              <span>🇫🇷</span>
+              <span>Français (FR)</span>
+            </span>
+            <svg class="w-4 h-4 text-cs2-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+          </button>
+          <button type="button" onclick="selectLanguage('EN')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-cs2-neutral-700 hover:bg-cs2-neutral-50 transition text-left">
+            <span class="flex items-center gap-2">
+              <span>🇬🇧</span>
+              <span>English (EN)</span>
+            </span>
+          </button>
+          <button type="button" onclick="selectLanguage('ES')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-cs2-neutral-700 hover:bg-cs2-neutral-50 transition text-left">
+            <span class="flex items-center gap-2">
+              <span>🇪🇸</span>
+              <span>Español (ES)</span>
+            </span>
+          </button>
+        </div>
+      </div>
+
+    <!-- User Profile Interactive Button & Popover Dropdown Menu -->
+    <div class="relative">
+      <button type="button" onclick="toggleUserDropdown(event)" id="user-menu-btn" class="flex items-center gap-2 sm:gap-3 p-1 sm:pr-3.5 rounded-xl hover:bg-cs2-neutral-50 transition cursor-pointer border border-transparent hover:border-cs2-neutral-200 focus:outline-none" title="Profil utilisateur">
+        <div class="relative">
+          <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-cs2-brand-100 text-cs2-brand-700 font-black flex items-center justify-center text-xs border border-cs2-brand-200 shadow-2xs">
+            SN
+          </div>
+          <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 rounded-full ring-2 ring-white" title="En ligne"></span>
+        </div>
+        <div class="hidden sm:block text-left">
+          <p class="text-xs font-black text-cs2-neutral-950 leading-none flex items-center gap-1">
+            <span>Sarah Ngono</span>
+            <svg id="user-chevron" class="w-3.5 h-3.5 text-cs2-neutral-400 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </p>
+          <p class="text-[10px] text-cs2-neutral-600 mt-0.5 font-medium">Agent d'accueil</p>
+        </div>
+      </button>
+
+      <!-- User Popover Card -->
+      <div id="user-dropdown-menu" class="hidden absolute right-0 mt-2 w-72 bg-white border border-cs2-neutral-200 rounded-2xl shadow-2xl z-50 overflow-hidden divide-y divide-cs2-neutral-100">
+        <!-- User Info Header -->
+        <div class="p-4 bg-cs2-brand-50/50 flex items-center gap-3">
+          <div class="w-11 h-11 rounded-xl bg-cs2-brand-600 text-white font-black flex items-center justify-center text-sm shadow-sm border border-cs2-brand-700">
+            SN
+          </div>
+          <div class="flex-1 min-w-0">
+            <h4 class="text-xs font-black text-cs2-neutral-950 truncate font-title">Sarah Ngono</h4>
+            <p class="text-[11px] text-cs2-neutral-500 truncate">s.ngono@cs2health.ci</p>
+            <div class="mt-1 flex items-center gap-1.5">
+              <span class="px-2 py-0.5 rounded-md text-[9px] font-extrabold bg-cs2-brand-100 text-cs2-brand-800 border border-cs2-brand-200 uppercase">Agent d'accueil</span>
+              <span class="text-[9px] text-emerald-600 font-bold">● En ligne</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="p-2 space-y-0.5 text-xs">
+          <a href="../../profile/index.html" class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-cs2-neutral-700 hover:bg-cs2-brand-50 hover:text-cs2-brand-700 font-bold transition">
+            <svg class="w-4 h-4 text-cs2-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            <span>Mon Profil</span>
+          </a>
+          <a href="../../profile/index.html#security" class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-cs2-neutral-700 hover:bg-cs2-brand-50 hover:text-cs2-brand-700 font-medium transition">
+            <svg class="w-4 h-4 text-cs2-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            <span>Sécurité & Mot de passe</span>
+          </a>
+          <a href="../../profile/index.html#preferences" class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-cs2-neutral-700 hover:bg-cs2-brand-50 hover:text-cs2-brand-700 font-medium transition">
+            <svg class="w-4 h-4 text-cs2-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <span>Préférences compte</span>
+          </a>
+        </div>
+
+        <!-- Logout Link -->
+        <div class="p-2">
+          <a href="../../../auth/login.html" class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-red-600 hover:bg-red-50 font-bold transition">
+            <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+            <span>Déconnexion</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- /.top-header -->
+
+
+    <!-- ── CONTENU DE LA PAGE ──────────────────────── -->
+    <main id="main-content" class="page-container" role="main" tabindex="-1">
+
+      <!-- Django: <!-- {% block page_content %} -->{% endblock %} -->
+      <!-- PAGE CONTENT — remplacé par chaque template de page -->
+
+    </main><!-- /#main-content -->
+
+  </div><!-- /.main-wrapper -->
+
+</div><!-- /.dashboard-layout -->
+
+<script src="../static/js/cs2-logo.js"></script>
+<script src="../static/js/theme.js"></script>
+<script src="../static/js/navigation.js"></script>
+<script src="../static/js/dropdown.js"></script>
+</body>
+</html>

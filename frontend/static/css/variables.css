@@ -1,0 +1,202 @@
+/* ============================================================
+   CS² Health — Design System Variables
+   Source officielle de vérité pour tous les design tokens
+   Version: 1.0 — Aligné sur la spec CS² officielle
+   ============================================================ */
+
+:root {
+
+  /* ── CS² Brand Colors (Teal) ────────────────────────────── */
+  --cs2-brand-50:  #f0fdfa;   /* Arrière-plans légers, zones sélectionnées        */
+  --cs2-brand-100: #ccfbf1;   /* Badges, focus léger, bordures, états sélectionnés */
+  --cs2-brand-500: #0d9488;   /* Accent visuel, éléments graphiques, indicateurs  */
+  --cs2-brand-600: #0f766e;   /* Actions principales, boutons, liens interactifs  */
+  --cs2-brand-700: #115e59;   /* Hover, active, état renforcé                     */
+  --cs2-brand-950: #042f2e;   /* Surfaces très foncées, éléments spécifiques      */
+
+  /* ── CS² Neutral Colors (Slate) ─────────────────────────── */
+  --cs2-neutral-50:  #f8fafc;  /* Arrière-plan principal de l'application          */
+  --cs2-neutral-100: #f1f5f9;  /* Arrière-plans secondaires                        */
+  --cs2-neutral-200: #e2e8f0;  /* Bordures, séparateurs                            */
+  --cs2-neutral-300: #cbd5e1;  /* Bordures hover                                   */
+  --cs2-neutral-600: #475569;  /* Texte courant, labels, placeholders              */
+  --cs2-neutral-800: #1e293b;  /* Titres secondaires                               */
+  --cs2-neutral-950: #020617;  /* Titres principaux, texte technique important     */
+
+  /* ── Palette complète (pour usage interne CSS) ─────────── */
+  --color-neutral-400: #94a3b8;
+  --color-neutral-500: #64748b;
+  --color-neutral-700: #334155;
+  --color-neutral-900: #0f172a;  /* Dark mode surface uniquement */
+
+  /* ── Aliases legacy (rétrocompatibilité templates) ──────── */
+  --color-brand-50:  var(--cs2-brand-50);
+  --color-brand-100: var(--cs2-brand-100);
+  --color-brand-500: var(--cs2-brand-500);
+  --color-brand-600: var(--cs2-brand-600);
+  --color-brand-700: var(--cs2-brand-700);
+  --color-brand-950: var(--cs2-brand-950);
+
+  --color-neutral-50:  var(--cs2-neutral-50);
+  --color-neutral-100: var(--cs2-neutral-100);
+  --color-neutral-200: var(--cs2-neutral-200);
+  --color-neutral-300: var(--cs2-neutral-300);
+  --color-neutral-600: var(--cs2-neutral-600);
+  --color-neutral-800: var(--cs2-neutral-800);
+  --color-neutral-950: var(--cs2-neutral-950);
+
+  /* ── CS² Semantic Status Colors ─────────────────────────── */
+  --cs2-status-emergency: #dc2626;  /* Urgence, allergie critique, risque vital     */
+  --cs2-status-warning:   #d97706;  /* Attente, paiement incomplet, stock faible   */
+  --cs2-status-success:   #059669;  /* Validé, paiement terminé, disponibilité     */
+  --cs2-status-info:      #2563eb;  /* Information, consultation, état informatif  */
+
+  /* Backgrounds sémantiques */
+  --color-success:      var(--cs2-status-success);
+  --color-success-bg:   #d1fae5;
+  --color-success-text: #065f46;
+
+  --color-warning:      var(--cs2-status-warning);
+  --color-warning-bg:   #fef3c7;
+  --color-warning-text: #92400e;
+
+  --color-danger:       var(--cs2-status-emergency);
+  --color-danger-bg:    #fee2e2;
+  --color-danger-text:  #991b1b;
+
+  --color-info:         var(--cs2-status-info);
+  --color-info-bg:      #dbeafe;
+  --color-info-text:    #1e40af;
+
+  /* ── Typographie (Taille augmentée pour confort visuel) ─── */
+  --font-family-sans:    'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-heading: 'Plus Jakarta Sans', var(--font-family-sans);
+
+  --font-size-xs:   0.8125rem;  /* ~14px */
+  --font-size-sm:   0.9375rem;  /* ~16.5px */
+  --font-size-base: 1.0625rem;  /* ~18.5px */
+  --font-size-lg:   1.25rem;    /* ~22px */
+  --font-size-xl:   1.375rem;   /* ~24px */
+  --font-size-2xl:  1.625rem;   /* ~28.5px */
+  --font-size-3xl:  2rem;       /* ~35px */
+
+  /* ── Espacement ──────────────────────────────────────────── */
+  --space-1:  0.25rem;   /*  4px */
+  --space-2:  0.5rem;    /*  8px */
+  --space-3:  0.75rem;   /* 12px */
+  --space-4:  1rem;      /* 16px */
+  --space-5:  1.25rem;   /* 20px */
+  --space-6:  1.5rem;    /* 24px */
+  --space-8:  2rem;      /* 32px */
+  --space-10: 2.5rem;    /* 40px */
+  --space-12: 3rem;      /* 48px */
+  --space-16: 4rem;      /* 64px */
+
+  /* ── Border Radius ───────────────────────────────────────── */
+  --radius-sm:   0.25rem;   /*  4px */
+  --radius-md:   0.375rem;  /*  6px */
+  --radius-lg:   0.5rem;    /*  8px */
+  --radius-xl:   0.75rem;   /* 12px */
+  --radius-2xl:  1rem;      /* 16px */
+  --radius-full: 9999px;
+
+  /* ── Ombres ──────────────────────────────────────────────── */
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.04);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.07), 0 1px 2px -1px rgb(0 0 0 / 0.04);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.04);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.04);
+
+  /* ── Transitions ─────────────────────────────────────────── */
+  --transition-fast:   150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow:   400ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ── Z-Index Scale ───────────────────────────────────────── */
+  --z-base:      0;
+  --z-dropdown:  100;
+  --z-sticky:    200;
+  --z-overlay:   300;
+  --z-modal:     400;
+  --z-toast:     500;
+
+  /* ── Dimensions Layout ───────────────────────────────────── */
+  --sidebar-width:           260px;
+  --sidebar-width-collapsed:  64px;
+  --header-height:            60px;
+
+  /* ── Semantic Theme — Light Mode (Défaut) ────────────────── */
+  --bg-primary:       var(--cs2-neutral-50);
+  --bg-surface:       #ffffff;
+  --bg-surface-hover: var(--cs2-neutral-50);
+  --bg-surface-2:     var(--cs2-neutral-100);
+
+  --text-primary:   var(--cs2-neutral-950);
+  --text-secondary: var(--cs2-neutral-600);
+  --text-tertiary:  var(--color-neutral-400);
+  --text-on-brand:  #ffffff;
+
+  --border-color:       var(--cs2-neutral-200);
+  --border-color-hover: var(--cs2-neutral-300);
+
+  /* Tokens Sidebar — CS2 Brand Green palette */
+  --sidebar-bg:             #115e59;   /* cs2-brand-800 — fond vert principal CS² */
+  --sidebar-border:         rgba(204, 251, 241, 0.15); /* cs2-brand-100/15% */
+  --sidebar-text:           #ccfbf1;   /* cs2-brand-100 — texte secondaire */
+  --sidebar-text-active:    #ffffff;   /* blanc pur — texte actif */
+  --sidebar-bg-hover:       #0f766e;   /* cs2-brand-700 — fond au survol */
+  --sidebar-bg-active:      #0d9488;   /* cs2-brand-600 — fond élément actif */
+  --sidebar-icon:           rgba(204, 251, 241, 0.85); /* cs2-brand-100/85% */
+  --sidebar-icon-active:    #ffffff;   /* icône active */
+
+  /* Tokens Header */
+  --header-bg:     #ffffff;
+  --header-border: var(--border-color);
+
+  /* Tokens Formulaires */
+  --form-bg:           var(--bg-surface);
+  --form-border:       var(--border-color);
+  --form-text:         var(--text-primary);
+  --form-placeholder:  var(--text-tertiary);
+  --form-focus-border: var(--cs2-brand-600);
+  --form-focus-ring:   rgba(15, 118, 110, 0.18);
+  --form-label-color:  var(--cs2-neutral-600);
+  --form-label-weight: 500;
+}
+
+/* ── Dark Mode ───────────────────────────────────────────── */
+[data-theme="dark"] {
+  --bg-primary:       var(--cs2-neutral-950);
+  --bg-surface:       var(--color-neutral-900);
+  --bg-surface-hover: var(--cs2-neutral-800);
+  --bg-surface-2:     var(--cs2-neutral-800);
+
+  --text-primary:   var(--cs2-neutral-50);
+  --text-secondary: var(--cs2-neutral-300);
+  --text-tertiary:  var(--cs2-neutral-600);
+
+  --border-color:       var(--cs2-neutral-800);
+  --border-color-hover: var(--color-neutral-700);
+
+  --sidebar-bg:          #042f2e;
+  --sidebar-border:      rgba(204, 251, 241, 0.08);
+  --sidebar-text:        rgba(204, 251, 241, 0.7);
+  --sidebar-text-active: #ffffff;
+  --sidebar-bg-hover:    #115e59;
+  --sidebar-bg-active:   #0f766e;
+  --sidebar-icon:        rgba(204, 251, 241, 0.45);
+  --sidebar-icon-active: #ccfbf1;
+
+  --header-bg:     var(--cs2-neutral-950);
+  --header-border: var(--border-color);
+
+  --form-bg:     var(--bg-surface);
+  --form-border: var(--border-color);
+  --form-focus-ring: rgba(13, 148, 136, 0.25);
+
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.4);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.4);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4);
+}

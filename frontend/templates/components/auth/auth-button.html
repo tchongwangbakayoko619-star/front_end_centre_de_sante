@@ -1,0 +1,16 @@
+<!-- templates/components/auth/auth-button.html -->
+<!-- 
+Expected Context:
+- label: Button text
+- type: 'submit' or 'button'
+- full_width: boolean
+- id: HTML id
+-->
+<button 
+    type="<!-- Django: {{ type|default:'submit' }} -->" 
+    class="btn btn-primary <!-- Django: {% if full_width %}btn-block w-100 mt-4{% endif %} -->" 
+    <!-- Django: {% if id %}id="{{ id }}"{% endif %} -->
+>
+    <div class="spinner"></div>
+    <span class="btn-text"><!-- Django: {{ label }} -->Connexion</span>
+</button>

@@ -1,0 +1,33 @@
+<!-- templates/components/auth/auth-input.html -->
+<!-- 
+Expected Context:
+- id: HTML id
+- name: input name
+- type: input type (text, email, etc.)
+- label: Input label
+- placeholder: Input placeholder
+- required: boolean
+- error: String error message 
+- value: Initial value
+-->
+<div class="form-group">
+    <label for="<!-- Django: {{ id }} -->" class="form-label">
+        <!-- Django: {{ label }} -->
+        <!-- Django: {% if required %}<span style="color: var(--color-error-500)">*</span>{% endif %} -->
+    </label>
+    
+    <input 
+        type="<!-- Django: {{ type|default:'text' }} -->" 
+        id="<!-- Django: {{ id }} -->" 
+        name="<!-- Django: {{ name }} -->" 
+        class="form-control <!-- Django: {% if error %}is-invalid{% endif %} -->" 
+        placeholder="<!-- Django: {{ placeholder }} -->"
+        value="<!-- Django: {{ value|default:'' }} -->"
+        <!-- Django: {% if required %}required{% endif %} -->
+    >
+    
+    <div class="invalid-feedback">
+        <!-- Django: {{ error }} -->
+        Ce champ est requis.
+    </div>
+</div>

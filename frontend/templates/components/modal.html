@@ -1,0 +1,66 @@
+<!-- Django usage:
+A modal structure that can be toggled via JS or used for confirmation pages.
+-->
+<div class="modal d-none" id="example-modal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Titre de la Modale</h3>
+            <button class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>Contenu de la modale.</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary modal-close-btn">Annuler</button>
+            <button class="btn btn-primary">Confirmer</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .modal {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        z-index: 1050;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .modal-backdrop {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background-color: rgba(0,0,0,0.5);
+    }
+    .modal-content {
+        position: relative;
+        background-color: var(--bg-surface);
+        border-radius: var(--radius-lg);
+        width: 100%;
+        max-width: 500px;
+        box-shadow: var(--shadow-lg);
+    }
+    .modal-header {
+        padding: var(--space-4);
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .modal-body {
+        padding: var(--space-4);
+    }
+    .modal-footer {
+        padding: var(--space-4);
+        border-top: 1px solid var(--border-color);
+        display: flex;
+        justify-content: flex-end;
+        gap: var(--space-3);
+    }
+    .modal-close {
+        font-size: 1.5rem;
+        background: none; border: none;
+        cursor: pointer;
+        color: var(--text-secondary);
+    }
+</style>

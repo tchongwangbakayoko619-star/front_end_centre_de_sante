@@ -1,0 +1,19 @@
+<!-- Django usage:
+{% include "components/empty-state.html" with message="Aucun patient trouvé." action_text="Nouveau Patient" action_url="patients:create" %}
+-->
+<div class="empty-state text-center p-6">
+    <div class="empty-state-icon mb-4" style="font-size: 3rem; color: var(--text-tertiary);">
+        📭
+    </div>
+    <h3 class="font-medium mb-2">Aucune donnée</h3>
+    <p class="text-muted mb-4">Aucun enregistrement n'a été trouvé pour le moment.</p>
+    
+    <!-- Static fallback -->
+    <a href="#" class="btn btn-primary">Créer un enregistrement</a>
+    
+    <!-- Django:
+    {% if action_url %}
+        <a href="{% url action_url %}" class="btn btn-primary">{{ action_text }}</a>
+    {% endif %}
+    -->
+</div>

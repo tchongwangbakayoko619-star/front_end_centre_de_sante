@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="cs2-logo-title">
+  <title id="cs2-logo-title">CS² Health</title>
+  <defs>
+    <linearGradient id="cs2-logo-grad" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2dd4bf"/>
+      <stop offset="55%" stop-color="#0d9488"/>
+      <stop offset="100%" stop-color="#0f766e"/>
+    </linearGradient>
+    <mask id="cs2-logo-cross-mask">
+      <rect width="64" height="64" fill="black"/>
+      <rect x="26" y="12" width="12" height="40" rx="3.5" fill="white"/>
+      <rect x="12" y="26" width="40" height="12" rx="3.5" fill="white"/>
+      <path d="M14 32 H24 L27.5 24 L32 42 L36.5 22 L40 38 L43 32 H50"
+            fill="none" stroke="black" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </mask>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="url(#cs2-logo-grad)"/>
+  <rect width="64" height="64" fill="#ffffff" mask="url(#cs2-logo-cross-mask)"/>
+</svg>

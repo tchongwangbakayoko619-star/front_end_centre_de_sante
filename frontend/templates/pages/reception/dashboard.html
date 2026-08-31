@@ -1,0 +1,529 @@
+<!-- {% extends "layouts/app.html" %} -->
+<!-- {% load static %} -->
+
+<!-- {% block title %}CS² Health — Dashboard Agent d'accueil{% endblock %} -->
+
+<!DOCTYPE html>
+<html lang="fr" class="h-full bg-cs2-neutral-50 antialiased text-cs2-neutral-900 scroll-smooth" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS² Health — Dashboard Agent d'accueil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="../../../static/css/styles.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'cs2-brand': { 50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4', 300: '#5eead4', 400: '#2dd4bf', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e', 800: '#115e59', 900: '#134e4a', 950: '#042f2e' },
+            'cs2-neutral': { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1', 400: '#94a3b8', 500: '#64748b', 600: '#475569', 700: '#334155', 800: '#1e293b', 900: '#0f172a', 950: '#020617' }
+          },
+          fontFamily: { sans: ['Inter', 'sans-serif'], title: ['Plus Jakarta Sans', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    *::selection, ::selection {
+      background-color: #0d9488 !important;
+      color: #ffffff !important;
+    }
+    *::-moz-selection, ::-moz-selection {
+      background-color: #0d9488 !important;
+      color: #ffffff !important;
+    }
+    select option:checked, select option:hover, select option:focus, select option:active {
+      background-color: #0d9488 !important;
+      color: #ffffff !important;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="h-full bg-cs2-neutral-50 text-cs2-neutral-900 font-sans flex flex-col antialiased selection:bg-cs2-brand-600 selection:text-white">
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-cs2-brand-600 focus:text-white focus:rounded-xl focus:shadow-lg focus:font-extrabold focus:outline-none">
+    Aller au contenu principal
+  </a>
+  <div class="flex h-screen overflow-hidden bg-cs2-neutral-50">
+    <div id="sidebar-mount"></div>
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <div id="header-mount"></div>
+      <main id="main-content" tabindex="-1" class="flex-1 overflow-y-auto p-4 md:p-8 max-w-7xl w-full mx-auto space-y-6 focus:outline-none">
+        <!-- {% block content %} -->
+<!-- Clean Minimal Page Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-cs2-neutral-200/80">
+
+        <!-- Gauche : Titre + sous-titre -->
+        <div class="space-y-0.5">
+          <h1 class="text-xl sm:text-2xl font-extrabold text-cs2-neutral-950 font-title tracking-tight">
+            <span id="greeting-label">Bonjour,</span>
+            <span class="text-cs2-brand-600"> Sarah NGONO</span>
+          </h1>
+          <p class="text-xs font-medium text-cs2-neutral-500">
+            Aperçu en temps réel des arrivées patients, des rendez-vous et des convocations du jour.
+          </p>
+        </div>
+
+        <!-- Droite : Période badge + sélecteur compact -->
+        <div class="flex items-center gap-2 flex-shrink-0">
+          <!-- Badge période active -->
+          <span id="active-period-badge" class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-cs2-brand-50 text-cs2-brand-700 border border-cs2-brand-200/80 font-mono shadow-2xs">
+            <span class="w-1.5 h-1.5 rounded-full bg-cs2-brand-500 animate-pulse"></span>
+            <span id="active-period-text">Aujourd'hui • 28/08/2026</span>
+          </span>
+          <!-- Sélecteur de période -->
+          <div class="relative">
+            <select id="stats-period-select" onchange="handlePeriodSelectChange(this.value)" style="color: #0f172a !important; background-color: #ffffff !important; font-weight: 500 !important;" class="w-full appearance-none bg-white border border-cs2-neutral-300 hover:border-cs2-brand-600 rounded-xl py-1.5 pl-3.5 pr-9 text-xs font-medium text-cs2-neutral-900 focus:bg-white focus:border-cs2-brand-600 focus:ring-2 focus:ring-cs2-brand-100 focus:outline-none transition cursor-pointer">
+              <option value="day" selected style="color: #0f172a !important; background-color: #ffffff !important; font-weight: 500 !important;" class="bg-white text-cs2-neutral-900 font-medium py-1.5 px-3">Aujourd'hui</option>
+              <option value="week" style="color: #0f172a !important; background-color: #ffffff !important; font-weight: 500 !important;" class="bg-white text-cs2-neutral-900 font-medium py-1.5 px-3">Cette Semaine</option>
+              <option value="month" style="color: #0f172a !important; background-color: #ffffff !important; font-weight: 500 !important;" class="bg-white text-cs2-neutral-900 font-medium py-1.5 px-3">Ce Mois</option>
+              <option value="year" style="color: #0f172a !important; background-color: #ffffff !important; font-weight: 500 !important;" class="bg-white text-cs2-neutral-900 font-medium py-1.5 px-3">Cette Année</option>
+              <option value="custom" style="color: #0f172a !important; background-color: #ffffff !important; font-weight: 500 !important;" class="bg-white text-cs2-neutral-900 font-medium py-1.5 px-3">📅 Personnalisée…</option>
+            </select>
+            <div class="absolute inset-y-0 right-0 pr-2.5 flex items-center pointer-events-none text-cs2-brand-600">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Ultra-Compact Custom Date Row (Hidden by default) -->
+      <div id="custom-date-range-panel" class="hidden mb-2">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white p-3 rounded-2xl border border-cs2-neutral-200 shadow-xs text-xs">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="font-extrabold text-cs2-neutral-700 text-[11px]">Plage :</span>
+            <input type="date" id="start-date-input" value="2026-08-01" style="color: #000000 !important; background-color: #ffffff !important; font-weight: 700 !important;" class="bg-white border border-cs2-neutral-200 rounded-lg py-1 px-2.5 text-xs font-bold text-black focus:border-cs2-brand-600 focus:outline-none">
+            <span class="text-cs2-neutral-400 font-bold">→</span>
+            <input type="date" id="end-date-input" value="2026-08-28" style="color: #000000 !important; background-color: #ffffff !important; font-weight: 700 !important;" class="bg-white border border-cs2-neutral-200 rounded-lg py-1 px-2.5 text-xs font-bold text-black focus:border-cs2-border-600 focus:outline-none">
+          </div>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="toggleCustomDateRange(false)" class="px-2.5 py-1 rounded-lg border border-cs2-neutral-200 bg-white hover:bg-cs2-neutral-100 text-cs2-neutral-700 font-bold text-[11px] transition">Fermer</button>
+            <button type="button" onclick="applyCustomDateRange()" class="px-3.5 py-1 rounded-lg bg-cs2-brand-600 hover:bg-cs2-brand-700 text-white font-extrabold text-[11px] transition">Appliquer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- KPI Cards Premium -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+        <!-- KPI 1: RDV du Jour -->
+        <div class="kpi-card teal bg-white p-5 rounded-2xl border border-cs2-neutral-200/90 shadow-xs hover:border-cs2-brand-300 transition">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex-1">
+              <div class="text-xs font-extrabold text-cs2-neutral-500 uppercase tracking-wider" id="kpi-rdv-label">RDV du Jour</div>
+              <div class="text-2xl font-black text-cs2-neutral-950 font-title mt-1" id="kpi-rdv-val">42</div>
+              <div class="mt-3">
+                <span class="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200" id="kpi-rdv-trend">↑ 32 confirmés</span>
+              </div>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-cs2-brand-600 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- KPI 2: Nouveaux Patients -->
+        <div class="kpi-card green bg-white p-5 rounded-2xl border border-cs2-neutral-200/90 shadow-xs hover:border-emerald-300 transition">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex-1">
+              <div class="text-xs font-extrabold text-cs2-neutral-500 uppercase tracking-wider" id="kpi-patients-label">Nouveaux Patients</div>
+              <div class="text-2xl font-black text-cs2-neutral-950 font-title mt-1" id="kpi-patients-val">12</div>
+              <div class="mt-3">
+                <span class="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200" id="kpi-patients-trend">↑ +4 aujourd'hui</span>
+              </div>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- KPI 3: RDV à Venir -->
+        <div class="kpi-card blue bg-white p-5 rounded-2xl border border-cs2-neutral-200/90 shadow-xs hover:border-blue-300 transition">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex-1">
+              <div class="text-xs font-extrabold text-cs2-neutral-500 uppercase tracking-wider" id="kpi-avenir-label">RDV à Venir</div>
+              <div class="text-2xl font-black text-cs2-neutral-950 font-title mt-1" id="kpi-avenir-val">128</div>
+              <div class="mt-3">
+                <span class="inline-flex items-center gap-1 text-[11px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200" id="kpi-avenir-trend">↗ Prochains créneaux</span>
+              </div>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- KPI 4: RDV Annulés -->
+        <div class="kpi-card red bg-white p-5 rounded-2xl border border-cs2-neutral-200/90 shadow-xs hover:border-red-300 transition">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex-1">
+              <div class="text-xs font-extrabold text-cs2-neutral-500 uppercase tracking-wider" id="kpi-cancel-label">RDV Annulés</div>
+              <div class="text-2xl font-black text-red-600 font-title mt-1" id="kpi-cancel-val">3</div>
+              <div class="mt-3">
+                <span class="inline-flex items-center gap-1 text-[11px] font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded-full border border-red-200" id="kpi-cancel-trend">↓ Motifs enregistrés</span>
+              </div>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-red-500 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 📊 Interactive Analytics & Visual Charts Section -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Chart 1: Évolution Hebdomadaire des Rendez-Vous (Line Chart) -->
+        <div class="lg:col-span-2 bg-white rounded-2xl border border-cs2-neutral-200 shadow-sm p-6 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-cs2-neutral-100 pb-4">
+            <div>
+              <h3 class="text-base font-extrabold text-cs2-neutral-950 font-title flex items-center gap-2">
+                <svg class="w-5 h-5 text-cs2-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
+                <span>Activité Hebdomadaire & Prise en Charge</span>
+              </h3>
+              <p class="text-[11px] text-cs2-neutral-500 mt-0.5">Évolution comparative des RDV planifiés vs patients accueillis au guichet</p>
+            </div>
+            
+            <div class="flex items-center gap-2">
+              <span class="inline-flex items-center gap-1.5 text-[10px] font-bold text-cs2-neutral-700 bg-cs2-neutral-100 px-3 py-1 rounded-lg">
+                <span class="w-2.5 h-2.5 rounded-full bg-cs2-brand-600"></span> RDV Planifiés
+              </span>
+              <span class="inline-flex items-center gap-1.5 text-[10px] font-bold text-cs2-neutral-700 bg-cs2-neutral-100 px-3 py-1 rounded-lg">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Accueil Effectué
+              </span>
+            </div>
+          </div>
+
+          <div class="relative h-64 w-full">
+            <canvas id="receptionWeeklyChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 2: Répartition des RDV par Statut (Doughnut Chart) -->
+        <div class="bg-white rounded-2xl border border-cs2-neutral-200 shadow-sm p-6 space-y-4 flex flex-col justify-between">
+          <div class="border-b border-cs2-neutral-100 pb-3">
+            <h3 class="text-base font-extrabold text-cs2-neutral-950 font-title flex items-center gap-2">
+              <svg class="w-5 h-5 text-cs2-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/></svg>
+              <span>Répartition des Statuts</span>
+            </h3>
+            <p class="text-[11px] text-cs2-neutral-500 mt-0.5">Statistiques du jour (42 RDV)</p>
+          </div>
+
+          <div class="relative h-48 flex items-center justify-center my-auto">
+            <canvas id="receptionStatusChart"></canvas>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 text-[11px] pt-3 border-t border-cs2-neutral-100">
+            <div class="flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+              <span class="font-medium text-cs2-neutral-700">Confirmés: <strong>76%</strong></span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+              <span class="font-medium text-cs2-neutral-700">En attente: <strong>14%</strong></span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+              <span class="font-medium text-cs2-neutral-700">Annulés: <strong>7%</strong></span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+              <span class="font-medium text-cs2-neutral-700">Décalés: <strong>3%</strong></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Grid Row: File d'Attente & Patients Récents -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- Column 1: Today's Appointments Queue -->
+        <div class="bg-white rounded-2xl border border-cs2-neutral-200 shadow-sm p-6 space-y-6 flex flex-col justify-between">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between border-b border-cs2-neutral-200 pb-4">
+              <div class="flex items-center gap-2">
+                <h3 class="text-base font-extrabold text-cs2-neutral-950 font-title">File d'Attente & RDV du Jour</h3>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-cs2-brand-50 text-cs2-brand-700 border border-cs2-brand-200/80">3 En attente</span>
+              </div>
+              <a href="appointments/agenda.html" class="text-xs font-bold text-cs2-brand-600 hover:text-cs2-brand-700 transition">Voir tout l'agenda →</a>
+            </div>
+
+            <!-- Appointment Cards List -->
+            <div class="space-y-3">
+              <!-- Item 1 -->
+              <div class="p-3.5 rounded-xl border border-cs2-neutral-200 bg-cs2-neutral-50 hover:bg-white hover:border-cs2-brand-500 transition">
+                <div class="flex items-center justify-between gap-3">
+                  <div class="flex items-center gap-3">
+                    <div class="px-3 py-1.5 rounded-lg bg-cs2-brand-600 text-white font-extrabold text-xs font-mono text-center flex-shrink-0">
+                      09:30
+                    </div>
+                    <div>
+                      <h4 class="text-xs font-extrabold text-cs2-neutral-950">Jeanne DUPONT</h4>
+                      <p class="text-[11px] text-cs2-neutral-600">NUP: 254-890-412 • Dr. Valois (Cardiologie)</p>
+                    </div>
+                  </div>
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200">Confirmé</span>
+                </div>
+              </div>
+
+              <!-- Item 2 -->
+              <div class="p-3.5 rounded-xl border border-cs2-neutral-200 bg-cs2-neutral-50 hover:bg-white hover:border-cs2-brand-500 transition">
+                <div class="flex items-center justify-between gap-3">
+                  <div class="flex items-center gap-3">
+                    <div class="px-3 py-1.5 rounded-lg bg-cs2-brand-600 text-white font-extrabold text-xs font-mono text-center flex-shrink-0">
+                      10:15
+                    </div>
+                    <div>
+                      <h4 class="text-xs font-extrabold text-cs2-neutral-950">Koffi EMMANUEL</h4>
+                      <p class="text-[11px] text-cs2-neutral-600">NUP: 108-765-209 • Dr. Bamba (Médecine Générale)</p>
+                    </div>
+                  </div>
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-amber-50 text-amber-700 border border-amber-200">En attente</span>
+                </div>
+              </div>
+
+              <!-- Item 3 -->
+              <div class="p-3.5 rounded-xl border border-cs2-neutral-200 bg-cs2-neutral-50 hover:bg-white hover:border-cs2-brand-500 transition">
+                <div class="flex items-center justify-between gap-3">
+                  <div class="flex items-center gap-3">
+                    <div class="px-3 py-1.5 rounded-lg bg-cs2-brand-600 text-white font-extrabold text-xs font-mono text-center flex-shrink-0">
+                      11:00
+                    </div>
+                    <div>
+                      <h4 class="text-xs font-extrabold text-cs2-neutral-950">Awa DIABATÉ</h4>
+                      <p class="text-[11px] text-cs2-neutral-600">NUP: 419-332-901 • Dr. Valois (Cardiologie)</p>
+                    </div>
+                  </div>
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200">Confirmé</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 2: Recent Patients & Admission -->
+        <div class="bg-white rounded-2xl border border-cs2-neutral-200 shadow-sm p-6 space-y-6 flex flex-col justify-between">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between border-b border-cs2-neutral-200 pb-4">
+              <div class="flex items-center gap-2">
+                <h3 class="text-base font-extrabold text-cs2-neutral-950 font-title">Patients Récents</h3>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200">+12 ce jour</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <a href="patients/create.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cs2-brand-600 hover:bg-cs2-brand-700 active:scale-95 text-white text-xs font-extrabold transition shadow-2xs">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                  <span>Patient</span>
+                </a>
+                <a href="patients/list.html" class="text-xs font-bold text-cs2-brand-600 hover:text-cs2-brand-700 transition">Registre →</a>
+              </div>
+            </div>
+
+            <!-- Patient List -->
+            <div class="space-y-3">
+              <!-- Patient 1 -->
+              <div class="p-3.5 rounded-xl border border-cs2-neutral-200 bg-cs2-neutral-50 hover:bg-white hover:border-cs2-brand-500 transition flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-lg bg-cs2-brand-100 text-cs2-brand-700 font-extrabold text-xs flex items-center justify-center flex-shrink-0 border border-cs2-brand-200">
+                    JD
+                  </div>
+                  <div>
+                    <h4 class="text-xs font-extrabold text-cs2-neutral-950">Jeanne DUPONT</h4>
+                    <p class="text-[11px] text-cs2-neutral-600">NUP: 254-890-412 • Admis à 09:15</p>
+                  </div>
+                </div>
+                <a href="patients/detail.html" class="px-2.5 py-1 rounded-lg bg-white border border-cs2-neutral-200 hover:bg-cs2-neutral-100 text-cs2-neutral-700 text-[11px] font-bold transition">Dossier</a>
+              </div>
+
+              <!-- Patient 2 -->
+              <div class="p-3.5 rounded-xl border border-cs2-neutral-200 bg-cs2-neutral-50 hover:bg-white hover:border-cs2-brand-500 transition flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-lg bg-blue-100 text-blue-700 font-extrabold text-xs flex items-center justify-center flex-shrink-0 border border-blue-200">
+                    KE
+                  </div>
+                  <div>
+                    <h4 class="text-xs font-extrabold text-cs2-neutral-950">Koffi EMMANUEL</h4>
+                    <p class="text-[11px] text-cs2-neutral-600">NUP: 108-765-209 • Admis à 10:00</p>
+                  </div>
+                </div>
+                <a href="patients/detail.html" class="px-2.5 py-1 rounded-lg bg-white border border-cs2-neutral-200 hover:bg-cs2-neutral-100 text-cs2-neutral-700 text-[11px] font-bold transition">Dossier</a>
+              </div>
+
+              <!-- Patient 3 -->
+              <div class="p-3.5 rounded-xl border border-cs2-neutral-200 bg-cs2-neutral-50 hover:bg-white hover:border-cs2-brand-500 transition flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-700 font-extrabold text-xs flex items-center justify-center flex-shrink-0 border border-emerald-200">
+                    AD
+                  </div>
+                  <div>
+                    <h4 class="text-xs font-extrabold text-cs2-neutral-950">Awa DIABATÉ</h4>
+                    <p class="text-[11px] text-cs2-neutral-600">NUP: 419-332-901 • Admis à 10:45</p>
+                  </div>
+                </div>
+                <a href="patients/detail.html" class="px-2.5 py-1 rounded-lg bg-white border border-cs2-neutral-200 hover:bg-cs2-neutral-100 text-cs2-neutral-700 text-[11px] font-bold transition">Dossier</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+        <!-- {% endblock %} -->
+      </main>
+    </div>
+  </div>
+  <script src="../../../static/js/cs2-paths.js"></script>
+  <script src="../../../static/js/cs2-logo.js"></script>
+  <script src="../../../static/js/sidebar-loader.js"></script>
+  <script src="../../../static/js/header-loader.js"></script>
+  <script src="../../../static/js/theme.js"></script>
+  <script src="../../../static/js/navigation.js"></script>
+  <script src="../../../static/js/modal.js"></script>
+  <script src="../../../static/js/dropdown.js"></script>
+  <script src="../../../static/js/app.js"></script>
+  <!-- {% block extra_js %} -->
+<script>
+  window.SIDEBAR_ACTIVE = 'dashboard';
+
+  // Dynamic greeting based on current local hour
+  (function() {
+    const h = new Date().getHours();
+    const label = document.getElementById('greeting-label');
+    if (label) {
+      if (h >= 5 && h < 12)       label.textContent = 'Bonjour,';
+      else if (h >= 12 && h < 18) label.textContent = 'Bon après-midi,';
+      else                        label.textContent = 'Bonsoir,';
+    }
+  })();
+
+  // Period Selector Handlers
+  function handlePeriodSelectChange(val) {
+    const customPanel = document.getElementById('custom-date-range-panel');
+    const periodText = document.getElementById('active-period-text');
+
+    if (val === 'custom') {
+      if (customPanel) customPanel.classList.remove('hidden');
+    } else {
+      if (customPanel) customPanel.classList.add('hidden');
+      const labels = {
+        day: "Aujourd'hui • 28/08/2026",
+        week: "Cette Semaine • Sem. 35",
+        month: "Ce Mois • Août 2026",
+        year: "Année 2026"
+      };
+      if (periodText && labels[val]) {
+        periodText.textContent = labels[val];
+      }
+    }
+  }
+
+  function toggleCustomDateRange(show) {
+    const customPanel = document.getElementById('custom-date-range-panel');
+    if (!customPanel) return;
+    if (show) customPanel.classList.remove('hidden');
+    else customPanel.classList.add('hidden');
+  }
+
+  function applyCustomDateRange() {
+    const start = document.getElementById('start-date-input')?.value;
+    const end = document.getElementById('end-date-input')?.value;
+    const periodText = document.getElementById('active-period-text');
+    if (start && end && periodText) {
+      periodText.textContent = `Du ${start} au ${end}`;
+    }
+    toggleCustomDateRange(false);
+  }
+
+  // Initialize Chart.js Graphs
+  document.addEventListener('DOMContentLoaded', function() {
+    // 1. Line Chart: Weekly Activity
+    const weeklyCanvas = document.getElementById('receptionWeeklyChart');
+    if (weeklyCanvas && typeof Chart !== 'undefined') {
+      const ctxWeekly = weeklyCanvas.getContext('2d');
+      new Chart(ctxWeekly, {
+        type: 'line',
+        data: {
+          labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
+          datasets: [
+            {
+              label: 'RDV Planifiés',
+              data: [38, 45, 42, 50, 48, 25, 12],
+              borderColor: '#0d9488',
+              backgroundColor: 'rgba(13, 148, 136, 0.08)',
+              fill: true,
+              tension: 0.4,
+              borderWidth: 2.5,
+              pointRadius: 4,
+              pointBackgroundColor: '#0d9488'
+            },
+            {
+              label: 'Accueil Effectué',
+              data: [32, 40, 38, 46, 42, 22, 10],
+              borderColor: '#10b981',
+              backgroundColor: 'rgba(16, 185, 129, 0.05)',
+              fill: true,
+              tension: 0.4,
+              borderWidth: 2,
+              borderDash: [4, 4],
+              pointRadius: 3,
+              pointBackgroundColor: '#10b981'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: { color: '#f1f5f9' },
+              ticks: { color: '#64748b', font: { size: 11 } }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { color: '#64748b', font: { size: 11 } }
+            }
+          }
+        }
+      });
+    }
+
+    // 2. Doughnut Chart: Status Breakdown
+    const statusCanvas = document.getElementById('receptionStatusChart');
+    if (statusCanvas && typeof Chart !== 'undefined') {
+      const ctxStatus = statusCanvas.getContext('2d');
+      new Chart(ctxStatus, {
+        type: 'doughnut',
+        data: {
+          labels: ['Confirmés', 'En attente', 'Annulés', 'Décalés'],
+          datasets: [{
+            data: [32, 6, 3, 1],
+            backgroundColor: ['#10b981', '#f59e0b', '#ef4444', '#3b82f6'],
+            borderWidth: 3,
+            borderColor: '#ffffff'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '72%',
+          plugins: {
+            legend: { display: false }
+          }
+        }
+      });
+    }
+  });
+</script>
+<!-- {% endblock %} -->
+</body>
+</html>

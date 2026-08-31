@@ -1,0 +1,12 @@
+{#
+  CS² Health — composant logo unique.
+  Usage Django : {% include "components/logo.html" with size="lg" variant="full" %}
+  Preview statique : <cs2-logo size="lg" variant="full"></cs2-logo>
+  Attributs : size=xs|sm|md|lg|xl  variant=mark|full  theme=default|inverse  href=...
+#}
+<cs2-logo
+  size="{{ size|default:'md' }}"
+  variant="{{ variant|default:'full' }}"
+  theme="{{ theme|default:'default' }}"
+  {% if href %}href="{{ href }}"{% endif %}
+></cs2-logo>

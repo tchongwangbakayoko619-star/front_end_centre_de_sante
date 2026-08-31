@@ -1,0 +1,46 @@
+<!-- {% extends "layouts/auth.html" %} -->
+<!-- {% load static %} -->
+
+<!-- {% block title %}CS² Health{% endblock %} -->
+
+<!DOCTYPE html>
+<html lang="fr" class="h-full bg-cs2-neutral-50 antialiased text-cs2-neutral-900">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS² Health</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="../../../static/css/styles.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'cs2-brand': { 50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4', 300: '#5eead4', 400: '#2dd4bf', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e', 800: '#115e59', 900: '#134e4a', 950: '#042f2e' },
+            'cs2-neutral': { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1', 400: '#94a3b8', 500: '#64748b', 600: '#475569', 700: '#334155', 800: '#1e293b', 900: '#0f172a', 950: '#020617' }
+          },
+          fontFamily: { sans: ['Inter', 'sans-serif'], title: ['Plus Jakarta Sans', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="h-full min-h-screen bg-cs2-neutral-50 text-cs2-neutral-900 font-sans flex flex-col justify-center py-12 sm:px-6 lg:px-8 selection:bg-cs2-brand-600 selection:text-white antialiased">
+  <main id="auth-content" tabindex="-1" class="sm:mx-auto sm:w-full sm:max-w-md focus:outline-none space-y-6">
+    <!-- {% block content %} -->
+<!-- Django: {% extends "layouts/auth.html" %} -->
+
+<!-- Django: <!-- {% block title %}Session expirée - CS² Health{% endblock %} -->
+    <!-- Django: {% include "components/logo.html" with size="lg" variant="full" %} -->
+    <div class="flex justify-center">
+      <cs2-logo size="lg" variant="full"></cs2-logo>
+    </div>
+  </main>
+  <script src="../../../static/js/cs2-logo.js"></script>
+  <script src="../../../static/js/password-toggle.js"></script>
+</body>
+</html>

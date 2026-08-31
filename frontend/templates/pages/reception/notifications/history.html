@@ -1,0 +1,459 @@
+<!-- {% extends "layouts/app.html" %} -->
+<!-- {% load static %} -->
+
+<!-- {% block title %}CS² Health — Dashboard Agent d'accueil{% endblock %} -->
+
+<!DOCTYPE html>
+<html lang="fr" class="h-full bg-cs2-neutral-50 antialiased text-cs2-neutral-900 scroll-smooth" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS² Health — Dashboard Agent d'accueil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="../../../../static/css/styles.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'cs2-brand': { 50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4', 300: '#5eead4', 400: '#2dd4bf', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e', 800: '#115e59', 900: '#134e4a', 950: '#042f2e' },
+            'cs2-neutral': { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1', 400: '#94a3b8', 500: '#64748b', 600: '#475569', 700: '#334155', 800: '#1e293b', 900: '#0f172a', 950: '#020617' }
+          },
+          fontFamily: { sans: ['Inter', 'sans-serif'], title: ['Plus Jakarta Sans', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="h-full bg-cs2-neutral-50 text-cs2-neutral-900 font-sans flex flex-col antialiased selection:bg-cs2-brand-600 selection:text-white">
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-cs2-brand-600 focus:text-white focus:rounded-xl focus:shadow-lg focus:font-extrabold focus:outline-none">
+    Aller au contenu principal
+  </a>
+  <div class="flex h-screen overflow-hidden bg-cs2-neutral-50">
+    <div id="sidebar-mount"></div>
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <div id="header-mount"></div>
+      <main id="main-content" tabindex="-1" class="flex-1 overflow-y-auto p-4 md:p-8 max-w-7xl w-full mx-auto space-y-6 focus:outline-none">
+        <!-- {% block content %} -->
+<nav aria-label="Fil d'Ariane" class="flex items-center gap-2 text-xs font-semibold text-cs2-neutral-600 mb-3"><a href="../dashboard.html" class="flex items-center gap-1.5 text-cs2-neutral-500 hover:text-cs2-brand-600 transition font-medium"><svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg><span>Accueil</span></a><svg class="w-3 h-3 text-cs2-neutral-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg><span class="text-cs2-brand-600 font-extrabold">Historique Notifications</span></nav>
+<div class="flex items-center justify-between gap-4 pb-4 border-b border-cs2-neutral-200">
+        <div>
+          <h1 class="text-2xl font-extrabold text-cs2-neutral-950 font-title tracking-tight">Historique des Notifications Envoyées</h1>
+          <p class="text-xs text-cs2-neutral-600 mt-1">Journal de suivi des SMS et emails expédiés aux patients (Accusés de réception et échecs).</p>
+        </div>
+        <a href="send.html" class="px-4 py-2.5 rounded-xl bg-cs2-brand-600 hover:bg-cs2-brand-700 text-white text-xs font-bold transition shadow-sm flex items-center gap-2 flex-shrink-0">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+          <span>Nouvelle notification</span>
+        </a>
+      </div>
+
+      <!-- Operation SMS Alert Banner (Floating Top Overlay) -->
+      <div id="operation-alert-banner" class="fixed top-5 left-1/2 -translate-x-1/2 z-[100] w-[calc(100%-2rem)] max-w-2xl p-3.5 sm:p-4 rounded-2xl bg-amber-50/95 backdrop-blur-md border border-amber-300/90 text-amber-950 shadow-2xl flex items-center justify-between gap-4 transition-all duration-300 animate-slide-down" role="alert">
+        <div class="flex items-center gap-3.5">
+          <div class="w-9 h-9 rounded-xl bg-amber-100 text-amber-700 font-extrabold flex items-center justify-center flex-shrink-0 border border-amber-200 shadow-2xs">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg>
+          </div>
+          <div>
+            <h4 class="text-xs sm:text-sm font-extrabold text-amber-950">Notification SMS Transmise avec Succès</h4>
+            <p class="text-[11px] sm:text-xs text-amber-800 font-medium leading-snug">Le SMS de confirmation de rendez-vous a bien été délivré au +225 07 08 45 12 90 (Jeanne DUPONT).</p>
+          </div>
+        </div>
+        <button type="button" onclick="this.closest('#operation-alert-banner').remove()" class="p-1.5 text-amber-600 hover:text-amber-950 hover:bg-amber-100 rounded-lg transition cursor-pointer flex-shrink-0" title="Fermer l'alerte">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Datatable Filters Bar (Clean Single-Row Layout) -->
+      <div class="bg-white p-4 rounded-2xl border border-cs2-neutral-200 shadow-sm space-y-4">
+        
+        <!-- Search & Filter Controls -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+          
+          <!-- 🔍 Search Input -->
+          <div class="lg:col-span-2 space-y-1">
+            <label for="notif-search" class="block text-[10px] font-extrabold uppercase tracking-wider text-cs2-neutral-500">Recherche</label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-cs2-neutral-400">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              </div>
+              <input type="search" id="notif-search" onkeyup="filterNotificationsTable()" placeholder="Rechercher par patient, téléphone, objet..." style="background-color: #ffffff !important;" class="w-full bg-white border border-cs2-neutral-200/90 rounded-xl py-2 pl-10 pr-4 text-xs font-medium text-cs2-neutral-950 focus:bg-white focus:border-cs2-brand-600 focus:ring-2 focus:ring-cs2-brand-100 focus:outline-none transition">
+            </div>
+          </div>
+
+          <!-- Filter 1: Canal -->
+          <div class="space-y-1">
+            <label for="filter-channel" class="block text-[10px] font-extrabold uppercase tracking-wider text-cs2-neutral-500">Canal</label>
+            <div class="relative">
+              <select id="filter-channel" onchange="filterNotificationsTable()" style="color: #0f172a !important; background-color: #ffffff !important; font-weight: 500 !important;" class="w-full appearance-none bg-white border border-cs2-neutral-300 hover:border-cs2-brand-600 rounded-xl py-2 pl-3.5 pr-9 text-xs font-medium text-cs2-neutral-900 focus:bg-white focus:border-cs2-brand-600 focus:ring-2 focus:ring-cs2-brand-100 focus:outline-none transition cursor-pointer">
+                <option value="" style="color: #0f172a !important; background-color: #ffffff !important; font-weight: 500 !important;" class="bg-white text-cs2-neutral-900 font-medium py-1.5 px-3">Tous les canaux</option>
+                <option value="SMS" style="color: #0f172a !important; background-color: #ffffff !important; font-weight: 500 !important;" class="bg-white text-cs2-neutral-900 font-medium py-1.5 px-3">SMS Mobile</option>
+                <option value="EMAIL" style="color: #0f172a !important; background-color: #ffffff !important; font-weight: 500 !important;" class="bg-white text-cs2-neutral-900 font-medium py-1.5 px-3">Email</option>
+                <option value="ACCUEIL" style="color: #0f172a !important; background-color: #ffffff !important; font-weight: 500 !important;" class="bg-white text-cs2-neutral-900 font-medium py-1.5 px-3">Notification Guichet</option>
+                <option value="RETARD" style="color: #0f172a !important; background-color: #ffffff !important; font-weight: 500 !important;" class="bg-white text-cs2-neutral-900 font-medium py-1.5 px-3">Alerte Retard</option>
+              </select>
+              <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-cs2-brand-600">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reset Button -->
+          <div class="space-y-1 flex flex-col justify-end">
+            <button type="button" onclick="resetNotifFilters()" class="w-full py-2 px-3 rounded-xl border border-cs2-neutral-200 text-cs2-neutral-600 hover:bg-cs2-neutral-100 hover:text-cs2-neutral-900 text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer">
+              <svg class="w-3.5 h-3.5 text-cs2-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              <span>Réinitialiser</span>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Notifications Datatable Container -->
+      <div class="bg-white rounded-2xl border border-cs2-neutral-200 shadow-sm overflow-hidden">
+        <!-- Mobile Scroll Indicator Hint -->
+        <div class="md:hidden flex items-center justify-between px-4 py-2 bg-cs2-brand-50/70 border-b border-cs2-neutral-200/60 text-[11px] font-bold text-cs2-brand-800">
+          <span class="flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-cs2-brand-600 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+            <span>Faites glisser le tableau pour tout voir</span>
+          </span>
+          <span class="text-[10px] font-extrabold bg-cs2-brand-100 text-cs2-brand-800 px-2 py-0.5 rounded-full">↔ Défiler</span>
+        </div>
+        <div class="overflow-x-auto custom-scrollbar">
+          <table class="w-full min-w-[650px] text-left border-collapse whitespace-nowrap">
+            <thead>
+              <tr class="bg-cs2-neutral-50 border-b border-cs2-neutral-200 text-[11px] font-bold text-cs2-neutral-600 uppercase tracking-wider whitespace-nowrap">
+                <th class="py-3.5 px-3 lg:px-4">Canal & Destinataire</th>
+                <th class="py-3.5 px-3 lg:px-4">Objet / Aperçu</th>
+                <th class="py-3.5 px-3 lg:px-4">Date & Heure d'Envoi</th>
+                <th class="py-3.5 px-3 lg:px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="notif-table-body" class="divide-y divide-cs2-neutral-200 text-xs font-medium">
+              
+              <!-- Item 1 -->
+              <tr class="notif-row hover:bg-cs2-neutral-50/80 transition" data-id="1" data-channel="SMS" data-patient="Jeanne DUPONT +225 07 08 45 12 90" data-read="false">
+                <td class="py-3.5 px-4">
+                  <div class="flex items-center gap-2.5">
+                    <span class="unread-dot w-2 h-2 rounded-full bg-cs2-brand-600 flex-shrink-0" title="Non lue"></span>
+                    <span class="px-2 py-1 rounded bg-cs2-brand-100 text-cs2-brand-700 font-extrabold text-[10px] uppercase font-mono">SMS</span>
+                    <div>
+                      <p class="notif-patient-name font-extrabold text-cs2-neutral-950">Jeanne DUPONT</p>
+                      <p class="text-[10px] text-cs2-neutral-600 font-mono">+225 07 08 45 12 90</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4 text-cs2-neutral-800 font-medium">
+                  Confirmation RDV du 26/08 avec le Dr Valois
+                </td>
+                <td class="py-3.5 px-4 text-cs2-neutral-900 font-mono">Aujourd'hui à 08:30</td>
+                <td class="py-3.5 px-4 text-right">
+                  <div class="flex items-center justify-end gap-2">
+                    <button type="button" onclick="openNotifModal('Jeanne DUPONT', '+225 07 08 45 12 90', 'SMS', 'Délivré ✓', 'Aujourd\'hui à 08:30', 'Manuel (Agent Accueil)', 'CS2 Health: Mme DUPONT, nous vous confirmons votre RDV du 26/08 à 09h30 avec le Dr Valois. Merci de vous présenter 10min à l\'avance muni de votre pièce d\'identité.')" class="px-3 py-1.5 rounded-xl bg-cs2-brand-50 hover:bg-cs2-brand-100 text-cs2-brand-700 font-extrabold text-xs transition border border-cs2-brand-200 flex items-center gap-1.5 cursor-pointer shadow-2xs">
+                      <svg class="w-4 h-4 text-cs2-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                      <span>Consulter</span>
+                    </button>
+                    <button type="button" onclick="toggleReadState(this)" class="p-2 rounded-xl text-cs2-neutral-500 hover:text-cs2-brand-600 hover:bg-cs2-brand-50 border border-transparent hover:border-cs2-brand-200 transition cursor-pointer" title="Marquer comme lue">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="3 7 12 13 21 7"/></svg>
+                    </button>
+                    <button type="button" onclick="deleteNotifRow(this)" class="px-3 py-1.5 rounded-xl text-red-600 bg-red-50 hover:bg-red-100 hover:text-red-700 font-bold text-xs transition border border-red-200 shadow-2xs flex items-center gap-1.5 cursor-pointer" title="Supprimer la notification">
+                      <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                      <span>Supprimer</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Item 2 -->
+              <tr class="notif-row hover:bg-cs2-neutral-50/80 transition" data-id="2" data-channel="ACCUEIL" data-patient="Jeanne DUPONT Arrivée Guichet" data-read="false">
+                <td class="py-3.5 px-4">
+                  <div class="flex items-center gap-2.5">
+                    <span class="unread-dot w-2 h-2 rounded-full bg-cs2-brand-600 flex-shrink-0" title="Non lue"></span>
+                    <span class="px-2 py-1 rounded bg-amber-100 text-amber-800 font-extrabold text-[10px] uppercase font-mono">ACCUEIL</span>
+                    <div>
+                      <p class="notif-patient-name font-extrabold text-cs2-neutral-950">Jeanne DUPONT</p>
+                      <p class="text-[10px] text-cs2-neutral-600 font-mono">Arrivée Guichet</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4 text-cs2-neutral-800 font-medium">
+                  Patient présent au guichet • Salle d'attente 1
+                </td>
+                <td class="py-3.5 px-4 text-cs2-neutral-900 font-mono">Aujourd'hui à 08:28</td>
+                <td class="py-3.5 px-4 text-right">
+                  <div class="flex items-center justify-end gap-2">
+                    <button type="button" onclick="openNotifModal('Jeanne DUPONT', 'Arrivée Guichet', 'ACCUEIL', 'En attente', 'Aujourd\'hui à 08:28', 'Poste Accueil 01', 'Notification Réception: Patient présent au guichet. Orientée vers la Salle d\'attente 1 (Dr. Valois). Dossier préparé et remis au médecin.')" class="px-3 py-1.5 rounded-xl bg-cs2-brand-50 hover:bg-cs2-brand-100 text-cs2-brand-700 font-extrabold text-xs transition border border-cs2-brand-200 flex items-center gap-1.5 cursor-pointer shadow-2xs">
+                      <svg class="w-4 h-4 text-cs2-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                      <span>Consulter</span>
+                    </button>
+                    <button type="button" onclick="toggleReadState(this)" class="p-2 rounded-xl text-cs2-neutral-500 hover:text-cs2-brand-600 hover:bg-cs2-brand-50 border border-transparent hover:border-cs2-brand-200 transition cursor-pointer" title="Marquer comme lue">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="3 7 12 13 21 7"/></svg>
+                    </button>
+                    <button type="button" onclick="deleteNotifRow(this)" class="px-3 py-1.5 rounded-xl text-red-600 bg-red-50 hover:bg-red-100 hover:text-red-700 font-bold text-xs transition border border-red-200 shadow-2xs flex items-center gap-1.5 cursor-pointer" title="Supprimer la notification">
+                      <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                      <span>Supprimer</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Item 3 -->
+              <tr class="notif-row hover:bg-cs2-neutral-50/80 transition" data-id="3" data-channel="EMAIL" data-patient="Koffi EMMANUEL koffi.e@exemple.org" data-read="true">
+                <td class="py-3.5 px-4">
+                  <div class="flex items-center gap-2.5">
+                    <span class="unread-dot w-2 h-2 rounded-full bg-transparent flex-shrink-0"></span>
+                    <span class="px-2 py-1 rounded bg-blue-100 text-blue-700 font-extrabold text-[10px] uppercase font-mono">EMAIL</span>
+                    <div>
+                      <p class="notif-patient-name font-bold text-cs2-neutral-900">Koffi EMMANUEL</p>
+                      <p class="text-[10px] text-cs2-neutral-600 font-mono">koffi.e@exemple.org</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4 text-cs2-neutral-800 font-medium">
+                  Confirmation RDV Médecine Générale
+                </td>
+                <td class="py-3.5 px-4 text-cs2-neutral-900 font-mono">Hier à 08:00</td>
+                <td class="py-3.5 px-4 text-right">
+                  <div class="flex items-center justify-end gap-2">
+                    <button type="button" onclick="openNotifModal('Koffi EMMANUEL', 'koffi.e@exemple.org', 'EMAIL', 'Délivré ✓', 'Hier à 08:00', 'Système (Rappel Auto)', 'Confirmation de votre rendez-vous de Médecine Générale le 26/08 à 10:15 avec le Dr Bamba. Veuillez valider votre venue en cliquant sur le lien ci-joint.')" class="px-3 py-1.5 rounded-xl bg-cs2-brand-50 hover:bg-cs2-brand-100 text-cs2-brand-700 font-extrabold text-xs transition border border-cs2-brand-200 flex items-center gap-1.5 cursor-pointer shadow-2xs">
+                      <svg class="w-4 h-4 text-cs2-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                      <span>Consulter</span>
+                    </button>
+                    <button type="button" onclick="toggleReadState(this)" class="p-2 rounded-xl text-cs2-brand-600 hover:bg-cs2-brand-50 border border-transparent hover:border-cs2-brand-200 transition cursor-pointer" title="Marquer comme non lue">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="3 7 12 13 21 7"/></svg>
+                    </button>
+                    <button type="button" onclick="deleteNotifRow(this)" class="px-3 py-1.5 rounded-xl text-red-600 bg-red-50 hover:bg-red-100 hover:text-red-700 font-bold text-xs transition border border-red-200 shadow-2xs flex items-center gap-1.5 cursor-pointer" title="Supprimer la notification">
+                      <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                      <span>Supprimer</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Item 4 -->
+              <tr class="notif-row hover:bg-cs2-neutral-50/80 transition" data-id="4" data-channel="RETARD" data-patient="Dr. Bamba Cabinet Cardiologie" data-read="false">
+                <td class="py-3.5 px-4">
+                  <div class="flex items-center gap-2.5">
+                    <span class="unread-dot w-2 h-2 rounded-full bg-cs2-brand-600 flex-shrink-0" title="Non lue"></span>
+                    <span class="px-2 py-1 rounded bg-red-100 text-red-700 font-extrabold text-[10px] uppercase font-mono">RETARD</span>
+                    <div>
+                      <p class="notif-patient-name font-extrabold text-cs2-neutral-950">Dr. Bamba</p>
+                      <p class="text-[10px] text-cs2-neutral-600 font-mono">Cabinet Cardiologie</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4 text-cs2-neutral-800 font-medium">
+                  Avis de retard Médecin (15 minutes)
+                </td>
+                <td class="py-3.5 px-4 text-cs2-neutral-900 font-mono">Aujourd'hui à 08:22</td>
+                <td class="py-3.5 px-4 text-right">
+                  <div class="flex items-center justify-end gap-2">
+                    <button type="button" onclick="openNotifModal('Dr. Bamba', 'Cabinet Cardiologie', 'RETARD', 'Diffusé', 'Aujourd\'hui à 08:22', 'Médecin (Interface)', 'Avis de retard Médecin: Retard de 15 minutes signalé sur les consultations de cardiologie du matin suite à une urgence au bloc.')" class="px-3 py-1.5 rounded-xl bg-cs2-brand-50 hover:bg-cs2-brand-100 text-cs2-brand-700 font-extrabold text-xs transition border border-cs2-brand-200 flex items-center gap-1.5 cursor-pointer shadow-2xs">
+                      <svg class="w-4 h-4 text-cs2-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                      <span>Consulter</span>
+                    </button>
+                    <button type="button" onclick="toggleReadState(this)" class="p-2 rounded-xl text-cs2-neutral-500 hover:text-cs2-brand-600 hover:bg-cs2-brand-50 border border-transparent hover:border-cs2-brand-200 transition cursor-pointer" title="Marquer comme lue">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="3 7 12 13 21 7"/></svg>
+                    </button>
+                    <button type="button" onclick="deleteNotifRow(this)" class="px-3 py-1.5 rounded-xl text-red-600 bg-red-50 hover:bg-red-100 hover:text-red-700 font-bold text-xs transition border border-red-200 shadow-2xs flex items-center gap-1.5 cursor-pointer" title="Supprimer la notification">
+                      <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                      <span>Supprimer</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Item 5 -->
+              <tr class="notif-row hover:bg-cs2-neutral-50/80 transition" data-id="5" data-channel="SMS" data-patient="Awa SOW +225 01 02 03 04 05" data-read="true">
+                <td class="py-3.5 px-4">
+                  <div class="flex items-center gap-2.5">
+                    <span class="unread-dot w-2 h-2 rounded-full bg-transparent flex-shrink-0"></span>
+                    <span class="px-2 py-1 rounded bg-cs2-brand-100 text-cs2-brand-700 font-extrabold text-[10px] uppercase font-mono">SMS</span>
+                    <div>
+                      <p class="notif-patient-name font-bold text-cs2-neutral-900">Awa SOW</p>
+                      <p class="text-[10px] text-cs2-neutral-600 font-mono">+225 01 02 03 04 05</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4 text-cs2-neutral-800 font-medium">
+                  Modification de rendez-vous (décalé à 14h30)
+                </td>
+                <td class="py-3.5 px-4 text-cs2-neutral-900 font-mono">Aujourd'hui à 07:45</td>
+                <td class="py-3.5 px-4 text-right">
+                  <div class="flex items-center justify-end gap-2">
+                    <button type="button" onclick="openNotifModal('Awa SOW', '+225 01 02 03 04 05', 'SMS', 'Délivré ✓', 'Aujourd\'hui à 07:45', 'Manuel (Agent Accueil)', 'CS2 Health: Votre rendez-vous a été décalé avec succès à 14h30 le 26/08. Merci de confirmer votre disponibilité.')" class="px-3 py-1.5 rounded-xl bg-cs2-brand-50 hover:bg-cs2-brand-100 text-cs2-brand-700 font-extrabold text-xs transition border border-cs2-brand-200 flex items-center gap-1.5 cursor-pointer shadow-2xs">
+                      <svg class="w-4 h-4 text-cs2-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                      <span>Consulter</span>
+                    </button>
+                    <button type="button" onclick="toggleReadState(this)" class="p-2 rounded-xl text-cs2-brand-600 hover:bg-cs2-brand-50 border border-transparent hover:border-cs2-brand-200 transition cursor-pointer" title="Marquer comme non lue">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="3 7 12 13 21 7"/></svg>
+                    </button>
+                    <button type="button" onclick="deleteNotifRow(this)" class="px-3 py-1.5 rounded-xl text-red-600 bg-red-50 hover:bg-red-100 hover:text-red-700 font-bold text-xs transition border border-red-200 shadow-2xs flex items-center gap-1.5 cursor-pointer" title="Supprimer la notification">
+                      <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                      <span>Supprimer</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Item 6 -->
+              <tr class="notif-row hover:bg-cs2-neutral-50/80 transition" data-id="6" data-channel="SMS" data-patient="Moussa DIABATÉ +225 05 99 88 77 66" data-read="true">
+                <td class="py-3.5 px-4">
+                  <div class="flex items-center gap-2.5">
+                    <span class="unread-dot w-2 h-2 rounded-full bg-transparent flex-shrink-0"></span>
+                    <span class="px-2 py-1 rounded bg-cs2-brand-100 text-cs2-brand-700 font-extrabold text-[10px] uppercase font-mono">SMS</span>
+                    <div>
+                      <p class="notif-patient-name font-bold text-cs2-neutral-900">Moussa DIABATÉ</p>
+                      <p class="text-[10px] text-cs2-neutral-600 font-mono">+225 05 99 88 77 66</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4 text-cs2-neutral-800 font-medium">
+                  Rappel RDV Pédiatrie
+                </td>
+                <td class="py-3.5 px-4 text-cs2-neutral-900 font-mono">Hier à 11:00</td>
+                <td class="py-3.5 px-4 text-right">
+                  <div class="flex items-center justify-end gap-2">
+                    <button type="button" onclick="openNotifModal('Moussa DIABATÉ', '+225 05 99 88 77 66', 'SMS', 'Délivré ✓', 'Hier à 11:00', 'Système (Rappel 24h)', 'Rappel: Votre consultation est prévue demain à 11h00 au cabinet de Pédiatrie.')" class="px-3 py-1.5 rounded-xl bg-cs2-brand-50 hover:bg-cs2-brand-100 text-cs2-brand-700 font-extrabold text-xs transition border border-cs2-brand-200 flex items-center gap-1.5 cursor-pointer shadow-2xs">
+                      <svg class="w-4 h-4 text-cs2-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                      <span>Consulter</span>
+                    </button>
+                    <button type="button" onclick="toggleReadState(this)" class="p-2 rounded-xl text-cs2-brand-600 hover:bg-cs2-brand-50 border border-transparent hover:border-cs2-brand-200 transition cursor-pointer" title="Marquer comme non lue">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="3 7 12 13 21 7"/></svg>
+                    </button>
+                    <button type="button" onclick="deleteNotifRow(this)" class="px-3 py-1.5 rounded-xl text-red-600 bg-red-50 hover:bg-red-100 hover:text-red-700 font-bold text-xs transition border border-red-200 shadow-2xs flex items-center gap-1.5 cursor-pointer" title="Supprimer la notification">
+                      <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                      <span>Supprimer</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Item 7 (Échec) -->
+              <tr class="notif-row hover:bg-cs2-neutral-50/80 transition" data-id="7" data-channel="SMS" data-patient="Yao BERTRAND +225 07 11 22 33 44" data-read="false">
+                <td class="py-3.5 px-4">
+                  <div class="flex items-center gap-2.5">
+                    <span class="unread-dot w-2 h-2 rounded-full bg-cs2-brand-600 flex-shrink-0" title="Non lue"></span>
+                    <span class="px-2 py-1 rounded bg-red-100 text-red-700 font-extrabold text-[10px] uppercase font-mono">SMS</span>
+                    <div>
+                      <p class="notif-patient-name font-extrabold text-cs2-neutral-950">Yao BERTRAND</p>
+                      <p class="text-[10px] text-cs2-neutral-600 font-mono">+225 07 11 22 33 44</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4 text-cs2-neutral-800 font-medium">
+                  Demande de modification enregistrée
+                </td>
+                <td class="py-3.5 px-4 text-cs2-neutral-900 font-mono">24/08 à 16:15</td>
+                <td class="py-3.5 px-4 text-right">
+                  <div class="flex items-center justify-end gap-2">
+                    <button type="button" onclick="openNotifModal('Yao BERTRAND', '+225 07 11 22 33 44', 'SMS', 'Échec envoi ✕', '24/08 à 16:15', 'Manuel (Agent Accueil)', 'CS2 Health: Votre demande de modification de rendez-vous a bien été enregistrée. Erreur réseau opérateur (Code: ERR_SMS_GATEWAY_TIMEOUT).')" class="px-3 py-1.5 rounded-xl bg-cs2-brand-50 hover:bg-cs2-brand-100 text-cs2-brand-700 font-extrabold text-xs transition border border-cs2-brand-200 flex items-center gap-1.5 cursor-pointer shadow-2xs">
+                      <svg class="w-4 h-4 text-cs2-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                      <span>Consulter</span>
+                    </button>
+                    <button type="button" onclick="toggleReadState(this)" class="p-2 rounded-xl text-cs2-neutral-500 hover:text-cs2-brand-600 hover:bg-cs2-brand-50 border border-transparent hover:border-cs2-brand-200 transition cursor-pointer" title="Marquer comme lue">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="3 7 12 13 21 7"/></svg>
+                    </button>
+                    <button type="button" onclick="deleteNotifRow(this)" class="px-3 py-1.5 rounded-xl text-red-600 bg-red-50 hover:bg-red-100 hover:text-red-700 font-bold text-xs transition border border-red-200 shadow-2xs flex items-center gap-1.5 cursor-pointer" title="Supprimer la notification">
+                      <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                      <span>Supprimer</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Datatable Pagination Footer -->
+        <div class="p-4 border-t border-cs2-neutral-200 bg-cs2-neutral-50/50 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-cs2-neutral-600 font-medium">
+          <p>Affichage de <span class="font-bold text-cs2-neutral-900">1</span> à <span class="font-bold text-cs2-neutral-900">7</span> sur <span class="font-bold text-cs2-neutral-900">142</span> notifications</p>
+          <div class="flex items-center gap-2">
+            <button type="button" disabled class="px-3 py-1.5 rounded-xl border border-cs2-neutral-200 bg-white text-cs2-neutral-400 font-semibold cursor-not-allowed opacity-60">Précédent</button>
+            <button type="button" class="px-3 py-1.5 rounded-xl border border-cs2-neutral-200 bg-white text-cs2-neutral-700 hover:bg-cs2-neutral-100 font-semibold transition cursor-pointer">Suivant</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 💬 Notification Detail Modal -->
+      <div id="notification-detail-modal" class="fixed inset-0 z-50 bg-cs2-neutral-950/60 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+        <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl border border-cs2-neutral-200 overflow-hidden transform transition-all">
+          <!-- Header -->
+          <div class="p-5 border-b border-cs2-neutral-200 flex items-center justify-between bg-cs2-neutral-50/60">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-xl bg-cs2-brand-100 text-cs2-brand-700 flex items-center justify-center font-bold">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              </div>
+              <div>
+                <h3 class="text-sm font-extrabold text-cs2-neutral-950">Contenu de la Notification</h3>
+                <p class="text-[11px] text-cs2-neutral-500 font-medium">Détails d'expédition et accusé de réception</p>
+              </div>
+            </div>
+            <button type="button" onclick="closeNotifModal()" class="p-2 text-cs2-neutral-500 hover:text-cs2-neutral-950 hover:bg-cs2-neutral-100 rounded-xl transition cursor-pointer">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <!-- Modal Body -->
+          <div class="p-6 space-y-4 text-xs">
+            <div class="grid grid-cols-2 gap-3 p-3 bg-cs2-neutral-50 rounded-xl border border-cs2-neutral-200">
+              <div>
+                <span class="block text-[10px] font-bold text-cs2-neutral-500 uppercase">Destinataire</span>
+                <span id="modal-notif-patient" class="font-extrabold text-cs2-neutral-950">Jeanne DUPONT</span>
+                <p id="modal-notif-contact" class="text-[10px] font-mono text-cs2-neutral-600">+225 07 08 45 12 90</p>
+              </div>
+              <div>
+                <span class="block text-[10px] font-bold text-cs2-neutral-500 uppercase">Canal & Statut</span>
+                <span id="modal-notif-channel" class="font-bold text-cs2-brand-700">SMS</span> • 
+                <span id="modal-notif-status" class="font-bold text-emerald-700">Délivré ✓</span>
+              </div>
+              <div>
+                <span class="block text-[10px] font-bold text-cs2-neutral-500 uppercase">Expéditeur / Origine</span>
+                <span id="modal-notif-origin" class="font-semibold text-cs2-neutral-800">Manuel (Agent Accueil)</span>
+              </div>
+              <div>
+                <span class="block text-[10px] font-bold text-cs2-neutral-500 uppercase">Date & Heure</span>
+                <span id="modal-notif-date" class="font-mono text-cs2-neutral-900">Aujourd'hui à 08:30</span>
+              </div>
+            </div>
+
+            <!-- Full Message Text Box -->
+            <div class="space-y-1">
+              <label class="block text-[10px] font-bold text-cs2-neutral-500 uppercase tracking-wider">Message Intégral Expédié</label>
+              <div id="modal-notif-content" class="p-4 rounded-xl bg-cs2-brand-50/50 border border-cs2-brand-200 text-cs2-neutral-900 font-medium leading-relaxed">
+                CS2 Health: Mme DUPONT, nous vous confirmons votre RDV du 26/08 à 09h30 avec le Dr Valois.
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div class="p-4 border-t border-cs2-neutral-200 bg-cs2-neutral-50/50 flex items-center justify-end">
+            <button type="button" onclick="closeNotifModal()" class="px-4 py-2 rounded-xl bg-cs2-neutral-200 hover:bg-cs2-neutral-300 text-cs2-neutral-800 font-bold text-xs transition cursor-pointer">
+              Fermer
+            </button>
+          </div>
+        </div>
+      </div>
+        <!-- {% endblock %} -->
+      </main>
+    </div>
+  </div>
+  <script src="../../../../static/js/cs2-paths.js"></script>
+  <script src="../../../../static/js/cs2-logo.js"></script>
+  <script src="../../../../static/js/sidebar-loader.js"></script>
+  <script src="../../../../static/js/header-loader.js"></script>
+  <script src="../../../../static/js/theme.js"></script>
+  <script src="../../../../static/js/navigation.js"></script>
+  <script src="../../../../static/js/modal.js"></script>
+  <script src="../../../../static/js/dropdown.js"></script>
+  <script src="../../../../static/js/app.js"></script>
+  <!-- {% block extra_js %} -->
+
+  <!-- {% endblock %} -->
+</body>
+</html>

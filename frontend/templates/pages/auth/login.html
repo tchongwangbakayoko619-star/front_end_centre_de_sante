@@ -1,0 +1,369 @@
+<!-- {% extends "layouts/auth.html" %} -->
+<!-- {% load static %} -->
+
+<!-- {% block title %}Connexion - CS² Health{% endblock %} -->
+
+<!DOCTYPE html>
+<html lang="fr" class="h-full bg-white antialiased text-slate-900">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion - CS² Health</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+  <link rel="stylesheet" href="../../../static/css/styles.css">
+  <link rel="stylesheet" href="../../../static/css/auth.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'cs2-brand': { 50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4', 300: '#5eead4', 400: '#2dd4bf', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e', 800: '#115e59', 900: '#134e4a', 950: '#042f2e' },
+            'cs2-neutral': { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1', 400: '#94a3b8', 500: '#64748b', 600: '#475569', 700: '#334155', 800: '#1e293b', 900: '#0f172a', 950: '#020617' }
+          },
+          fontFamily: { sans: ['Inter', 'sans-serif'], title: ['Plus Jakarta Sans', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Œil password — aucun effet hover */
+    button[aria-label="Afficher ou masquer le mot de passe"],
+    button[aria-label="Afficher ou masquer le mot de passe"]:hover,
+    button[aria-label="Afficher ou masquer le mot de passe"]:focus,
+    button[aria-label="Afficher ou masquer le mot de passe"]:active {
+      color: #94a3b8 !important;
+      background: transparent !important;
+      transition: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+  </style>
+</head>
+<body class="h-full min-h-screen bg-white text-slate-900 font-sans selection:bg-teal-600 selection:text-white antialiased overflow-x-hidden">
+  
+  <div class="w-full min-h-screen h-screen flex flex-col lg:flex-row overflow-hidden bg-white">
+    
+    <!-- LEFT PANEL: Brand & Medical EKG Visualization (50%) -->
+    <div class="hidden lg:flex lg:w-1/2 h-full bg-gradient-to-br from-[#042f2e] via-[#0b4f4c] via-40% to-[#0f766e] text-white p-10 lg:p-14 flex-col justify-between relative overflow-hidden select-none">
+      
+      <!-- Ambient Background Radial Glows & Grid Pattern -->
+      <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1.5px,transparent_1.5px)] [background-size:28px_28px] pointer-events-none"></div>
+      <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-teal-500/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-400/15 rounded-full blur-3xl pointer-events-none"></div>
+
+
+
+      <!-- Center EKG Pulse & Nodes Illustration -->
+      <div class="relative z-10 my-auto w-full max-w-lg mx-auto flex flex-col items-center justify-center">
+        <div class="relative w-full h-64 flex items-center justify-center">
+          
+          <!-- Concentric Background Circles Glow -->
+          <div class="absolute w-72 h-72 rounded-full border border-teal-400/20 bg-teal-500/5 animate-pulse"></div>
+          <div class="absolute w-96 h-96 rounded-full border border-emerald-400/10 bg-emerald-500/5"></div>
+
+          <!-- Connecting EKG Line SVG -->
+          <svg class="absolute inset-0 w-full h-full z-10 drop-shadow-[0_0_15px_rgba(45,212,191,0.7)]" viewBox="0 0 400 200" fill="none">
+            <path d="M 20 100 L 120 100 L 135 70 L 150 135 L 165 40 L 180 150 L 195 90 L 210 110 L 225 100 L 380 100" 
+                  stroke="#2dd4bf" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+
+          <!-- Node 1: Pill Badge (Left Circle) -->
+          <div class="absolute left-16 top-1/2 -translate-y-1/2 z-20 w-16 h-16 rounded-full bg-gradient-to-br from-teal-400 to-teal-700 p-0.5 shadow-[0_0_25px_rgba(13,148,136,0.6)] border border-white/40 flex items-center justify-center transform hover:scale-110 transition duration-300">
+            <div class="w-full h-full rounded-full bg-teal-800/80 backdrop-blur-sm flex items-center justify-center">
+              <svg class="w-7 h-7 text-white transform -rotate-45" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a6.5 6.5 0 00-9.192-9.192l-4.243 4.243a6.5 6.5 0 009.192 9.192l4.243-4.243zM9.5 14.5l5-5" />
+              </svg>
+            </div>
+          </div>
+
+          <!-- Node 2: Shield Badge (Right Circle) -->
+          <div class="absolute right-16 top-1/2 -translate-y-1/2 z-20 w-16 h-16 rounded-full bg-gradient-to-br from-emerald-300 to-teal-600 p-0.5 shadow-[0_0_25px_rgba(45,212,191,0.6)] border border-white/40 flex items-center justify-center transform hover:scale-110 transition duration-300">
+            <div class="w-full h-full rounded-full bg-teal-700/80 backdrop-blur-sm flex items-center justify-center">
+              <svg class="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+            </div>
+          </div>
+
+        </div>
+      </div>      <!-- Bottom Brand Text & Stat Pills -->
+      <div class="relative z-10 space-y-4 max-w-lg">
+        <span class="bg-white/10 text-teal-200 backdrop-blur-md text-[10px] font-bold px-3.5 py-1.5 rounded-full uppercase tracking-wider border border-white/15 inline-flex items-center gap-2 shadow-xs">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          ✨ À vos côtés chaque jour pour votre centre de santé
+        </span>
+        <h1 class="text-2xl lg:text-3xl font-extrabold text-white font-title leading-tight tracking-tight">
+          Prendre soin de vos patients, en toute simplicité.
+        </h1>
+        <p class="text-xs lg:text-sm text-teal-100/90 leading-relaxed font-medium">
+          Retrouvez vos consultations, vos dossiers patients et l'ensemble de votre équipe dans un espace fluide et attentionné.
+        </p>
+
+      </div>
+
+    </div>
+
+    <!-- RIGHT PANEL: Authentication Form with Official CS2 Health Logo (50%) -->
+    <div class="w-full lg:w-1/2 h-full flex flex-col justify-between items-center p-6 md:p-12 lg:p-16 bg-white overflow-y-auto">
+      
+      <div class="w-full max-w-md my-auto space-y-7">
+        
+        <div class="flex flex-col items-center justify-center mb-4">
+          <!-- Django: {% include "components/logo.html" with size="xl" variant="full" %} -->
+          <cs2-logo class="cs2-logo--auth" size="xl" variant="full"></cs2-logo>
+        </div>
+
+        <div class="text-center space-y-1">
+          <h1 class="text-2xl font-extrabold text-slate-950 font-title tracking-tight">Ravi de vous revoir !</h1>
+          <p class="text-xs text-slate-500 font-medium">Bienvenue sur votre espace CS² Health. Connectez-vous pour retrouver vos outils médicaux.</p>
+        </div>
+
+        <!-- Login Form -->
+        <form action="../reception/dashboard.html" method="POST" class="space-y-5">
+          <!-- {% csrf_token %} -->
+
+          <!-- Field 1: Email / Username -->
+          <div>
+            <label for="id_username" class="block text-xs font-bold text-slate-800 mb-2">Adresse email ou identifiant <span class="text-red-500">*</span></label>
+            <div class="relative flex items-center">
+              <span class="absolute left-3.5 text-slate-400 pointer-events-none">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </span>
+              <input type="email" id="id_username" name="username" required placeholder="dr.valois@cs2-health.org" class="w-full bg-slate-50/80 border border-slate-200/90 rounded-xl py-3 pl-10 pr-4 text-xs font-medium text-slate-950 focus:bg-white focus:border-teal-600 focus:ring-2 focus:ring-teal-100 focus:outline-none placeholder:text-slate-400 transition shadow-2xs">
+            </div>
+          </div>
+
+          <!-- Field 2: Password -->
+          <div>
+            <div class="flex justify-between items-center mb-2">
+              <label for="id_password" class="block text-xs font-bold text-slate-800">Mot de passe <span class="text-red-500">*</span></label>
+              <a href="forgot-password.html" class="text-xs font-bold text-teal-700 hover:text-teal-800 transition">Mot de passe oublié ?</a>
+            </div>
+            <div class="relative flex items-center">
+              <span class="absolute left-3.5 text-slate-400 pointer-events-none">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </span>
+              <input type="password" id="id_password" name="password" required placeholder="••••••••" class="w-full bg-slate-50/80 border border-slate-200/90 rounded-xl py-3 pl-10 pr-11 text-xs font-medium text-slate-950 focus:bg-white focus:border-teal-600 focus:ring-2 focus:ring-teal-100 focus:outline-none placeholder:text-slate-400 transition shadow-2xs">
+              <button type="button" onclick="togglePasswordVisibility('id_password', this)" class="absolute right-3.5 p-1 cursor-pointer" style="color:#94a3b8;transition:none;background:transparent;border:none;outline:none;" onmouseover="this.style.color='#94a3b8'" onmouseout="this.style.color='#94a3b8'" aria-label="Afficher ou masquer le mot de passe">
+                <svg class="w-4 h-4 icon-eye" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+                <svg class="w-4 h-4 icon-eye-off hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858-5.908a10.018 10.018 0 014.122-.963c4.478 0 8.268 2.943 9.542 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 3l18 18" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Options Row: Checkbox + Status Badge -->
+          <div class="flex items-center justify-between pt-1">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" id="id_remember_me" name="remember_me" class="w-4 h-4 rounded border-slate-300 text-teal-600 focus:ring-teal-100 cursor-pointer">
+              <span class="text-xs font-semibold text-slate-700">Rester connecté</span>
+            </label>
+            <span class="text-[11px] font-extrabold text-teal-800 bg-teal-50 px-2.5 py-1 rounded-lg border border-teal-200/80 flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+              Espace Sécurisé
+            </span>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="w-full bg-teal-700 hover:bg-teal-800 active:scale-[0.99] text-white text-xs lg:text-sm font-bold py-3.5 px-6 rounded-xl transition-all shadow-lg shadow-teal-700/25 flex items-center justify-center gap-2 cursor-pointer mt-2">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+            </svg>
+            <span>Se connecter à mon espace</span>
+          </button>
+        </form>
+
+        <div class="pt-4 border-t border-slate-200/80 text-center">
+          <p class="text-[11px] text-slate-500 font-medium">CS² Health • Votre partenaire de soin au quotidien</p>
+          <div class="mt-1.5 flex justify-center gap-3 text-[10px] font-bold text-teal-700">
+            <a href="../design-system.html" class="hover:underline">Guide de Style</a>
+            <span>•</span>
+            <a href="#" class="hover:underline">Assistance Technique</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer SSL Notice -->
+      <div class="w-full max-w-md pt-5 text-center border-t border-slate-100">
+        <div class="inline-flex items-center justify-center gap-2 bg-teal-50/80 border border-teal-200/70 px-3.5 py-1.5 rounded-full shadow-2xs">
+          <svg class="w-4 h-4 text-teal-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+          <span class="text-[11px] text-teal-950 font-medium">
+            <strong class="font-semibold text-teal-900">Connexion chiffrée & sécurisée.</strong> Vos données et celles de vos patients sont protégées.
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- 🌊 SPLASH SCREEN — Écran de chargement lors de la connexion -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div id="cs2-splash" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center pointer-events-none opacity-0"
+       style="background: linear-gradient(145deg, #042f2e 0%, #0b4f4c 42%, #0f766e 80%, #0d9488 100%); transition: opacity 0.35s ease;">
+
+    <!-- Dot Grid Overlay -->
+    <div style="position:absolute;inset:0;opacity:.07;background-image:radial-gradient(#ffffff 1.5px,transparent 1.5px);background-size:28px 28px;pointer-events:none;"></div>
+
+    <!-- Ambient Glow Orbs -->
+    <div style="position:absolute;top:20%;left:15%;width:22rem;height:22rem;background:rgba(45,212,191,.18);border-radius:9999px;filter:blur(72px);pointer-events:none;"></div>
+    <div style="position:absolute;bottom:15%;right:10%;width:20rem;height:20rem;background:rgba(52,211,153,.12);border-radius:9999px;filter:blur(72px);pointer-events:none;"></div>
+
+    <!-- Content -->
+    <div id="cs2-splash-content" class="relative z-10 flex flex-col items-center gap-7 text-white"
+         style="transform:scale(0.78) translateY(32px);opacity:0;transition:transform 0.7s cubic-bezier(.16,1,.3,1),opacity 0.7s ease;">
+
+      <!-- Logo SVG inline dans cadre glassmorphism -->
+      <div id="cs2-splash-logo-wrap" style="width:136px;height:136px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:2.2rem;box-shadow:0 0 0 0 rgba(45,212,191,.5);backdrop-filter:blur(14px);animation:cs2-logo-pulse 2.4s ease-in-out infinite;">
+        <!-- SVG logo inline -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="90" height="90" style="filter:drop-shadow(0 0 20px rgba(45,212,191,.75));flex-shrink:0;">
+          <defs>
+            <linearGradient id="sp-grad" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#5eead4"/>
+              <stop offset="55%" stop-color="#2dd4bf"/>
+              <stop offset="100%" stop-color="#0d9488"/>
+            </linearGradient>
+            <mask id="sp-mask">
+              <rect width="64" height="64" fill="black"/>
+              <rect x="26" y="12" width="12" height="40" rx="3.5" fill="white"/>
+              <rect x="12" y="26" width="40" height="12" rx="3.5" fill="white"/>
+              <path d="M14 32 H24 L27.5 24 L32 42 L36.5 22 L40 38 L43 32 H50"
+                    fill="none" stroke="black" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </mask>
+          </defs>
+          <rect width="64" height="64" rx="16" fill="url(#sp-grad)"/>
+          <rect width="64" height="64" fill="#ffffff" mask="url(#sp-mask)"/>
+        </svg>
+      </div>
+
+      <!-- App Name -->
+      <div class="text-center" style="opacity:0;transform:translateY(18px);transition:opacity 0.55s ease 0.4s,transform 0.55s cubic-bezier(.16,1,.3,1) 0.4s;" id="cs2-splash-text">
+        <div style="font-family:'Plus Jakarta Sans',Inter,sans-serif;font-size:2rem;font-weight:900;letter-spacing:-.035em;color:#ffffff;line-height:1.1;">
+          CS<sup style="font-size:.65em;vertical-align:super;">²</sup> Health
+        </div>
+        <div style="font-size:.7rem;font-weight:600;color:rgba(94,234,212,.9);letter-spacing:.1em;text-transform:uppercase;margin-top:.5rem;">
+          Système de Santé Intelligent
+        </div>
+      </div>
+
+      <!-- Loading dots -->
+      <div id="cs2-splash-dots" style="display:flex;gap:.6rem;margin-top:.25rem;opacity:0;transition:opacity 0.4s ease 0.8s;">
+        <span style="width:8px;height:8px;border-radius:9999px;background:#2dd4bf;animation:cs2-dot 1.4s ease-in-out infinite;"></span>
+        <span style="width:8px;height:8px;border-radius:9999px;background:#2dd4bf;animation:cs2-dot 1.4s ease-in-out .22s infinite;"></span>
+        <span style="width:8px;height:8px;border-radius:9999px;background:#2dd4bf;animation:cs2-dot 1.4s ease-in-out .44s infinite;"></span>
+      </div>
+    </div>
+
+    <!-- Progress bar -->
+    <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,.07);">
+      <div id="cs2-splash-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#2dd4bf,#5eead4,#99f6e4);border-radius:0 2px 2px 0;"></div>
+    </div>
+  </div>
+
+  <style>
+    @keyframes cs2-dot {
+      0%,80%,100% { transform: scale(.5); opacity:.35; }
+      40%          { transform: scale(1.15); opacity:1; }
+    }
+    @keyframes cs2-logo-pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(45,212,191,.45); }
+      50%      { box-shadow: 0 0 0 18px rgba(45,212,191,.0); }
+    }
+  </style>
+
+  <script>
+    function togglePasswordVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      const isPassword = input.type === 'password';
+      input.type = isPassword ? 'text' : 'password';
+      const eyeIcon = btn.querySelector('.icon-eye');
+      const eyeOffIcon = btn.querySelector('.icon-eye-off');
+      if (eyeIcon && eyeOffIcon) {
+        eyeIcon.classList.toggle('hidden', isPassword);
+        eyeOffIcon.classList.toggle('hidden', !isPassword);
+      }
+    }
+
+    // ── Splash screen on form submit ─────────────────────────
+    (function() {
+      const form = document.querySelector('form');
+      if (!form) return;
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault(); // on stoppe la redirection native
+
+        const splash   = document.getElementById('cs2-splash');
+        const content  = document.getElementById('cs2-splash-content');
+        const text     = document.getElementById('cs2-splash-text');
+        const dots     = document.getElementById('cs2-splash-dots');
+        const bar      = document.getElementById('cs2-splash-bar');
+        const dest     = '../../reception/dashboard.html'; // chemin vers le dashboard
+
+        // 1. Afficher le splash (fade in rapide)
+        splash.style.pointerEvents = 'all';
+        splash.style.opacity = '1';
+
+        requestAnimationFrame(() => {
+          // 2. Logo + contenu : spring in
+          setTimeout(() => {
+            content.style.transform = 'scale(1) translateY(0)';
+            content.style.opacity   = '1';
+          }, 80);
+
+          // 3. Nom de l'app
+          setTimeout(() => {
+            text.style.opacity   = '1';
+            text.style.transform = 'translateY(0)';
+          }, 420);
+
+          // 4. Dots de chargement
+          setTimeout(() => {
+            dots.style.opacity = '1';
+          }, 820);
+
+          // 5. Barre de progression (dure toute la durée : 29s)
+          setTimeout(() => {
+            bar.style.transition = 'width 29s cubic-bezier(.25,0,.1,1)';
+            bar.style.width = '100%';
+          }, 180);
+
+          // 6. Fade out + redirection après 30s
+          setTimeout(() => {
+            splash.style.transition = 'opacity 0.6s ease';
+            splash.style.opacity = '0';
+            setTimeout(() => {
+              window.location.href = dest;
+            }, 650);
+          }, 30000);
+        });
+      });
+    })();
+  </script>
+  <script src="{% static 'js/cs2-logo.js' %}"></script>
+  <script src="../../../static/js/cs2-paths.js"></script>
+  <script src="../../../static/js/cs2-logo.js"></script>
+  <script src="{% static 'js/password-toggle.js' %}"></script>
+  <script src="{% static 'js/auth-button-loader.js' %}"></script>
+  <script src="../../../static/js/password-toggle.js"></script>
+  <script src="../../../static/js/auth-button-loader.js"></script>
+</body>
+</html>

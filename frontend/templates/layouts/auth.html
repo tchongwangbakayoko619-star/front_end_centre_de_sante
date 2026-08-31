@@ -1,0 +1,44 @@
+<!-- {% load static %} -->
+<!DOCTYPE html>
+<html lang="fr" class="h-full bg-white antialiased text-slate-900" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><!-- {% block title %}Connexion Staff — Hôpital Central du Cameroun{% endblock %} --></title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Compiled Tailwind CSS & Auth Styles -->
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+  <!-- Fallback local stylesheets for static file preview -->
+  <link rel="stylesheet" href="../../../static/css/styles.css">
+  <link rel="stylesheet" href="../../../static/css/auth.css">
+  <link rel="stylesheet" href="../../../static/css/variables.css">
+  <link rel="icon" href="../../../static/images/logo.svg" type="image/svg+xml">
+</head>
+<body class="h-full min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-600 selection:text-white antialiased overflow-x-hidden no-scrollbar">
+
+  <!-- Skip Link -->
+  <a href="#auth-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-blue-600 focus:text-white focus:rounded-xl focus:shadow-lg focus:font-extrabold focus:outline-none">
+    Aller au formulaire
+  </a>
+
+  <main id="auth-content" tabindex="-1" class="w-full h-full min-h-screen focus:outline-none">
+    <!-- {% block content %} --><!-- {% endblock %} -->
+  </main>
+
+  <script src="{% static 'js/cs2-logo.js' %}"></script>
+  <script src="{% static 'js/password-toggle.js' %}"></script>
+  <script src="{% static 'js/auth-button-loader.js' %}"></script>
+  <script src="../../../static/js/cs2-paths.js"></script>
+  <script src="../../../static/js/cs2-logo.js"></script>
+  <script src="../../../static/js/password-toggle.js"></script>
+  <script src="../../../static/js/auth-button-loader.js"></script>
+  <!-- {% block extra_js %} --><!-- {% endblock %} -->
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!-- templates/layouts/detail.html -->
+<!-- Django: {% extends "layouts/app.html" %} -->
+<!-- Django: {% block content %} -->
+
+<div class="space-y-6">
+  <!-- Breadcrumb & Back Link -->
+  <div class="flex items-center justify-between">
+    <div class="flex items-center gap-2 text-xs text-cs2-neutral-600 font-medium">
+      <!-- Django: <!-- {% block detail_breadcrumb %} -->{% endblock %} -->
+    </div>
+    <div class="flex items-center gap-3">
+      <!-- Django: <!-- {% block detail_actions %} -->{% endblock %} -->
+    </div>
+  </div>
+
+  <!-- Summary Card Header -->
+  <div class="bg-white p-6 rounded-2xl border border-cs2-neutral-200 shadow-sm">
+    <!-- Django: <!-- {% block detail_summary %} -->{% endblock %} -->
+  </div>
+
+  <!-- Main Detail Content Sections -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2 space-y-6">
+      <!-- Django: <!-- {% block detail_main %} -->{% endblock %} -->
+    </div>
+    <div class="space-y-6">
+      <!-- Django: <!-- {% block detail_sidebar %} -->{% endblock %} -->
+    </div>
+  </div>
+</div>
+
+<!-- Django: {% endblock %} -->

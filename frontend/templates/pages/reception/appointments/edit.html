@@ -1,0 +1,210 @@
+<!-- {% extends "layouts/app.html" %} -->
+<!-- {% load static %} -->
+
+<!-- {% block title %}CS² Health — Dashboard Agent d'accueil{% endblock %} -->
+
+<!DOCTYPE html>
+<html lang="fr" class="h-full bg-cs2-neutral-50 antialiased text-cs2-neutral-900 scroll-smooth" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS² Health — Dashboard Agent d'accueil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="../../../../static/css/styles.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'cs2-brand': { 50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4', 300: '#5eead4', 400: '#2dd4bf', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e', 800: '#115e59', 900: '#134e4a', 950: '#042f2e' },
+            'cs2-neutral': { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1', 400: '#94a3b8', 500: '#64748b', 600: '#475569', 700: '#334155', 800: '#1e293b', 900: '#0f172a', 950: '#020617' }
+          },
+          fontFamily: { sans: ['Inter', 'sans-serif'], title: ['Plus Jakarta Sans', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="h-full bg-cs2-neutral-50 text-cs2-neutral-900 font-sans flex flex-col antialiased selection:bg-cs2-brand-600 selection:text-white">
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-cs2-brand-600 focus:text-white focus:rounded-xl focus:shadow-lg focus:font-extrabold focus:outline-none">
+    Aller au contenu principal
+  </a>
+  <div class="flex h-screen overflow-hidden bg-cs2-neutral-50">
+    <div id="sidebar-mount"></div>
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <div id="header-mount"></div>
+      <main id="main-content" tabindex="-1" class="flex-1 overflow-y-auto p-4 md:p-8 max-w-7xl w-full mx-auto space-y-6 focus:outline-none">
+        <!-- {% block content %} -->
+<nav aria-label="Fil d'Ariane" class="flex items-center gap-2 text-xs font-semibold text-cs2-neutral-600 mb-3"><a href="../dashboard.html" class="flex items-center gap-1.5 text-cs2-neutral-500 hover:text-cs2-brand-600 transition font-medium"><svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg><span>Accueil</span></a><svg class="w-3 h-3 text-cs2-neutral-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg><a href="agenda.html" class="text-cs2-neutral-500 hover:text-cs2-brand-600 transition font-medium">Agenda & RDV</a><svg class="w-3 h-3 text-cs2-neutral-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg><span class="text-cs2-brand-600 font-extrabold">Modifier RDV</span></nav>
+<div class="pb-4 border-b border-cs2-neutral-200">
+        <h1 class="text-2xl font-extrabold text-cs2-neutral-950 font-title tracking-tight">Modifier le Rendez-vous #RDV-2026-0842</h1>
+        <p class="text-xs text-cs2-neutral-600 mt-1">Modification de l'horaire, du médecin ou du motif pour Jeanne DUPONT.</p>
+      </div>
+
+      <div class="bg-white p-6 sm:p-8 rounded-2xl border border-cs2-neutral-200 shadow-sm">
+        <form action="detail.html" method="GET" class="space-y-6">
+
+          <div class="p-4 rounded-2xl bg-cs2-neutral-50 border border-cs2-neutral-200 flex items-center justify-between text-xs">
+            <div>
+              <span class="text-[10px] text-cs2-neutral-600 uppercase font-bold block">Patient Convoqué</span>
+              <span class="font-extrabold text-cs2-neutral-950">Jeanne DUPONT (NUP: 254-890-412)</span>
+            </div>
+            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">Confirmé</span>
+          </div>
+
+          <div class="space-y-1 relative" id="doctor-combobox-wrapper">
+            <label for="id_medecin_input" class="block text-xs font-bold text-cs2-neutral-800">Praticien / Médecin <span class="text-red-500">*</span></label>
+            <input type="hidden" id="id_medecin" name="medecin" value="Valois" required>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-cs2-brand-600">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              </div>
+              <input type="text" id="id_medecin_input"
+                     value="Dr. Marc VALOIS (Cardiologie)"
+                     placeholder="Saisissez un nom ou spécialité pour rechercher..."
+                     autocomplete="off"
+                     class="w-full bg-cs2-neutral-50 border border-cs2-neutral-200/90 rounded-xl py-2.5 pl-10 pr-9 text-xs font-medium text-cs2-neutral-950 focus:bg-white focus:border-cs2-brand-600 focus:ring-2 focus:ring-cs2-brand-100 focus:outline-none transition shadow-2xs">
+              <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-cs2-neutral-400">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </div>
+            </div>
+            <!-- Dropdown menu -->
+            <div id="doctor-dropdown-menu" class="hidden absolute left-0 right-0 top-full mt-1 bg-white border border-cs2-neutral-200 rounded-xl shadow-xl z-50 max-h-60 overflow-y-auto divide-y divide-cs2-neutral-100">
+            </div>
+          </div>
+
+          <div class="space-y-3 pt-2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="space-y-1">
+                <label for="id_date_rdv" class="block text-xs font-bold text-cs2-neutral-800">Nouvelle Date <span class="text-red-500">*</span></label>
+                <input type="date" id="id_date_rdv" name="date_rdv" value="2026-08-26" required class="w-full appearance-none bg-cs2-neutral-50 border border-cs2-neutral-200/90 rounded-xl py-2.5 pl-3.5 pr-9 text-xs font-medium text-cs2-neutral-950 focus:bg-white focus:border-cs2-brand-600 focus:ring-2 focus:ring-cs2-brand-100 focus:outline-none transition shadow-2xs cursor-pointer transition">
+              </div>
+
+              <div class="space-y-1">
+                <label for="id_heure_rdv" class="block text-xs font-bold text-cs2-neutral-800">Nouveau Créneau Horaire <span class="text-red-500">*</span></label>
+                <input type="time" id="id_heure_rdv" name="heure_rdv" value="09:30" required class="w-full bg-cs2-neutral-50 border border-cs2-neutral-200 rounded-xl py-2.5 px-3.5 text-xs font-bold text-cs2-brand-700 focus:border-cs2-brand-600 focus:outline-none transition">
+              </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-cs2-neutral-50 border border-cs2-neutral-200 space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-cs2-neutral-800">Sélectionner un nouveau créneau disponible :</span>
+                <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Disponibilités contrôlées</span>
+              </div>
+              <div class="grid grid-cols-2 sm:grid-cols-6 gap-2 text-xs">
+                <button type="button" onclick="selectSlot('08:30', this)" class="slot-btn py-2 px-3 rounded-xl border border-cs2-neutral-200 bg-white font-bold text-cs2-neutral-800 text-center hover:bg-cs2-brand-50 transition">08:30 (Libre)</button>
+                <button type="button" onclick="selectSlot('09:30', this)" class="slot-btn py-2 px-3 rounded-xl bg-cs2-brand-600 text-white font-bold shadow-sm text-center border border-cs2-brand-600 transition">09:30 (Actuel)</button>
+                <button type="button" onclick="selectSlot('10:30', this)" class="slot-btn py-2 px-3 rounded-xl border border-cs2-neutral-200 bg-white font-bold text-cs2-neutral-800 text-center hover:bg-cs2-brand-50 transition">10:30 (Libre)</button>
+                <button type="button" onclick="selectSlot('11:00', this)" class="slot-btn py-2 px-3 rounded-xl border border-cs2-neutral-200 bg-white font-bold text-cs2-neutral-800 text-center hover:bg-cs2-brand-50 transition">11:00 (Libre)</button>
+                <button type="button" onclick="selectSlot('14:30', this)" class="slot-btn py-2 px-3 rounded-xl border border-cs2-neutral-200 bg-white font-bold text-cs2-neutral-800 text-center hover:bg-cs2-brand-50 transition">14:30 (Libre)</button>
+                <button type="button" onclick="selectSlot('15:00', this)" class="slot-btn py-2 px-3 rounded-xl border border-cs2-neutral-200 bg-white font-bold text-cs2-neutral-800 text-center hover:bg-cs2-brand-50 transition">15:00 (Libre)</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-end gap-3 pt-6 border-t border-cs2-neutral-200">
+            <a href="detail.html" class="px-5 py-2.5 rounded-xl border border-cs2-neutral-200 text-xs font-bold text-cs2-neutral-700 hover:bg-cs2-neutral-100 transition">
+              Annuler
+            </a>
+            <button type="submit" class="px-6 py-2.5 rounded-xl bg-cs2-brand-600 hover:bg-cs2-brand-700 text-white text-xs font-bold transition shadow-md">
+              Enregistrer les modifications
+            </button>
+          </div>
+
+        </form>
+      </div>
+        <!-- {% endblock %} -->
+      </main>
+    </div>
+  </div>
+  <script src="../../../../static/js/cs2-paths.js"></script>
+  <script src="../../../../static/js/cs2-logo.js"></script>
+  <script src="../../../../static/js/sidebar-loader.js"></script>
+  <script src="../../../../static/js/header-loader.js"></script>
+  <script src="../../../../static/js/theme.js"></script>
+  <script src="../../../../static/js/navigation.js"></script>
+  <script src="../../../../static/js/modal.js"></script>
+  <script src="../../../../static/js/dropdown.js"></script>
+  <script src="../../../../static/js/app.js"></script>
+  <!-- {% block extra_js %} -->
+  <script>
+    const doctorsData = [
+      { id: 'Valois', name: 'Dr. Marc VALOIS', spec: 'Cardiologie', fullText: 'Dr. Marc VALOIS (Cardiologie)' },
+      { id: 'Bamba', name: 'Dr. Alain BAMBA', spec: 'Médecine Générale', fullText: 'Dr. Alain BAMBA (Générale)' },
+      { id: 'Koffi', name: 'Dr. Jean-Baptiste KOFFI', spec: 'Pédiatrie', fullText: 'Dr. Jean-Baptiste KOFFI (Pédiatrie)' },
+      { id: 'Traore', name: 'Dr. Sarah TRAORE', spec: 'Neurologie', fullText: 'Dr. Sarah TRAORE (Neurologie)' }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const inputEl = document.getElementById('id_medecin_input');
+      const hiddenEl = document.getElementById('id_medecin');
+      const menuEl = document.getElementById('doctor-dropdown-menu');
+
+      function renderMenu(filterText = '') {
+        const query = filterText.toLowerCase().trim();
+        const filtered = doctorsData.filter(item => 
+          item.fullText.toLowerCase().includes(query) ||
+          item.spec.toLowerCase().includes(query)
+        );
+
+        if (filtered.length === 0) {
+          menuEl.innerHTML = '<div class="p-3 text-xs text-cs2-neutral-400 font-medium text-center">Aucun médecin trouvé</div>';
+        } else {
+          menuEl.innerHTML = filtered.map(item => `
+            <div data-id="${item.id}" data-text="${item.fullText}"
+                 class="combobox-item p-3 text-xs cursor-pointer hover:bg-cs2-brand-50 transition flex items-center justify-between">
+              <div>
+                <div class="font-extrabold text-cs2-neutral-900">${item.name}</div>
+                <div class="text-[11px] text-cs2-neutral-500 font-medium mt-0.5">${item.spec}</div>
+              </div>
+            </div>
+          `).join('');
+
+          menuEl.querySelectorAll('.combobox-item').forEach(el => {
+            el.addEventListener('click', () => {
+              inputEl.value = el.dataset.text;
+              hiddenEl.value = el.dataset.id;
+              menuEl.classList.add('hidden');
+            });
+          });
+        }
+      }
+
+      if (inputEl && menuEl) {
+        inputEl.addEventListener('focus', () => {
+          renderMenu(inputEl.value);
+          menuEl.classList.remove('hidden');
+        });
+
+        inputEl.addEventListener('input', () => {
+          renderMenu(inputEl.value);
+          menuEl.classList.remove('hidden');
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!inputEl.contains(e.target) && !menuEl.contains(e.target)) {
+            menuEl.classList.add('hidden');
+          }
+        });
+      }
+    });
+
+    function selectSlot(timeStr, btn) {
+      document.querySelectorAll('.slot-btn').forEach(b => {
+        b.className = 'slot-btn py-2 px-3 rounded-xl border border-cs2-neutral-200 bg-white font-bold text-cs2-neutral-800 text-center hover:bg-cs2-brand-50 transition';
+        b.innerText = b.innerText.replace(' (Sélectionné)', ' (Libre)').replace(' (Actuel)', ' (Libre)');
+      });
+      btn.className = 'slot-btn py-2 px-3 rounded-xl bg-cs2-brand-600 text-white font-bold shadow-sm text-center border border-cs2-brand-600 transition';
+      if (!btn.innerText.includes('(Sélectionné)')) {
+        btn.innerText = timeStr + ' (Sélectionné)';
+      }
+      document.getElementById('id_heure_rdv').value = timeStr;
+    }
+  </script>
+  <!-- {% endblock %} -->
+</body>
+</html>

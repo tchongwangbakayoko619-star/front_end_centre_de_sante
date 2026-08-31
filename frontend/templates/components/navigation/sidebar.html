@@ -1,0 +1,164 @@
+<!-- templates/components/navigation/sidebar.html -->
+<aside id="app-sidebar" class="sidebar">
+  <div class="sidebar-header">
+    <a href="../reception/dashboard.html" class="sidebar-logo" aria-label="CS² Health dashboard">
+      <cs2-logo size="md" variant="full" theme="inverse"></cs2-logo>
+    </a>
+  </div>
+
+  <div class="sidebar-content">
+    <div class="sidebar-nav-group">
+      <div class="sidebar-nav-label">Navigation métier</div>
+
+      <nav class="sidebar-menu" aria-label="Navigation principale">
+        <a href="../reception/dashboard.html" class="sidebar-item is-active">
+          <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="7" height="9" rx="1"></rect>
+            <rect x="14" y="3" width="7" height="5" rx="1"></rect>
+            <rect x="14" y="12" width="7" height="9" rx="1"></rect>
+            <rect x="3" y="16" width="7" height="5" rx="1"></rect>
+          </svg>
+          <span class="sidebar-item-label">Dashboard</span>
+          <span class="sidebar-item-badge">Live</span>
+        </a>
+
+        <div class="sidebar-submenu">
+          <button type="button" onclick="toggleSidebarSubmenu('patients-sub')" class="sidebar-item sidebar-item-button" aria-expanded="false">
+            <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <span class="sidebar-item-label">Gestion Patients</span>
+            <svg id="patients-sub-chevron" class="submenu-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+
+          <div id="patients-sub" class="sidebar-submenu-list hidden">
+            <a href="../reception/patients/list.html" class="sidebar-submenu-item">
+              <svg class="sidebar-submenu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+              </svg>
+              <span>Liste des patients</span>
+            </a>
+            <a href="../reception/patients/create.html" class="sidebar-submenu-item">
+              <svg class="sidebar-submenu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M19 8v6"></path>
+                <path d="M22 11h-6"></path>
+              </svg>
+              <span>Enregistrer un patient</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="sidebar-submenu">
+          <button type="button" onclick="toggleSidebarSubmenu('rdv-sub')" class="sidebar-item sidebar-item-button" aria-expanded="false">
+            <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+              <path d="M16 2v4"></path>
+              <path d="M8 2v4"></path>
+              <path d="M3 10h18"></path>
+            </svg>
+            <span class="sidebar-item-label">Rendez-vous & Agenda</span>
+            <svg id="rdv-sub-chevron" class="submenu-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+
+          <div id="rdv-sub" class="sidebar-submenu-list hidden">
+            <a href="../reception/appointments/agenda.html" class="sidebar-submenu-item">
+              <svg class="sidebar-submenu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                <path d="M16 2v4"></path>
+                <path d="M8 2v4"></path>
+                <path d="M3 10h18"></path>
+              </svg>
+              <span>Planning & Agenda</span>
+            </a>
+            <a href="../reception/appointments/create.html" class="sidebar-submenu-item">
+              <svg class="sidebar-submenu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                <path d="M16 2v4"></path>
+                <path d="M8 2v4"></path>
+                <path d="M3 10h18"></path>
+                <path d="M12 15v4"></path>
+                <path d="M10 17h4"></path>
+              </svg>
+              <span>Prendre un RDV</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="sidebar-submenu">
+          <button type="button" onclick="toggleSidebarSubmenu('notif-sub')" class="sidebar-item sidebar-item-button" aria-expanded="false">
+            <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M10.268 21a2 2 0 0 0 3.464 0"></path>
+              <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path>
+            </svg>
+            <span class="sidebar-item-label">Notifications & SMS</span>
+            <svg id="notif-sub-chevron" class="submenu-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+
+          <div id="notif-sub" class="sidebar-submenu-list hidden">
+            <a href="../reception/notifications/send.html" class="sidebar-submenu-item">
+              <svg class="sidebar-submenu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="m22 2-7 20-4-9-9-4Z"></path>
+                <path d="M22 2 11 13"></path>
+              </svg>
+              <span>Envoyer un message</span>
+            </a>
+            <a href="../reception/notifications/history.html" class="sidebar-submenu-item">
+              <svg class="sidebar-submenu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M12 6v6l4 2"></path>
+              </svg>
+              <span>Historique des envois</span>
+            </a>
+            <a href="../reception/reminders/settings.html" class="sidebar-submenu-item">
+              <svg class="sidebar-submenu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="13" r="8"></circle>
+                <path d="M12 9v4l2 2"></path>
+                <path d="M5 3 2 6"></path>
+                <path d="M22 6l-3-3"></path>
+              </svg>
+              <span>Rappels automatiques</span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="sidebar-user-card">
+      <a href="../profile/index.html" class="sidebar-user-profile" aria-label="Profil utilisateur">
+        <div class="sidebar-user-avatar">SM</div>
+        <div class="sidebar-user-meta">
+          <span class="sidebar-user-name">Sarah Martin</span>
+          <span class="sidebar-user-role">Réceptionniste</span>
+        </div>
+      </a>
+
+      <div class="sidebar-user-actions">
+        <a href="../reception/reminders/settings.html" class="sidebar-user-action" aria-label="Paramètres" title="Paramètres">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+            <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          </svg>
+        </a>
+        <a href="../auth/login.html" class="sidebar-user-action danger" aria-label="Déconnexion" title="Déconnexion">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</aside>

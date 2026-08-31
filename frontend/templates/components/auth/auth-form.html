@@ -1,0 +1,13 @@
+<!-- templates/components/auth/auth-form.html -->
+<!-- This is a wrapper for form content -->
+<!-- Expects variables context: action_url, method -->
+<!-- Django: <form method="{{ method|default:'post' }}" action="{{ action_url }}" class="auth-form" id="auth-form" novalidate> -->
+<form method="POST" action="#" class="auth-form" id="auth-form" novalidate>
+    <!-- Django: {% csrf_token %} -->
+    
+    <!-- Django: {% if form.non_field_errors %} -->
+    <!-- Django: {% include "components/auth/auth-alert.html" with type="error" message=form.non_field_errors|join:", " %} -->
+    <!-- Django: {% endif %} -->
+
+    <!-- Form content injected here by caller template -->
+</form>
