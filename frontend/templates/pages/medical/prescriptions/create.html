@@ -1,0 +1,158 @@
+<!-- {% extends "layouts/app.html" %} -->
+<!-- {% load static %} -->
+
+<!-- {% block title %}CS² Health — Nouvelle Prescription{% endblock %} -->
+
+<!DOCTYPE html>
+<html lang="fr" class="h-full bg-white antialiased text-cs2-neutral-900 scroll-smooth" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS² Health — Nouvelle Prescription</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="../../../../static/css/styles.css">
+  <script>window.SIDEBAR_ACTIVE = 'medical-presc-create';</script>
+</head>
+<body class="h-full bg-white text-cs2-neutral-900 font-sans flex flex-col antialiased selection:bg-cs2-brand-600 selection:text-white">
+
+  <!-- Accessibilité : Skip Link -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-cs2-brand-600 focus:text-white focus:rounded-xl focus:shadow-lg focus:font-extrabold focus:outline-none">
+    Aller au contenu principal
+  </a>
+
+  <div class="flex h-screen overflow-hidden bg-white">
+    <!-- Sidebar Mount Point -->
+    <div id="sidebar-mount"></div>
+
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <!-- Header Mount Point -->
+      <div id="header-mount"></div>
+
+      <main id="main-content" tabindex="-1" class="flex-1 overflow-y-auto p-4 md:p-8 max-w-4xl w-full mx-auto space-y-6 focus:outline-none">
+        <!-- {% block content %} -->
+
+        <!-- 💊 Header Prescription -->
+        <div class="flex items-center justify-between gap-3 pb-4 border-b border-cs2-neutral-200">
+          <div>
+            <h1 class="text-xl sm:text-2xl font-extrabold text-cs2-neutral-950 font-title tracking-tight">Nouvelle prescription</h1>
+            <p class="text-xs font-medium text-cs2-neutral-500 mt-0.5">Rédaction d'une ordonnance médicale informatisée.</p>
+          </div>
+          <!-- Django: {% include "components/ui/button.html" with label="← Annuler" href="../dashboard.html" variant="secondary" size="sm" %} -->
+          <a href="../dashboard.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-cs2-neutral-200 bg-white hover:bg-cs2-neutral-50 text-cs2-neutral-800 font-extrabold text-xs transition shadow-2xs">← Annuler</a>
+        </div>
+
+        <!-- 🚨 Alerte Allergie Très Visible & Patient Card -->
+        <div class="p-4 rounded-2xl border border-rose-300 bg-rose-50/70 space-y-2 shadow-2xs">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-rose-600 text-white font-extrabold text-xs flex items-center justify-center font-title shadow-2xs">AK</div>
+              <div>
+                <h2 class="text-sm font-extrabold text-cs2-neutral-950">Patient : <strong>Alice KONÉ</strong></h2>
+                <p class="text-[11px] text-cs2-neutral-600 font-mono">NSS: 284-901-342 • 32 ans • Groupe O+</p>
+              </div>
+            </div>
+            <span class="px-3 py-1 rounded-full text-xs font-black bg-rose-600 text-white shadow-2xs animate-pulse">
+              ⚠️ Patient allergique à la Pénicilline !
+            </span>
+          </div>
+          <p class="text-xs font-extrabold text-rose-900 pt-1 border-t border-rose-200">
+            Avertissement clinique : Éviter tous les antibiotiques de la famille des Bêta-lactamines.
+          </p>
+        </div>
+
+        <!-- 📝 Formulaire Général Prescription -->
+        <form onsubmit="handleSavePrescription(event)" class="bg-white rounded-2xl border border-cs2-neutral-200 shadow-2xs p-6 space-y-6">
+
+          <!-- Paramètres globaux -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pb-4 border-b border-cs2-neutral-200">
+            <div class="space-y-1">
+              <label class="text-xs font-extrabold text-cs2-neutral-800">Date de prescription *</label>
+              <input type="date" required value="2026-08-31" class="w-full px-3.5 py-2.5 text-xs font-bold text-cs2-neutral-900 bg-white border border-cs2-neutral-200 rounded-xl focus:border-cs2-brand-600 focus:outline-none">
+            </div>
+
+            <div class="space-y-1">
+              <label class="text-xs font-extrabold text-cs2-neutral-800">Durée totale du traitement *</label>
+              <input type="text" value="30 jours" required class="w-full px-3.5 py-2.5 text-xs font-bold text-cs2-neutral-900 bg-white border border-cs2-neutral-200 rounded-xl focus:border-cs2-brand-600 focus:outline-none">
+            </div>
+
+            <div class="space-y-1">
+              <label class="text-xs font-extrabold text-cs2-neutral-800">Posologie / Instructions générales</label>
+              <input type="text" value="À prendre pendant les repas avec un grand verre d'eau." class="w-full px-3.5 py-2.5 text-xs font-medium text-cs2-neutral-900 bg-white border border-cs2-neutral-200 rounded-xl focus:border-cs2-brand-600 focus:outline-none">
+            </div>
+          </div>
+
+          <!-- 💊 Lignes de Médicaments Dynamiques -->
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-extrabold text-cs2-neutral-950 font-title">Lignes de Médicaments Rédigées</h3>
+              <button type="button" onclick="addMedicationLine()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cs2-brand-600 hover:bg-cs2-brand-700 text-white font-extrabold text-xs transition shadow-2xs">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                <span>Ajouter un médicament</span>
+              </button>
+            </div>
+
+            <!-- Conteneur des lignes dynamiques JS -->
+            <div id="medications-container" class="space-y-3">
+
+              <!-- Ligne 1 -->
+              <div class="med-line p-4 rounded-xl border border-cs2-neutral-200 bg-white space-y-3 shadow-2xs relative">
+                <div class="flex items-center justify-between border-b border-cs2-neutral-100 pb-2">
+                  <span class="text-xs font-extrabold text-cs2-brand-700">Médicament #1</span>
+                  <button type="button" onclick="removeMedicationLine(this)" class="text-rose-600 hover:text-rose-800 text-xs font-extrabold">Supprimer</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+                  <div class="md:col-span-2">
+                    <label class="text-[11px] font-bold text-cs2-neutral-600 block mb-1">Médicament (Recherche / DCI)</label>
+                    <input type="text" value="Amlodipine 5mg Comprimé" oninput="checkAllergyWarning(this)" placeholder="Ex: Amlodipine, Paracétamol..." class="w-full px-3 py-2 text-xs border border-cs2-neutral-200 rounded-lg font-bold text-cs2-neutral-900 focus:border-cs2-brand-600 focus:outline-none">
+                  </div>
+                  <div>
+                    <label class="text-[11px] font-bold text-cs2-neutral-600 block mb-1">Quantité</label>
+                    <input type="text" value="1 Boîte (30 cp)" class="w-full px-3 py-2 text-xs border border-cs2-neutral-200 rounded-lg font-bold text-cs2-neutral-900 focus:border-cs2-brand-600 focus:outline-none">
+                  </div>
+                  <div>
+                    <label class="text-[11px] font-bold text-cs2-neutral-600 block mb-1">Durée</label>
+                    <input type="text" value="30 Jours" class="w-full px-3 py-2 text-xs border border-cs2-neutral-200 rounded-lg font-bold text-cs2-neutral-900 focus:border-cs2-brand-600 focus:outline-none">
+                  </div>
+                </div>
+                <div>
+                  <label class="text-[11px] font-bold text-cs2-neutral-600 block mb-1">Posologie détaillée</label>
+                  <input type="text" value="1 comprimé chaque matin au petit-déjeuner" class="w-full px-3 py-2 text-xs border border-cs2-neutral-200 rounded-lg font-medium text-cs2-neutral-900 focus:border-cs2-brand-600 focus:outline-none">
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Actions Ordonnance -->
+          <div class="flex items-center justify-end gap-3 pt-4 border-t border-cs2-neutral-200">
+            <!-- Django: {% include "components/ui/button.html" with label="Annuler" href="../dashboard.html" variant="secondary" size="md" %} -->
+            <a href="../dashboard.html" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-cs2-neutral-200 bg-white hover:bg-cs2-neutral-50 text-cs2-neutral-800 font-extrabold text-xs transition shadow-2xs">Annuler</a>
+            <!-- Django: {% include "components/ui/button.html" with label="Enregistrer l'ordonnance" type="submit" variant="primary" size="md" extra_classes="bg-emerald-600 hover:bg-emerald-700" %} -->
+            <button type="submit" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs transition shadow-2xs">Enregistrer l'ordonnance</button>
+          </div>
+
+        </form>
+
+        <!-- Modale d'Alerte Allergie Include -->
+        <!-- Django: {% include "components/medical/allergy_warning_modal.html" %} -->
+      </main>
+    </div>
+  </div>
+
+  <script src="../../../../static/js/core/cs2-paths.js"></script>
+  <script src="../../../../static/js/components/cs2-logo.js"></script>
+  <script src="../../../../static/js/loaders/sidebar-loader.js"></script>
+  <script src="../../../../static/js/loaders/header-loader.js"></script>
+  <script src="../../../../static/js/core/theme.js"></script>
+  <script src="../../../../static/js/components/navigation.js"></script>
+  <script src="../../../../static/js/components/modal.js"></script>
+  <script src="../../../../static/js/components/dropdown.js"></script>
+  <script src="../../../../static/js/core/app.js"></script>
+  <!-- {% block extra_js %} -->
+  <script src="../../../../static/js/modules/medical/create-prescription.js"></script>
+  <!-- {% endblock %} -->
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!-- templates/components/medical/consultation-row.html — COMPOSANT LIGNE CONSULTATION MÉDICALE CS² HEALTH -->
+<!-- 
+Expected Context:
+- date: Consultation date
+- category: Category ('Consultation', 'Imagerie', 'Biologie', 'Soin', 'Urgence')
+- doctor: Doctor name
+- title: Prestation title
+- summary: Report excerpt
+- status: Status badge text
+- edit_url: Edit link
+-->
+<tr class="hover:bg-cs2-neutral-50/60 transition text-xs">
+  <td class="p-3.5 font-mono font-bold text-cs2-neutral-900"><!-- Django: {{ date }} -->26/08/2026</td>
+  <td class="p-3.5 font-extrabold text-cs2-brand-700"><!-- Django: {{ category }} -->Consultation</td>
+  <td class="p-3.5 font-extrabold text-cs2-neutral-950"><!-- Django: {{ doctor }} -->Dr. Mansouri</td>
+  <td class="p-3.5 font-bold text-cs2-neutral-900"><!-- Django: {{ title }} -->Suivi Cardiologie</td>
+  <td class="p-3.5 text-cs2-neutral-600 truncate max-w-xs"><!-- Django: {{ summary }} -->Palpitations occasionnelles, ECG normal.</td>
+  <td class="p-3.5"><span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-white text-emerald-700 border border-emerald-200"><!-- Django: {{ status|default:'Réalisé' }} -->Réalisé</span></td>
+  <td class="p-3.5 text-right"><a href="<!-- Django: {{ edit_url|default:'edit.html' }} -->edit.html" class="text-cs2-brand-600 font-extrabold hover:underline">Modifier</a></td>
+</tr>

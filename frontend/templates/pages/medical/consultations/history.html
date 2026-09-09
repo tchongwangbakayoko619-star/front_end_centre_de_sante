@@ -1,0 +1,239 @@
+<!-- {% extends "layouts/app.html" %} -->
+<!-- {% load static %} -->
+
+<!-- {% block title %}CS² Health — Historique des Consultations{% endblock %} -->
+
+<!DOCTYPE html>
+<html lang="fr" class="h-full bg-white antialiased text-cs2-neutral-900 scroll-smooth" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS² Health — Historique des Consultations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="../../../../static/css/styles.css">
+  <script>window.SIDEBAR_ACTIVE = 'medical-consultations';</script>
+</head>
+<body class="h-full bg-white text-cs2-neutral-900 font-sans flex flex-col antialiased selection:bg-cs2-brand-600 selection:text-white">
+
+  <!-- Accessibilité : Skip Link -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-cs2-brand-600 focus:text-white focus:rounded-xl focus:shadow-lg focus:font-extrabold focus:outline-none">
+    Aller au contenu principal
+  </a>
+
+  <div class="flex h-screen overflow-hidden bg-white">
+    <!-- Sidebar Mount Point -->
+    <div id="sidebar-mount"></div>
+
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <!-- Header Mount Point -->
+      <div id="header-mount"></div>
+
+      <main id="main-content" tabindex="-1" class="flex-1 overflow-y-auto p-4 md:p-8 max-w-7xl w-full mx-auto space-y-6 focus:outline-none">
+        <!-- {% block content %} -->
+
+        <!-- 📜 Header Historique -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-cs2-neutral-200">
+          <div>
+            <h1 class="text-xl sm:text-2xl font-extrabold text-cs2-neutral-950 font-title tracking-tight">Historique des consultations</h1>
+            <p class="text-xs font-medium text-cs2-neutral-500 mt-0.5">Dossier médical complet • Patient : <strong>Alice KONÉ</strong> (NSS: 284-901-342)</p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <!-- Django: {% include "components/ui/button.html" with label="← Retour à la fiche patient" href="../patients/detail.html" variant="secondary" size="sm" %} -->
+            <a href="../patients/detail.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-cs2-neutral-200 bg-white hover:bg-cs2-neutral-50 text-cs2-neutral-800 font-extrabold text-xs transition shadow-2xs">← Retour à la fiche patient</a>
+            <!-- Django: {% include "components/ui/button.html" with label="Exporter l'historique" variant="outline" size="sm" extra_classes="onclick='exportHistory()'" %} -->
+            <button type="button" onclick="exportHistory()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-cs2-neutral-200 bg-white hover:bg-cs2-neutral-50 text-cs2-neutral-800 font-extrabold text-xs transition shadow-2xs">Exporter l'historique</button>
+            <!-- Django: {% include "components/ui/button.html" with label="Nouvelle consultation" href="create.html" variant="primary" size="sm" %} -->
+            <a href="create.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cs2-brand-600 hover:bg-cs2-brand-700 text-white font-extrabold text-xs transition shadow-2xs">Nouvelle consultation</a>
+          </div>
+        </div>
+
+        <!-- 🔍 Filtres & Recherche -->
+        <div class="p-4 rounded-2xl border border-cs2-neutral-200 bg-white shadow-2xs grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="text-[11px] font-bold text-cs2-neutral-500 block mb-1">Période</label>
+            <select onchange="applyFilters()" class="w-full px-3 py-2 text-xs border border-cs2-neutral-200 rounded-xl bg-white text-cs2-neutral-900 font-bold focus:outline-none focus:border-cs2-brand-600">
+              <option value="all">Toutes les périodes</option>
+              <option value="year">Année en cours (2026)</option>
+              <option value="6months">6 derniers mois</option>
+              <option value="3months">3 derniers mois</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-[11px] font-bold text-cs2-neutral-500 block mb-1">Type de prestation</label>
+            <select onchange="applyFilters()" class="w-full px-3 py-2 text-xs border border-cs2-neutral-200 rounded-xl bg-white text-cs2-neutral-900 font-bold focus:outline-none focus:border-cs2-brand-600">
+              <option value="all">Tous les types</option>
+              <option value="Consultation">Consultation</option>
+              <option value="Imagerie">Imagerie</option>
+              <option value="Biologie">Biologie</option>
+              <option value="Soin">Soin</option>
+              <option value="Urgence">Urgence</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-[11px] font-bold text-cs2-neutral-500 block mb-1">Recherche mot-clé</label>
+            <input type="text" placeholder="Rechercher un motif, diagnostic..." onkeyup="applyFilters()" class="w-full px-3 py-2 text-xs border border-cs2-neutral-200 rounded-xl bg-white text-cs2-neutral-900 font-medium focus:outline-none focus:border-cs2-brand-600">
+          </div>
+        </div>
+
+        <!-- 📋 Tableau Historique (10 consultations) -->
+        <div class="bg-white rounded-2xl border border-cs2-neutral-200 shadow-2xs overflow-x-auto">
+          <table class="w-full text-left border-collapse min-w-[800px]">
+            <thead>
+              <tr class="border-b border-cs2-neutral-200 bg-white text-xs font-extrabold text-cs2-neutral-900">
+                <th class="p-3.5 w-28">Date</th>
+                <th class="p-3.5 w-32">Type</th>
+                <th class="p-3.5 w-40">Médecin</th>
+                <th class="p-3.5">Motif / Prestation</th>
+                <th class="p-3.5">Compte-rendu (Extrait)</th>
+                <th class="p-3.5 w-24">Statut</th>
+                <th class="p-3.5 text-right w-28">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-cs2-neutral-100 text-xs">
+              
+              <!-- 1 -->
+              <tr class="hover:bg-cs2-neutral-50/60 transition">
+                <td class="p-3.5 font-mono font-bold text-cs2-neutral-900">26/08/2026</td>
+                <td class="p-3.5 font-extrabold text-cs2-brand-700">Consultation</td>
+                <td class="p-3.5 font-extrabold text-cs2-neutral-950">Dr. Mansouri</td>
+                <td class="p-3.5 font-bold text-cs2-neutral-900">Suivi Cardiologie</td>
+                <td class="p-3.5 text-cs2-neutral-600 truncate max-w-xs">Palpitations occasionnelles, ECG normal, ajustement posologique.</td>
+                <td class="p-3.5"><span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-white text-emerald-700 border border-emerald-200">Réalisé</span></td>
+                <td class="p-3.5 text-right"><a href="edit.html" class="text-cs2-brand-600 font-extrabold hover:underline">Modifier</a></td>
+              </tr>
+
+              <!-- 2 -->
+              <tr class="hover:bg-cs2-neutral-50/60 transition">
+                <td class="p-3.5 font-mono font-bold text-cs2-neutral-900">12/07/2026</td>
+                <td class="p-3.5 font-extrabold text-cs2-brand-700">Consultation</td>
+                <td class="p-3.5 font-extrabold text-cs2-neutral-950">Dr. Mansouri</td>
+                <td class="p-3.5 font-bold text-cs2-neutral-900">Contrôle Tension</td>
+                <td class="p-3.5 text-cs2-neutral-600 truncate max-w-xs">Tension artérielle 12/8. Poursuite Amlodipine.</td>
+                <td class="p-3.5"><span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-white text-emerald-700 border border-emerald-200">Réalisé</span></td>
+                <td class="p-3.5 text-right"><a href="edit.html" class="text-cs2-brand-600 font-extrabold hover:underline">Modifier</a></td>
+              </tr>
+
+              <!-- 3 -->
+              <tr class="hover:bg-cs2-neutral-50/60 transition">
+                <td class="p-3.5 font-mono font-bold text-cs2-neutral-900">04/05/2026</td>
+                <td class="p-3.5 font-extrabold text-blue-700">Biologie</td>
+                <td class="p-3.5 font-extrabold text-cs2-neutral-950">Dr. Diallo</td>
+                <td class="p-3.5 font-bold text-cs2-neutral-900">Bilan Lipidique</td>
+                <td class="p-3.5 text-cs2-neutral-600 truncate max-w-xs">Cholestérol total et glycémie à jeun normaux.</td>
+                <td class="p-3.5"><span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-white text-emerald-700 border border-emerald-200">Réalisé</span></td>
+                <td class="p-3.5 text-right"><a href="edit.html" class="text-cs2-brand-600 font-extrabold hover:underline">Voir</a></td>
+              </tr>
+
+              <!-- 4 -->
+              <tr class="hover:bg-cs2-neutral-50/60 transition">
+                <td class="p-3.5 font-mono font-bold text-cs2-neutral-900">18/03/2026</td>
+                <td class="p-3.5 font-extrabold text-purple-700">Imagerie</td>
+                <td class="p-3.5 font-extrabold text-cs2-neutral-950">Dr. Touré</td>
+                <td class="p-3.5 font-bold text-cs2-neutral-900">Échocardiographie</td>
+                <td class="p-3.5 text-cs2-neutral-600 truncate max-w-xs">Fraction d'éjection ventriculaire gauche normale (65%).</td>
+                <td class="p-3.5"><span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-white text-emerald-700 border border-emerald-200">Réalisé</span></td>
+                <td class="p-3.5 text-right"><a href="edit.html" class="text-cs2-brand-600 font-extrabold hover:underline">Voir</a></td>
+              </tr>
+
+              <!-- 5 -->
+              <tr class="hover:bg-cs2-neutral-50/60 transition">
+                <td class="p-3.5 font-mono font-bold text-cs2-neutral-900">10/01/2026</td>
+                <td class="p-3.5 font-extrabold text-cs2-brand-700">Consultation</td>
+                <td class="p-3.5 font-extrabold text-cs2-neutral-950">Dr. Mansouri</td>
+                <td class="p-3.5 font-bold text-cs2-neutral-900">Initialisation Suivi HTA</td>
+                <td class="p-3.5 text-cs2-neutral-600 truncate max-w-xs">Découverte HTA modérée. Mise en place hygiène et Amlodipine 5mg.</td>
+                <td class="p-3.5"><span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-white text-emerald-700 border border-emerald-200">Réalisé</span></td>
+                <td class="p-3.5 text-right"><a href="edit.html" class="text-cs2-brand-600 font-extrabold hover:underline">Modifier</a></td>
+              </tr>
+
+              <!-- 6 -->
+              <tr class="hover:bg-cs2-neutral-50/60 transition">
+                <td class="p-3.5 font-mono font-bold text-cs2-neutral-900">14/11/2025</td>
+                <td class="p-3.5 font-extrabold text-amber-700">Soin</td>
+                <td class="p-3.5 font-extrabold text-cs2-neutral-950">Dr. Kouassi</td>
+                <td class="p-3.5 font-bold text-cs2-neutral-900">Vaccination Antigrippale</td>
+                <td class="p-3.5 text-cs2-neutral-600 truncate max-w-xs">Injection effectuée sans effet indésirable immédiat.</td>
+                <td class="p-3.5"><span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-white text-emerald-700 border border-emerald-200">Réalisé</span></td>
+                <td class="p-3.5 text-right"><a href="edit.html" class="text-cs2-brand-600 font-extrabold hover:underline">Voir</a></td>
+              </tr>
+
+              <!-- 7 -->
+              <tr class="hover:bg-cs2-neutral-50/60 transition">
+                <td class="p-3.5 font-mono font-bold text-cs2-neutral-900">02/09/2025</td>
+                <td class="p-3.5 font-extrabold text-rose-700">Urgence</td>
+                <td class="p-3.5 font-extrabold text-cs2-neutral-950">Dr. N'Guessan</td>
+                <td class="p-3.5 font-bold text-cs2-neutral-900">Crise d'Asthme Aiguë</td>
+                <td class="p-3.5 text-cs2-neutral-600 truncate max-w-xs">Nébulisation Ventoline. Résolution rapide des symptômes.</td>
+                <td class="p-3.5"><span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-white text-emerald-700 border border-emerald-200">Réalisé</span></td>
+                <td class="p-3.5 text-right"><a href="edit.html" class="text-cs2-brand-600 font-extrabold hover:underline">Voir</a></td>
+              </tr>
+
+              <!-- 8 -->
+              <tr class="hover:bg-cs2-neutral-50/60 transition">
+                <td class="p-3.5 font-mono font-bold text-cs2-neutral-900">20/06/2025</td>
+                <td class="p-3.5 font-extrabold text-cs2-brand-700">Consultation</td>
+                <td class="p-3.5 font-extrabold text-cs2-neutral-950">Dr. Mansouri</td>
+                <td class="p-3.5 font-bold text-cs2-neutral-900">Bilan Annuel</td>
+                <td class="p-3.5 text-cs2-neutral-600 truncate max-w-xs">Examen général satisfaisant. Conseils nutritionnels.</td>
+                <td class="p-3.5"><span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-white text-emerald-700 border border-emerald-200">Réalisé</span></td>
+                <td class="p-3.5 text-right"><a href="edit.html" class="text-cs2-brand-600 font-extrabold hover:underline">Voir</a></td>
+              </tr>
+
+              <!-- 9 -->
+              <tr class="hover:bg-cs2-neutral-50/60 transition">
+                <td class="p-3.5 font-mono font-bold text-cs2-neutral-900">15/03/2025</td>
+                <td class="p-3.5 font-extrabold text-blue-700">Biologie</td>
+                <td class="p-3.5 font-extrabold text-cs2-neutral-950">Dr. Diallo</td>
+                <td class="p-3.5 font-bold text-cs2-neutral-900">NFS &amp; Glycémie</td>
+                <td class="p-3.5 text-cs2-neutral-600 truncate max-w-xs">Hémogramme normal, glycémie 0.92 g/L.</td>
+                <td class="p-3.5"><span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-white text-emerald-700 border border-emerald-200">Réalisé</span></td>
+                <td class="p-3.5 text-right"><a href="edit.html" class="text-cs2-brand-600 font-extrabold hover:underline">Voir</a></td>
+              </tr>
+
+              <!-- 10 -->
+              <tr class="hover:bg-cs2-neutral-50/60 transition">
+                <td class="p-3.5 font-mono font-bold text-cs2-neutral-900">10/01/2025</td>
+                <td class="p-3.5 font-extrabold text-cs2-brand-700">Consultation</td>
+                <td class="p-3.5 font-extrabold text-cs2-neutral-950">Dr. Mansouri</td>
+                <td class="p-3.5 font-bold text-cs2-neutral-900">Première Consultation</td>
+                <td class="p-3.5 text-cs2-neutral-600 truncate max-w-xs">Création du dossier médical. Déclaration allergie Pénicilline.</td>
+                <td class="p-3.5"><span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-white text-emerald-700 border border-emerald-200">Réalisé</span></td>
+                <td class="p-3.5 text-right"><a href="edit.html" class="text-cs2-brand-600 font-extrabold hover:underline">Voir</a></td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="flex items-center justify-between pt-2 text-xs text-cs2-neutral-500 font-medium">
+          <span>Affichage de 1 à 10 sur 12 consultations</span>
+          <div class="flex items-center gap-1">
+            <button class="px-3 py-1.5 rounded-lg border border-cs2-neutral-200 bg-white hover:bg-cs2-neutral-50 font-bold">1</button>
+            <button class="px-3 py-1.5 rounded-lg border border-cs2-neutral-200 bg-white hover:bg-cs2-neutral-50 font-bold text-cs2-neutral-400">2</button>
+          </div>
+        </div>
+
+        <!-- {% endblock %} -->
+      </main>
+    </div>
+  </div>
+
+  <script src="../../../../static/js/core/cs2-paths.js"></script>
+  <script src="../../../../static/js/components/cs2-logo.js"></script>
+  <script src="../../../../static/js/loaders/sidebar-loader.js"></script>
+  <script src="../../../../static/js/loaders/header-loader.js"></script>
+  <script src="../../../../static/js/core/theme.js"></script>
+  <script src="../../../../static/js/components/navigation.js"></script>
+  <script src="../../../../static/js/components/modal.js"></script>
+  <script src="../../../../static/js/components/dropdown.js"></script>
+  <script src="../../../../static/js/core/app.js"></script>
+  <!-- {% block extra_js %} -->
+  <script src="../../../../static/js/modules/medical/consultation-history.js"></script>
+  <!-- {% endblock %} -->
+</body>
+</html>

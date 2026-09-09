@@ -1,0 +1,101 @@
+<!-- templates/components/medical/presence_modal.html — MODALE VALIDATION DE PRÉSENCE CS² HEALTH -->
+<div id="presence-modal" class="hidden modal">
+  <div class="modal-backdrop" onclick="closePresenceModal()"></div>
+  <div class="modal-content max-w-md w-full bg-white p-6 rounded-2xl border border-cs2-neutral-200 shadow-2xl space-y-5">
+    
+    <!-- Modal Header -->
+    <div class="flex items-center justify-between border-b border-cs2-neutral-200 pb-3">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-cs2-brand-50 text-cs2-brand-600 flex items-center justify-center font-extrabold text-sm border border-cs2-brand-200">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <div>
+          <h3 class="text-base font-extrabold text-cs2-neutral-950 font-title">Validation de Présence</h3>
+          <p class="text-[11px] text-cs2-neutral-500">Mise à jour du statut de prise en charge</p>
+        </div>
+      </div>
+      <button type="button" onclick="closePresenceModal()" class="text-cs2-neutral-400 hover:text-cs2-neutral-700 p-1 rounded-lg transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- Patient Summary Card -->
+    <div class="p-3.5 rounded-xl border border-cs2-neutral-200 bg-white shadow-2xs space-y-1.5">
+      <div class="flex items-center justify-between">
+        <h4 id="presence-patient-name" class="text-xs font-extrabold text-cs2-neutral-950">Alice KONÉ</h4>
+        <span id="presence-patient-time" class="px-2.5 py-0.5 rounded-md text-[10px] font-mono font-extrabold bg-cs2-brand-50 text-cs2-brand-700 border border-cs2-brand-200">09:30</span>
+      </div>
+      <p id="presence-patient-meta" class="text-[11px] text-cs2-neutral-600">32 ans • NSS: 284-901-342 • Motif: Consultation Cardiologie</p>
+    </div>
+
+    <!-- Action Choices -->
+    <div class="space-y-2.5">
+      <!-- Option 1: Patient Présent -->
+      <button type="button" onclick="confirmPresence('REALISE')" class="w-full p-3 rounded-xl border border-emerald-200 bg-white hover:border-emerald-500 hover:shadow-xs transition text-left flex items-center justify-between group">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center font-extrabold border border-emerald-200 group-hover:bg-emerald-600 group-hover:text-white transition">
+            ✓
+          </div>
+          <div>
+            <div class="text-xs font-extrabold text-cs2-neutral-950">Patient Présent</div>
+            <div class="text-[10px] text-cs2-neutral-500">Marquer comme <strong>RÉALISÉ</strong> et ouvrir la consultation</div>
+          </div>
+        </div>
+        <span class="text-xs font-extrabold text-emerald-600 group-hover:translate-x-0.5 transition">Accéder →</span>
+      </button>
+
+      <!-- Option 2: Patient Absent -->
+      <button type="button" onclick="confirmPresence('NON_PRESENTE')" class="w-full p-3 rounded-xl border border-rose-200 bg-white hover:border-rose-500 hover:shadow-xs transition text-left flex items-center justify-between group">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center font-extrabold border border-rose-200 group-hover:bg-rose-600 group-hover:text-white transition">
+            ✕
+          </div>
+          <div>
+            <div class="text-xs font-extrabold text-cs2-neutral-950">Patient Absent</div>
+            <div class="text-[10px] text-cs2-neutral-500">Marquer comme <strong>NON PRÉSENT</strong> (No-Show)</div>
+          </div>
+        </div>
+        <span class="text-xs font-extrabold text-rose-600 group-hover:translate-x-0.5 transition">Enregistrer</span>
+      </button>
+
+      <!-- Option 3: Reporter RDV -->
+      <button type="button" onclick="openReschedulePanel()" class="w-full p-3 rounded-xl border border-amber-200 bg-white hover:border-amber-500 hover:shadow-xs transition text-left flex items-center justify-between group">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-extrabold border border-amber-200 group-hover:bg-amber-600 group-hover:text-white transition">
+            ⟳
+          </div>
+          <div>
+            <div class="text-xs font-extrabold text-cs2-neutral-950">Reporter le Rendez-Vous</div>
+            <div class="text-[10px] text-cs2-neutral-500">Sélectionner un nouveau créneau horaire</div>
+          </div>
+        </div>
+        <span class="text-xs font-extrabold text-amber-600 group-hover:translate-x-0.5 transition">Reporter →</span>
+      </button>
+    </div>
+
+    <!-- Hidden Reschedule Panel -->
+    <div id="reschedule-panel" class="hidden p-3 rounded-xl border border-cs2-neutral-200 bg-white space-y-3 pt-3">
+      <div class="text-xs font-extrabold text-cs2-neutral-950">Nouveau Créneau Horaire</div>
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <label class="text-[10px] font-bold text-cs2-neutral-500 block mb-1">Date</label>
+          <input type="date" id="reschedule-date" value="2026-08-31" class="w-full px-2.5 py-1 text-xs border border-cs2-neutral-200 rounded-lg bg-white font-bold text-cs2-neutral-900 focus:outline-none focus:border-cs2-brand-600">
+        </div>
+        <div>
+          <label class="text-[10px] font-bold text-cs2-neutral-500 block mb-1">Heure</label>
+          <input type="time" id="reschedule-time" value="14:00" class="w-full px-2.5 py-1 text-xs border border-cs2-neutral-200 rounded-lg bg-white font-bold text-cs2-neutral-900 focus:outline-none focus:border-cs2-brand-600">
+        </div>
+      </div>
+      <div class="flex items-center justify-end gap-2 pt-1">
+        <button type="button" onclick="confirmReschedule()" class="px-3 py-1.5 rounded-lg bg-cs2-brand-600 text-white font-extrabold text-xs hover:bg-cs2-brand-700 transition">Confirmer le report</button>
+      </div>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="flex items-center justify-end border-t border-cs2-neutral-200 pt-3">
+      <!-- Django: {% include "components/ui/button.html" with label="Fermer" variant="secondary" size="sm" extra_classes="onclick='closePresenceModal()'" %} -->
+      <button type="button" onclick="closePresenceModal()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-cs2-neutral-200 bg-white hover:bg-cs2-neutral-50 text-cs2-neutral-800 font-extrabold text-xs transition shadow-2xs">Fermer</button>
+    </div>
+
+  </div>
+</div>

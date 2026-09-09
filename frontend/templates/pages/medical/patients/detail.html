@@ -1,0 +1,241 @@
+<!-- {% extends "layouts/app.html" %} -->
+<!-- {% load static %} -->
+
+<!-- {% block title %}CS² Health — Fiche Patient Alice KONÉ{% endblock %} -->
+
+<!DOCTYPE html>
+<html lang="fr" class="h-full bg-white antialiased text-cs2-neutral-900 scroll-smooth" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS² Health — Fiche Patient Alice KONÉ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="../../../../static/css/styles.css">
+  <script>window.SIDEBAR_ACTIVE = 'medical-patients';</script>
+</head>
+<body class="h-full bg-white text-cs2-neutral-900 font-sans flex flex-col antialiased selection:bg-cs2-brand-600 selection:text-white">
+
+  <!-- Accessibilité : Skip Link -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-cs2-brand-600 focus:text-white focus:rounded-xl focus:shadow-lg focus:font-extrabold focus:outline-none">
+    Aller au contenu principal
+  </a>
+
+  <div class="flex h-screen overflow-hidden bg-white">
+    <!-- Sidebar Mount Point -->
+    <div id="sidebar-mount"></div>
+
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <!-- Header Mount Point -->
+      <div id="header-mount"></div>
+
+      <main id="main-content" tabindex="-1" class="flex-1 overflow-y-auto p-4 md:p-8 max-w-7xl w-full mx-auto space-y-6 focus:outline-none">
+        <!-- {% block content %} -->
+
+        <!-- 👤 En-tête Patient Principal -->
+        <div class="bg-white rounded-2xl border border-cs2-neutral-200 shadow-2xs p-6 space-y-4">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-cs2-neutral-200 pb-4">
+            
+            <!-- Patient Info -->
+            <div class="flex items-center gap-4">
+              <div class="w-14 h-14 rounded-2xl bg-white text-cs2-brand-700 font-black text-xl flex items-center justify-center border border-cs2-brand-200 shadow-2xs font-title">
+                AK
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <h1 class="text-xl font-extrabold text-cs2-neutral-950 font-title">Alice KONÉ</h1>
+                  <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-white text-emerald-700 border border-emerald-200 shadow-2xs">Dossier actif</span>
+                </div>
+                <p class="text-xs font-medium text-cs2-neutral-500 mt-0.5 font-mono">
+                  NSS: 284-901-342 • Femme • 32 ans (Née le 14/05/1994)
+                </p>
+              </div>
+            </div>
+
+            <!-- Action Header Buttons -->
+            <div class="flex flex-wrap items-center gap-2">
+              <!-- Django: {% include "components/ui/button.html" with label="← Retour à l'agenda" href="../appointments/agenda.html" variant="secondary" size="sm" %} -->
+              <a href="../appointments/agenda.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-cs2-neutral-200 bg-white hover:bg-cs2-neutral-50 text-cs2-neutral-800 font-extrabold text-xs transition shadow-2xs">← Retour à l'agenda</a>
+              <!-- Django: {% include "components/ui/button.html" with label="Nouvelle consultation" href="../consultations/create.html" variant="primary" size="sm" %} -->
+              <a href="../consultations/create.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cs2-brand-600 hover:bg-cs2-brand-700 text-white font-extrabold text-xs transition shadow-2xs">Nouvelle consultation</a>
+              <!-- Django: {% include "components/ui/button.html" with label="Prescrire" href="../prescriptions/create.html" variant="primary" size="sm" extra_classes="bg-emerald-600 hover:bg-emerald-700" %} -->
+              <a href="../prescriptions/create.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs transition shadow-2xs">Prescrire</a>
+              <!-- Django: {% include "components/ui/button.html" with label="Historique complet" href="../consultations/history.html" variant="outline" size="sm" %} -->
+              <a href="../consultations/history.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-cs2-neutral-200 bg-white hover:bg-cs2-neutral-50 text-cs2-neutral-800 font-extrabold text-xs transition shadow-2xs">Historique complet</a>
+            </div>
+
+          </div>
+
+          <!-- Onglets Fiche Patient -->
+          <div class="flex items-center gap-2 border-b border-cs2-neutral-100 pb-1 overflow-x-auto text-xs font-bold">
+            <button type="button" onclick="switchPatientTab('resume')" id="tab-resume" class="px-4 py-2 rounded-xl text-cs2-brand-700 bg-cs2-brand-50 border border-cs2-brand-200 font-extrabold transition">Résumé &amp; Constantes</button>
+            <button type="button" onclick="switchPatientTab('consultations')" id="tab-consultations" class="px-4 py-2 rounded-xl text-cs2-neutral-600 hover:bg-cs2-neutral-100 transition">Consultations (12)</button>
+            <button type="button" onclick="switchPatientTab('prescriptions')" id="tab-prescriptions" class="px-4 py-2 rounded-xl text-cs2-neutral-600 hover:bg-cs2-neutral-100 transition">Prescriptions (8)</button>
+            <button type="button" onclick="switchPatientTab('examens')" id="tab-examens" class="px-4 py-2 rounded-xl text-cs2-neutral-600 hover:bg-cs2-neutral-100 transition">Examens &amp; Labo</button>
+            <button type="button" onclick="switchPatientTab('factures')" id="tab-factures" class="px-4 py-2 rounded-xl text-cs2-neutral-600 hover:bg-cs2-neutral-100 transition">Factures</button>
+          </div>
+        </div>
+
+        <!-- 🧪 Grid: Constantes Vitales & Infos Personnelles -->
+        <div id="section-resume" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+          <!-- Colonne 1: Constantes Vitales -->
+          <div class="bg-white rounded-2xl border border-cs2-neutral-200 shadow-2xs p-6 space-y-4">
+            <div class="border-b border-cs2-neutral-200 pb-3 flex items-center justify-between">
+              <h2 class="text-base font-extrabold text-cs2-neutral-950 font-title">Constantes Vitales</h2>
+              <span class="text-[10px] text-cs2-neutral-500 font-mono">Dernière prise: Aujourd'hui 09:15</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 text-xs">
+              <!-- Température -->
+              <div class="p-3 rounded-xl border border-cs2-neutral-200 bg-white shadow-2xs space-y-0.5">
+                <span class="text-[10px] font-extrabold text-cs2-neutral-500 uppercase tracking-wider">Température</span>
+                <div class="text-lg font-black text-cs2-neutral-950 font-title">37.2 °C</div>
+                <span class="text-[10px] font-extrabold text-emerald-600">Normal</span>
+              </div>
+
+              <!-- Tension -->
+              <div class="p-3 rounded-xl border border-cs2-neutral-200 bg-white shadow-2xs space-y-0.5">
+                <span class="text-[10px] font-extrabold text-cs2-neutral-500 uppercase tracking-wider">Tension Artérielle</span>
+                <div class="text-lg font-black text-cs2-neutral-950 font-title">12/8 mmHg</div>
+                <span class="text-[10px] font-extrabold text-emerald-600">Optimale</span>
+              </div>
+
+              <!-- Poids -->
+              <div class="p-3 rounded-xl border border-cs2-neutral-200 bg-white shadow-2xs space-y-0.5">
+                <span class="text-[10px] font-extrabold text-cs2-neutral-500 uppercase tracking-wider">Poids</span>
+                <div class="text-lg font-black text-cs2-neutral-950 font-title">72 kg</div>
+                <span class="text-[10px] font-bold text-cs2-neutral-500">Stable</span>
+              </div>
+
+              <!-- Taille -->
+              <div class="p-3 rounded-xl border border-cs2-neutral-200 bg-white shadow-2xs space-y-0.5">
+                <span class="text-[10px] font-extrabold text-cs2-neutral-500 uppercase tracking-wider">Taille</span>
+                <div class="text-lg font-black text-cs2-neutral-950 font-title">175 cm</div>
+                <span class="text-[10px] font-bold text-cs2-neutral-500">-</span>
+              </div>
+            </div>
+
+            <!-- IMC Highlight Card -->
+            <div class="p-3.5 rounded-xl border border-cs2-brand-200 bg-cs2-brand-50/50 flex items-center justify-between shadow-2xs">
+              <div>
+                <span class="text-[10px] font-extrabold text-cs2-brand-800 uppercase tracking-wider">Indice de Masse Corporelle (IMC)</span>
+                <div class="text-xl font-black text-cs2-brand-950 font-title">23.5 kg/m²</div>
+              </div>
+              <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-white text-emerald-700 border border-emerald-200 shadow-2xs">Corpulence normale</span>
+            </div>
+          </div>
+
+          <!-- Colonne 2: Informations Personnelles & Antécédents -->
+          <div class="bg-white rounded-2xl border border-cs2-neutral-200 shadow-2xs p-6 space-y-4">
+            <div class="border-b border-cs2-neutral-200 pb-3">
+              <h2 class="text-base font-extrabold text-cs2-neutral-950 font-title">Informations &amp; Profil Médical</h2>
+            </div>
+
+            <!-- Contact -->
+            <div class="space-y-2 text-xs">
+              <div class="flex items-center justify-between py-1 border-b border-cs2-neutral-100">
+                <span class="font-bold text-cs2-neutral-500">Téléphone :</span>
+                <span class="font-mono font-bold text-cs2-neutral-900">+225 07 08 90 12 34</span>
+              </div>
+              <div class="flex items-center justify-between py-1 border-b border-cs2-neutral-100">
+                <span class="font-bold text-cs2-neutral-500">Adresse :</span>
+                <span class="font-medium text-cs2-neutral-900">Abidjan, Cocody II Plateaux</span>
+              </div>
+              <div class="flex items-center justify-between py-1 border-b border-cs2-neutral-100">
+                <span class="font-bold text-cs2-neutral-500">Groupe Sanguin :</span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-rose-50 text-rose-700 border border-rose-200">O+ (Rh Positif)</span>
+              </div>
+            </div>
+
+            <!-- Allergies Alerte Rouge -->
+            <div class="p-3.5 rounded-xl border border-rose-200 bg-rose-50/50 space-y-1">
+              <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                <h3 class="text-xs font-extrabold text-rose-800 uppercase tracking-wider">Allergies Connues</h3>
+              </div>
+              <p class="text-xs font-bold text-rose-900">Allergie sévère à la Pénicilline (Choc anaphylactique)</p>
+            </div>
+
+            <!-- Antécédents Médicaux -->
+            <div class="space-y-2 text-xs">
+              <span class="font-extrabold text-cs2-neutral-800 uppercase tracking-wider text-[10px] block">Antécédents &amp; Pathologies Chroniques</span>
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="px-2.5 py-1 rounded-lg bg-cs2-neutral-100 text-cs2-neutral-800 font-bold border border-cs2-neutral-200">Hypertension Artérielle (HTA)</span>
+                <span class="px-2.5 py-1 rounded-lg bg-cs2-neutral-100 text-cs2-neutral-800 font-bold border border-cs2-neutral-200">Asthme léger</span>
+              </div>
+            </div>
+
+            <!-- Traitements en cours -->
+            <div class="space-y-2 text-xs">
+              <span class="font-extrabold text-cs2-neutral-800 uppercase tracking-wider text-[10px] block">Traitements en Cours</span>
+              <p class="text-xs font-medium text-cs2-neutral-700 bg-cs2-neutral-50 p-2.5 rounded-xl border border-cs2-neutral-100">
+                • Amlodipine 5mg — 1 comprimé le matin<br>
+                • Ventoline 100μg — En cas de besoin
+              </p>
+            </div>
+          </div>
+
+          <!-- Colonne 3: Dernières Consultations -->
+          <div class="bg-white rounded-2xl border border-cs2-neutral-200 shadow-2xs p-6 space-y-4">
+            <div class="border-b border-cs2-neutral-200 pb-3 flex items-center justify-between">
+              <h2 class="text-base font-extrabold text-cs2-neutral-950 font-title">Dernières Consultations</h2>
+              <a href="../consultations/history.html" class="text-xs font-extrabold text-cs2-brand-600 hover:text-cs2-brand-800">Tout l'historique →</a>
+            </div>
+
+            <div class="space-y-3">
+              <!-- Consultation 1 -->
+              <div class="p-3.5 rounded-xl border border-cs2-neutral-200 bg-white hover:border-cs2-brand-500 transition space-y-1.5 shadow-2xs">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="font-mono font-bold text-cs2-neutral-500">26/08/2026</span>
+                  <span class="px-2 py-0.5 rounded text-[9px] font-extrabold bg-white text-emerald-700 border border-emerald-200">Réalisé</span>
+                </div>
+                <h3 class="text-xs font-extrabold text-cs2-neutral-950">Suivi Cardiologie</h3>
+                <p class="text-[11px] text-cs2-neutral-600 line-clamp-2">Patient rapporte des palpitations occasionnelles. Électrocardiogramme normal, ajustement posologique.</p>
+              </div>
+
+              <!-- Consultation 2 -->
+              <div class="p-3.5 rounded-xl border border-cs2-neutral-200 bg-white hover:border-cs2-brand-500 transition space-y-1.5 shadow-2xs">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="font-mono font-bold text-cs2-neutral-500">12/07/2026</span>
+                  <span class="px-2 py-0.5 rounded text-[9px] font-extrabold bg-white text-emerald-700 border border-emerald-200">Réalisé</span>
+                </div>
+                <h3 class="text-xs font-extrabold text-cs2-neutral-950">Consultation Générale</h3>
+                <p class="text-[11px] text-cs2-neutral-600 line-clamp-2">Bilan de routine et contrôle de tension artérielle. Prescription renouvelée.</p>
+              </div>
+
+              <!-- Consultation 3 -->
+              <div class="p-3.5 rounded-xl border border-cs2-neutral-200 bg-white hover:border-cs2-brand-500 transition space-y-1.5 shadow-2xs">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="font-mono font-bold text-cs2-neutral-500">04/05/2026</span>
+                  <span class="px-2 py-0.5 rounded text-[9px] font-extrabold bg-white text-emerald-700 border border-emerald-200">Réalisé</span>
+                </div>
+                <h3 class="text-xs font-extrabold text-cs2-neutral-950">Biologie &amp; Bilan Sanguin</h3>
+                <p class="text-[11px] text-cs2-neutral-600 line-clamp-2">Examen lipidique complet et glycémie à jeun sans anomalie majeure.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- {% endblock %} -->
+      </main>
+    </div>
+  </div>
+
+  <script src="../../../../static/js/core/cs2-paths.js"></script>
+  <script src="../../../../static/js/components/cs2-logo.js"></script>
+  <script src="../../../../static/js/loaders/sidebar-loader.js"></script>
+  <script src="../../../../static/js/loaders/header-loader.js"></script>
+  <script src="../../../../static/js/core/theme.js"></script>
+  <script src="../../../../static/js/components/navigation.js"></script>
+  <script src="../../../../static/js/components/modal.js"></script>
+  <script src="../../../../static/js/components/dropdown.js"></script>
+  <script src="../../../../static/js/core/app.js"></script>
+  <!-- {% block extra_js %} -->
+  <script src="../../../../static/js/modules/medical/patient-detail.js"></script>
+  <!-- {% endblock %} -->
+</body>
+</html>

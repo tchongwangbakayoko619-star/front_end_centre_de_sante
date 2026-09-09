@@ -16,6 +16,13 @@
   }
 
   function resolveHeaderPath() {
+    const href   = (window.location.href || '').toLowerCase();
+    const path   = (window.location.pathname || '').toLowerCase();
+    const active = (window.SIDEBAR_ACTIVE || '').toLowerCase();
+    const isMedical = active.startsWith('medical-') || path.includes('/medical/') || path.includes('medical') || href.includes('/medical/');
+    if (isMedical) {
+      return projectRoot() + '/templates/components/medical/medical-header.html';
+    }
     return projectRoot() + '/templates/components/header.html';
   }
 
@@ -53,15 +60,20 @@
     const pageUrl  = window.location.pathname;
     const rootBase = projectRoot();
 
+    const isMedical = window.SIDEBAR_ACTIVE && window.SIDEBAR_ACTIVE.startsWith('medical-');
+
     document.querySelectorAll('header a[href]').forEach(link => {
       const href = link.getAttribute('href');
       if (!href || href === '#' || href.startsWith('javascript:')) return;
-      if (href.includes('dashboard.html') || href === '../dashboard.html') {
-        link.href = computeRelativePath(pageUrl, rootBase + '/templates/pages/reception/dashboard.html');
+      if (href.includes('dashboard.html')) {
+        const target = isMedical ? '/templates/pages/medical/dashboard.html' : '/templates/pages/reception/dashboard.html';
+        link.href = computeRelativePath(pageUrl, rootBase + target);
       } else if (href.includes('notifications/history.html') || href.includes('history.html')) {
-        link.href = computeRelativePath(pageUrl, rootBase + '/templates/pages/reception/notifications/history.html');
-      } else if (href.includes('profile/index.html') || href.includes('profile')) {
-        link.href = computeRelativePath(pageUrl, rootBase + '/templates/pages/profile/index.html');
+        const target = isMedical ? '/templates/pages/medical/reports/index.html' : '/templates/pages/reception/notifications/history.html';
+        link.href = computeRelativePath(pageUrl, rootBase + target);
+      } else if (href.includes('profile') || href.includes('settings')) {
+        const target = isMedical ? '/templates/pages/medical/settings/index.html' : '/templates/pages/profile/index.html';
+        link.href = computeRelativePath(pageUrl, rootBase + target);
       }
     });
 

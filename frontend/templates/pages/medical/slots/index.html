@@ -1,0 +1,325 @@
+<!-- {% extends "layouts/app.html" %} -->
+<!-- {% load static %} -->
+
+<!-- {% block title %}CS² Health — Mes créneaux de consultation{% endblock %} -->
+
+<!DOCTYPE html>
+<html lang="fr" class="h-full bg-white antialiased text-cs2-neutral-900 scroll-smooth" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS² Health — Mes créneaux de consultation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="../../../../static/css/styles.css">
+  <script>window.SIDEBAR_ACTIVE = 'medical-slots';</script>
+</head>
+<body class="h-full bg-white text-cs2-neutral-900 font-sans flex flex-col antialiased selection:bg-cs2-brand-600 selection:text-white">
+
+  <!-- Accessibilité : Skip Link -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-cs2-brand-600 focus:text-white focus:rounded-xl focus:shadow-lg focus:font-extrabold focus:outline-none">
+    Aller au contenu principal
+  </a>
+
+  <div class="flex h-screen overflow-hidden bg-white">
+    <!-- Sidebar Mount Point -->
+    <div id="sidebar-mount"></div>
+
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <!-- Header Mount Point -->
+      <div id="header-mount"></div>
+
+      <main id="main-content" tabindex="-1" class="flex-1 overflow-y-auto p-4 md:p-8 max-w-7xl w-full mx-auto space-y-6 focus:outline-none">
+        <!-- {% block content %} -->
+
+        <!-- 🕒 Header Créneaux -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-cs2-neutral-200">
+          <div>
+            <h1 class="text-xl sm:text-2xl font-extrabold text-cs2-neutral-950 font-title tracking-tight">Mes créneaux de consultation</h1>
+            <p class="text-xs font-medium text-cs2-neutral-500 mt-0.5">Configuration des plages de travail hebdomadaires et gestion des pauses.</p>
+          </div>
+
+          <div class="flex items-center gap-2 flex-shrink-0">
+            <button type="button" onclick="openSlotModal()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-cs2-brand-600 hover:bg-cs2-brand-700 text-white font-extrabold text-xs transition shadow-2xs">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+              <span>Ajouter un créneau</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 📋 Tableau 1: Disponibilités Hebdomadaires -->
+        <div class="bg-white rounded-2xl border border-cs2-neutral-200 shadow-2xs p-6 space-y-4">
+          <div class="flex items-center justify-between border-b border-cs2-neutral-200 pb-3">
+            <h2 class="text-base font-extrabold text-cs2-neutral-950 font-title">Planning de Disponibilité</h2>
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-white text-cs2-brand-700 border border-cs2-brand-200 shadow-2xs">5 Jours actifs</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-cs2-neutral-200 bg-white">
+                  <th class="p-3 text-xs font-extrabold text-cs2-neutral-900">Jour</th>
+                  <th class="p-3 text-xs font-extrabold text-cs2-neutral-900">Horaires</th>
+                  <th class="p-3 text-xs font-extrabold text-cs2-neutral-900">Pause</th>
+                  <th class="p-3 text-xs font-extrabold text-cs2-neutral-900">Durée par défaut</th>
+                  <th class="p-3 text-xs font-extrabold text-cs2-neutral-900 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-cs2-neutral-100 text-xs">
+                
+                <!-- Lundi -->
+                <tr class="hover:bg-cs2-neutral-50/60 transition">
+                  <td class="p-3 font-extrabold text-cs2-neutral-950">Lundi</td>
+                  <td class="p-3 font-mono font-bold text-cs2-brand-700">08:00 - 16:00</td>
+                  <td class="p-3 text-cs2-neutral-600 font-medium">12:00 - 13:00</td>
+                  <td class="p-3 font-medium text-cs2-neutral-700">30 min</td>
+                  <td class="p-3 text-right space-x-2">
+                    <button type="button" onclick="editSlot('Lundi', '08:00', '16:00', '12:00-13:00', '30')" class="text-cs2-brand-600 hover:text-cs2-brand-800 font-extrabold">Modifier</button>
+                    <button type="button" onclick="deleteSlot('Lundi')" class="text-rose-600 hover:text-rose-800 font-extrabold">Supprimer</button>
+                  </td>
+                </tr>
+
+                <!-- Mardi -->
+                <tr class="hover:bg-cs2-neutral-50/60 transition">
+                  <td class="p-3 font-extrabold text-cs2-neutral-950">Mardi</td>
+                  <td class="p-3 font-mono font-bold text-cs2-brand-700">10:00 - 18:00</td>
+                  <td class="p-3 text-cs2-neutral-400 italic">Aucune</td>
+                  <td class="p-3 font-medium text-cs2-neutral-700">30 min</td>
+                  <td class="p-3 text-right space-x-2">
+                    <button type="button" onclick="editSlot('Mardi', '10:00', '18:00', 'Aucune', '30')" class="text-cs2-brand-600 hover:text-cs2-brand-800 font-extrabold">Modifier</button>
+                    <button type="button" onclick="deleteSlot('Mardi')" class="text-rose-600 hover:text-rose-800 font-extrabold">Supprimer</button>
+                  </td>
+                </tr>
+
+                <!-- Mercredi -->
+                <tr class="hover:bg-cs2-neutral-50/60 transition">
+                  <td class="p-3 font-extrabold text-cs2-neutral-950">Mercredi</td>
+                  <td class="p-3 font-mono font-bold text-cs2-brand-700">08:00 - 16:00</td>
+                  <td class="p-3 text-cs2-neutral-400 italic">Aucune</td>
+                  <td class="p-3 font-medium text-cs2-neutral-700">30 min</td>
+                  <td class="p-3 text-right space-x-2">
+                    <button type="button" onclick="editSlot('Mercredi', '08:00', '16:00', 'Aucune', '30')" class="text-cs2-brand-600 hover:text-cs2-brand-800 font-extrabold">Modifier</button>
+                    <button type="button" onclick="deleteSlot('Mercredi')" class="text-rose-600 hover:text-rose-800 font-extrabold">Supprimer</button>
+                  </td>
+                </tr>
+
+                <!-- Jeudi -->
+                <tr class="hover:bg-cs2-neutral-50/60 transition">
+                  <td class="p-3 font-extrabold text-cs2-neutral-950">Jeudi</td>
+                  <td class="p-3 font-mono font-bold text-cs2-brand-700">08:00 - 16:00</td>
+                  <td class="p-3 text-cs2-neutral-400 italic">Aucune</td>
+                  <td class="p-3 font-medium text-cs2-neutral-700">30 min</td>
+                  <td class="p-3 text-right space-x-2">
+                    <button type="button" onclick="editSlot('Jeudi', '08:00', '16:00', 'Aucune', '30')" class="text-cs2-brand-600 hover:text-cs2-brand-800 font-extrabold">Modifier</button>
+                    <button type="button" onclick="deleteSlot('Jeudi')" class="text-rose-600 hover:text-rose-800 font-extrabold">Supprimer</button>
+                  </td>
+                </tr>
+
+                <!-- Vendredi -->
+                <tr class="hover:bg-cs2-neutral-50/60 transition">
+                  <td class="p-3 font-extrabold text-cs2-neutral-950">Vendredi</td>
+                  <td class="p-3 font-mono font-bold text-cs2-brand-700">08:00 - 14:00</td>
+                  <td class="p-3 text-cs2-neutral-400 italic">Aucune</td>
+                  <td class="p-3 font-medium text-cs2-neutral-700">30 min</td>
+                  <td class="p-3 text-right space-x-2">
+                    <button type="button" onclick="editSlot('Vendredi', '08:00', '14:00', 'Aucune', '30')" class="text-cs2-brand-600 hover:text-cs2-brand-800 font-extrabold">Modifier</button>
+                    <button type="button" onclick="deleteSlot('Vendredi')" class="text-rose-600 hover:text-rose-800 font-extrabold">Supprimer</button>
+                  </td>
+                </tr>
+
+                <!-- Samedi -->
+                <tr class="bg-cs2-neutral-50/30">
+                  <td class="p-3 font-extrabold text-cs2-neutral-400">Samedi</td>
+                  <td class="p-3 font-mono text-cs2-neutral-400">Aucun</td>
+                  <td class="p-3 text-cs2-neutral-400">-</td>
+                  <td class="p-3 text-cs2-neutral-400">-</td>
+                  <td class="p-3 text-right">
+                    <button type="button" onclick="openSlotModal('Samedi')" class="text-cs2-brand-600 hover:text-cs2-brand-800 font-extrabold">Activer</button>
+                  </td>
+                </tr>
+
+                <!-- Dimanche -->
+                <tr class="bg-cs2-neutral-50/30">
+                  <td class="p-3 font-extrabold text-cs2-neutral-400">Dimanche</td>
+                  <td class="p-3 font-mono text-cs2-neutral-400">Aucun</td>
+                  <td class="p-3 text-cs2-neutral-400">-</td>
+                  <td class="p-3 text-cs2-neutral-400">-</td>
+                  <td class="p-3 text-right">
+                    <button type="button" onclick="openSlotModal('Dimanche')" class="text-cs2-brand-600 hover:text-cs2-brand-800 font-extrabold">Activer</button>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 🚫 Tableau 2: Indisponibilités -->
+        <div class="bg-white rounded-2xl border border-cs2-neutral-200 shadow-2xs p-6 space-y-4">
+          <div class="flex items-center justify-between border-b border-cs2-neutral-200 pb-3">
+            <div>
+              <h2 class="text-base font-extrabold text-cs2-neutral-950 font-title">Indisponibilités &amp; Congés</h2>
+              <p class="text-[11px] text-cs2-neutral-500">Périodes de congés, formations ou réunions où les créneaux sont verrouillés.</p>
+            </div>
+
+            <button type="button" onclick="openUnavailabilityModal()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-amber-300 bg-white hover:bg-amber-50 text-amber-800 font-extrabold text-xs transition shadow-2xs">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+              <span>Ajouter une indisponibilité</span>
+            </button>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-cs2-neutral-200 bg-white text-xs font-extrabold text-cs2-neutral-900">
+                  <th class="p-3">Date Début</th>
+                  <th class="p-3">Date Fin</th>
+                  <th class="p-3">Motif</th>
+                  <th class="p-3">Statut</th>
+                  <th class="p-3 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-cs2-neutral-100 text-xs">
+                <tr>
+                  <td class="p-3 font-mono font-bold text-cs2-neutral-900">15/09/2026</td>
+                  <td class="p-3 font-mono font-bold text-cs2-neutral-900">20/09/2026</td>
+                  <td class="p-3 font-extrabold text-cs2-neutral-950">Congés Annuels</td>
+                  <td class="p-3"><span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-white text-cs2-brand-700 border border-cs2-brand-200">Planifié</span></td>
+                  <td class="p-3 text-right space-x-2">
+                    <button type="button" onclick="editUnavailability('15/09/2026')" class="text-cs2-brand-600 font-extrabold">Modifier</button>
+                    <button type="button" onclick="cancelUnavailability('Congés')" class="text-rose-600 font-extrabold">Annuler</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-mono font-bold text-cs2-neutral-900">28/09/2026</td>
+                  <td class="p-3 font-mono font-bold text-cs2-neutral-900">28/09/2026</td>
+                  <td class="p-3 font-extrabold text-cs2-neutral-950">Formation Médicale Continue</td>
+                  <td class="p-3"><span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-white text-emerald-700 border border-emerald-200">Confirmé</span></td>
+                  <td class="p-3 text-right space-x-2">
+                    <button type="button" onclick="editUnavailability('28/09/2026')" class="text-cs2-brand-600 font-extrabold">Modifier</button>
+                    <button type="button" onclick="cancelUnavailability('Formation')" class="text-rose-600 font-extrabold">Annuler</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Modale Ajouter / Modifier Créneau -->
+        <div id="slot-modal" class="hidden modal">
+          <div class="modal-backdrop" onclick="closeSlotModal()"></div>
+          <div class="modal-content max-w-md w-full bg-white p-6 rounded-2xl border border-cs2-neutral-200 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b border-cs2-neutral-200 pb-3">
+              <h3 id="slot-modal-title" class="text-base font-extrabold text-cs2-neutral-950 font-title">Ajouter un créneau de consultation</h3>
+              <button type="button" onclick="closeSlotModal()" class="text-cs2-neutral-400 hover:text-cs2-neutral-700">✕</button>
+            </div>
+            
+            <form onsubmit="handleSaveSlot(event)" class="space-y-3">
+              <div>
+                <label class="text-xs font-bold text-cs2-neutral-700 block mb-1">Jour de la semaine</label>
+                <select id="slot-day-select" class="w-full px-3 py-2 text-xs border border-cs2-neutral-200 rounded-xl bg-white text-cs2-neutral-900 font-bold focus:outline-none focus:border-cs2-brand-600">
+                  <option value="Lundi">Lundi</option>
+                  <option value="Mardi">Mardi</option>
+                  <option value="Mercredi">Mercredi</option>
+                  <option value="Jeudi">Jeudi</option>
+                  <option value="Vendredi">Vendredi</option>
+                  <option value="Samedi">Samedi</option>
+                  <option value="Dimanche">Dimanche</option>
+                </select>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="text-xs font-bold text-cs2-neutral-700 block mb-1">Heure Début</label>
+                  <input type="time" id="slot-start-time" value="08:00" class="w-full px-3 py-2 text-xs border border-cs2-neutral-200 rounded-xl bg-white text-cs2-neutral-900 font-bold focus:outline-none focus:border-cs2-brand-600">
+                </div>
+                <div>
+                  <label class="text-xs font-bold text-cs2-neutral-700 block mb-1">Heure Fin</label>
+                  <input type="time" id="slot-end-time" value="16:00" class="w-full px-3 py-2 text-xs border border-cs2-neutral-200 rounded-xl bg-white text-cs2-neutral-900 font-bold focus:outline-none focus:border-cs2-brand-600">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="text-xs font-bold text-cs2-neutral-700 block mb-1">Pause Déjeuner</label>
+                  <input type="text" id="slot-pause" value="12:00 - 13:00" placeholder="Ex: 12:00-13:00 ou Aucune" class="w-full px-3 py-2 text-xs border border-cs2-neutral-200 rounded-xl bg-white text-cs2-neutral-900 font-bold focus:outline-none focus:border-cs2-brand-600">
+                </div>
+                <div>
+                  <label class="text-xs font-bold text-cs2-neutral-700 block mb-1">Durée RDV</label>
+                  <select id="slot-duration" class="w-full px-3 py-2 text-xs border border-cs2-neutral-200 rounded-xl bg-white text-cs2-neutral-900 font-bold focus:outline-none focus:border-cs2-brand-600">
+                    <option value="15">15 min</option>
+                    <option value="30" selected>30 min</option>
+                    <option value="45">45 min</option>
+                    <option value="60">60 min</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-end gap-2 pt-3 border-t border-cs2-neutral-200">
+                <button type="button" onclick="closeSlotModal()" class="px-4 py-2 rounded-xl border border-cs2-neutral-200 bg-white hover:bg-cs2-neutral-50 text-cs2-neutral-800 font-bold text-xs">Annuler</button>
+                <button type="submit" class="px-4 py-2 rounded-xl bg-cs2-brand-600 hover:bg-cs2-brand-700 text-white font-extrabold text-xs shadow-2xs">Enregistrer le créneau</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Modale Indisponibilité -->
+        <div id="unavailability-modal" class="hidden modal">
+          <div class="modal-backdrop" onclick="closeUnavailabilityModal()"></div>
+          <div class="modal-content max-w-md w-full bg-white p-6 rounded-2xl border border-cs2-neutral-200 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b border-cs2-neutral-200 pb-3">
+              <h3 class="text-base font-extrabold text-cs2-neutral-950 font-title">Ajouter une indisponibilité</h3>
+              <button type="button" onclick="closeUnavailabilityModal()" class="text-cs2-neutral-400 hover:text-cs2-neutral-700">✕</button>
+            </div>
+            
+            <form onsubmit="handleSaveUnavailability(event)" class="space-y-3">
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="text-xs font-bold text-cs2-neutral-700 block mb-1">Date Début</label>
+                  <input type="date" value="2026-09-15" class="w-full px-3 py-2 text-xs border border-cs2-neutral-200 rounded-xl bg-white text-cs2-neutral-900 font-bold focus:outline-none focus:border-cs2-brand-600">
+                </div>
+                <div>
+                  <label class="text-xs font-bold text-cs2-neutral-700 block mb-1">Date Fin</label>
+                  <input type="date" value="2026-09-20" class="w-full px-3 py-2 text-xs border border-cs2-neutral-200 rounded-xl bg-white text-cs2-neutral-900 font-bold focus:outline-none focus:border-cs2-brand-600">
+                </div>
+              </div>
+
+              <div>
+                <label class="text-xs font-bold text-cs2-neutral-700 block mb-1">Motif</label>
+                <select class="w-full px-3 py-2 text-xs border border-cs2-neutral-200 rounded-xl bg-white text-cs2-neutral-900 font-bold focus:outline-none focus:border-cs2-brand-600">
+                  <option value="conge">Congés annuels</option>
+                  <option value="formation">Formation médicale</option>
+                  <option value="reunion">Réunion / Sémimaire</option>
+                  <option value="maladie">Absence Maladie</option>
+                </select>
+              </div>
+
+              <div class="flex items-center justify-end gap-2 pt-3 border-t border-cs2-neutral-200">
+                <button type="button" onclick="closeUnavailabilityModal()" class="px-4 py-2 rounded-xl border border-cs2-neutral-200 bg-white hover:bg-cs2-neutral-50 text-cs2-neutral-800 font-bold text-xs">Annuler</button>
+                <button type="submit" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs shadow-2xs">Valider l'indisponibilité</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- {% endblock %} -->
+      </main>
+    </div>
+  </div>
+
+  <script src="../../../../static/js/core/cs2-paths.js"></script>
+  <script src="../../../../static/js/components/cs2-logo.js"></script>
+  <script src="../../../../static/js/loaders/sidebar-loader.js"></script>
+  <script src="../../../../static/js/loaders/header-loader.js"></script>
+  <script src="../../../../static/js/core/theme.js"></script>
+  <script src="../../../../static/js/components/navigation.js"></script>
+  <script src="../../../../static/js/components/modal.js"></script>
+  <script src="../../../../static/js/components/dropdown.js"></script>
+  <script src="../../../../static/js/core/app.js"></script>
+  <!-- {% block extra_js %} -->
+  <script src="../../../../static/js/modules/medical/slots.js"></script>
+  <!-- {% endblock %} -->
+</body>
+</html>

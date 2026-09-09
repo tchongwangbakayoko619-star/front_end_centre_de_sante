@@ -23,6 +23,13 @@
   }
 
   function resolveComponentPath() {
+    const href   = (window.location.href || '').toLowerCase();
+    const path   = (window.location.pathname || '').toLowerCase();
+    const active = (window.SIDEBAR_ACTIVE || '').toLowerCase();
+    const isMedical = active.startsWith('medical-') || path.includes('/medical/') || path.includes('medical') || href.includes('/medical/');
+    if (isMedical) {
+      return projectRoot() + '/templates/components/medical/medical-sidebar.html';
+    }
     return projectRoot() + '/templates/components/sidebar.html';
   }
 
@@ -133,6 +140,15 @@
     document.querySelectorAll('[data-nav-link]').forEach(link => {
       const target = link.getAttribute('data-nav-href');
       if (!target) return;
+      const absoluteTarget = rootBase + '/templates/pages/' + target;
+      link.href = computeRelativePath(pageUrl, absoluteTarget);
+    });
+
+    // Résolution du logo racine (Dashboard Médecin ou Réception)
+    document.querySelectorAll('[data-nav-root]').forEach(link => {
+      const target = (window.SIDEBAR_ACTIVE && window.SIDEBAR_ACTIVE.startsWith('medical-'))
+        ? 'medical/dashboard.html'
+        : 'reception/dashboard.html';
       const absoluteTarget = rootBase + '/templates/pages/' + target;
       link.href = computeRelativePath(pageUrl, absoluteTarget);
     });

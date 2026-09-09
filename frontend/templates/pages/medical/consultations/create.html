@@ -1,0 +1,147 @@
+<!-- {% extends "layouts/app.html" %} -->
+<!-- {% load static %} -->
+
+<!-- {% block title %}CS² Health — Nouvelle Consultation{% endblock %} -->
+
+<!DOCTYPE html>
+<html lang="fr" class="h-full bg-white antialiased text-cs2-neutral-900 scroll-smooth" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS² Health — Nouvelle Consultation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="../../../../static/css/styles.css">
+  <script>window.SIDEBAR_ACTIVE = 'medical-consult-create';</script>
+</head>
+<body class="h-full bg-white text-cs2-neutral-900 font-sans flex flex-col antialiased selection:bg-cs2-brand-600 selection:text-white">
+
+  <!-- Accessibilité : Skip Link -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-cs2-brand-600 focus:text-white focus:rounded-xl focus:shadow-lg focus:font-extrabold focus:outline-none">
+    Aller au contenu principal
+  </a>
+
+  <div class="flex h-screen overflow-hidden bg-white">
+    <!-- Sidebar Mount Point -->
+    <div id="sidebar-mount"></div>
+
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <!-- Header Mount Point -->
+      <div id="header-mount"></div>
+
+      <main id="main-content" tabindex="-1" class="flex-1 overflow-y-auto p-4 md:p-8 max-w-4xl w-full mx-auto space-y-6 focus:outline-none">
+        <!-- {% block content %} -->
+
+        <!-- 🩺 Header Formulaire Consultation -->
+        <div class="flex items-center justify-between gap-3 pb-4 border-b border-cs2-neutral-200">
+          <div>
+            <h1 class="text-xl sm:text-2xl font-extrabold text-cs2-neutral-950 font-title tracking-tight">Nouvelle consultation</h1>
+            <p class="text-xs font-medium text-cs2-neutral-500 mt-0.5">Saisie du compte-rendu médical et enregistrement des diagnostics.</p>
+          </div>
+          <!-- Django: {% include "components/ui/button.html" with label="← Annuler" href="../dashboard.html" variant="secondary" size="sm" %} -->
+          <a href="../dashboard.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-cs2-neutral-200 bg-white hover:bg-cs2-neutral-50 text-cs2-neutral-800 font-extrabold text-xs transition shadow-2xs">← Annuler</a>
+        </div>
+
+        <!-- 👤 Patient Sélectionné Card Header -->
+        <div class="p-4 rounded-2xl border border-cs2-brand-200 bg-white shadow-2xs flex items-center justify-between flex-wrap gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-cs2-brand-600 text-white font-extrabold text-xs flex items-center justify-center font-title shadow-2xs">AK</div>
+            <div>
+              <div class="text-xs font-extrabold text-cs2-neutral-950">Dr. Mansouri • Patient : <strong>Alice KONÉ</strong></div>
+              <p class="text-[11px] text-cs2-neutral-500 font-mono">NSS: 284-901-342 • 32 ans • Allergie : <strong class="text-rose-600">Pénicilline</strong></p>
+            </div>
+          </div>
+          <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-white text-emerald-700 border border-emerald-200 shadow-2xs">Dossier actif</span>
+        </div>
+
+        <!-- 📝 Formulaire Consultation -->
+        <form onsubmit="handleSaveConsultation(event)" class="bg-white rounded-2xl border border-cs2-neutral-200 shadow-2xs p-6 space-y-5">
+          
+          <!-- Règle Métier Alert -->
+          <div class="p-3.5 rounded-xl border border-blue-200 bg-blue-50/50 flex items-start gap-2.5 text-xs text-blue-900">
+            <svg class="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <div>
+              <span class="font-extrabold block">Règles métier :</span>
+              Le compte-rendu médical est <strong>strictement obligatoire</strong> pour valider la consultation. Toute saisie est enregistrée et liée au dossier médical permanent.
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Libellé de la prestation -->
+            <div class="space-y-1">
+              <label class="text-xs font-extrabold text-cs2-neutral-800">Libellé de la prestation *</label>
+              <input type="text" required value="Consultation de suivi cardiologique" class="w-full px-3.5 py-2.5 text-xs font-medium text-cs2-neutral-900 bg-white border border-cs2-neutral-200 rounded-xl focus:border-cs2-brand-600 focus:outline-none">
+            </div>
+
+            <!-- Catégorie -->
+            <div class="space-y-1">
+              <label class="text-xs font-extrabold text-cs2-neutral-800">Catégorie *</label>
+              <select required class="w-full px-3.5 py-2.5 text-xs font-bold text-cs2-neutral-900 bg-white border border-cs2-neutral-200 rounded-xl focus:border-cs2-brand-600 focus:outline-none">
+                <option value="Consultation" selected>Consultation</option>
+                <option value="Imagerie">Imagerie</option>
+                <option value="Biologie">Biologie</option>
+                <option value="Soin">Soin</option>
+                <option value="Urgence">Urgence</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Date de réalisation & Diagnostic -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-1">
+              <label class="text-xs font-extrabold text-cs2-neutral-800">Date de réalisation *</label>
+              <input type="date" required value="2026-08-31" class="w-full px-3.5 py-2.5 text-xs font-bold text-cs2-neutral-900 bg-white border border-cs2-neutral-200 rounded-xl focus:border-cs2-brand-600 focus:outline-none">
+            </div>
+
+            <div class="space-y-1">
+              <label class="text-xs font-extrabold text-cs2-neutral-800">Diagnostic (CIM-10 / Libellé)</label>
+              <input type="text" placeholder="Ex: I10 — Hypertension essentielle" value="I10 — Hypertension Artérielle Essentielle" class="w-full px-3.5 py-2.5 text-xs font-medium text-cs2-neutral-900 bg-white border border-cs2-neutral-200 rounded-xl focus:border-cs2-brand-600 focus:outline-none">
+            </div>
+          </div>
+
+          <!-- Description rapide -->
+          <div class="space-y-1">
+            <label class="text-xs font-extrabold text-cs2-neutral-800">Description succincte</label>
+            <input type="text" placeholder="Aperçu rapide du motif" value="Contrôle de routine de la pression artérielle et examen ECG." class="w-full px-3.5 py-2.5 text-xs font-medium text-cs2-neutral-900 bg-white border border-cs2-neutral-200 rounded-xl focus:border-cs2-brand-600 focus:outline-none">
+          </div>
+
+          <!-- Compte-rendu médical (Obligatoire) -->
+          <div class="space-y-1">
+            <div class="flex items-center justify-between">
+              <label class="text-xs font-extrabold text-cs2-neutral-800">Compte-rendu médical détaillé *</label>
+              <span class="text-[10px] text-rose-600 font-bold">Champ obligatoire</span>
+            </div>
+            <textarea required rows="5" class="w-full p-3 text-xs font-medium text-cs2-neutral-900 bg-white border border-cs2-neutral-200 rounded-xl focus:border-cs2-brand-600 focus:outline-none" placeholder="Saisir les observations cliniques, l'examen physique et la conduite à tenir...">Patient reçu en consultation de contrôle. Examen clinique sans anomalie auscultatoire. Tension artérielle mesurée à 12/8 mmHg. Poursuite de la posologie actuelle Amlodipine 5mg. Prochain bilan biologique dans 3 mois.</textarea>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="flex items-center justify-end gap-3 pt-4 border-t border-cs2-neutral-200">
+            <!-- Django: {% include "components/ui/button.html" with label="Annuler" href="../dashboard.html" variant="secondary" size="md" %} -->
+            <a href="../dashboard.html" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-cs2-neutral-200 bg-white hover:bg-cs2-neutral-50 text-cs2-neutral-800 font-extrabold text-xs transition shadow-2xs">Annuler</a>
+            <!-- Django: {% include "components/ui/button.html" with label="Enregistrer la consultation" type="submit" variant="primary" size="md" %} -->
+            <button type="submit" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-cs2-brand-600 hover:bg-cs2-brand-700 text-white font-extrabold text-xs transition shadow-2xs">Enregistrer la consultation</button>
+          </div>
+
+        </form>
+
+        <!-- {% endblock %} -->
+      </main>
+    </div>
+  </div>
+
+  <script src="../../../../static/js/core/cs2-paths.js"></script>
+  <script src="../../../../static/js/components/cs2-logo.js"></script>
+  <script src="../../../../static/js/loaders/sidebar-loader.js"></script>
+  <script src="../../../../static/js/loaders/header-loader.js"></script>
+  <script src="../../../../static/js/core/theme.js"></script>
+  <script src="../../../../static/js/components/navigation.js"></script>
+  <script src="../../../../static/js/components/modal.js"></script>
+  <script src="../../../../static/js/components/dropdown.js"></script>
+  <script src="../../../../static/js/core/app.js"></script>
+  <!-- {% block extra_js %} -->
+  <script src="../../../../static/js/modules/medical/create-consultation.js"></script>
+  <!-- {% endblock %} -->
+</body>
+</html>

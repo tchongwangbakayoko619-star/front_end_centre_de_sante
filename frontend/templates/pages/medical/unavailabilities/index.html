@@ -1,0 +1,257 @@
+<!-- {% extends "layouts/app.html" %} -->
+<!-- {% load static %} -->
+
+<!-- {% block title %}CS² Health — Mes Indisponibilités{% endblock %} -->
+
+<!DOCTYPE html>
+<html lang="fr" class="h-full bg-white antialiased text-cs2-neutral-900 scroll-smooth" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS² Health — Mes Indisponibilités</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="../../../../static/css/styles.css">
+  <script>window.SIDEBAR_ACTIVE = 'medical-unavailabilities';</script>
+</head>
+<body class="h-full bg-white text-cs2-neutral-900 font-sans flex flex-col antialiased selection:bg-cs2-brand-600 selection:text-white">
+
+  <!-- Accessibilité : Skip Link -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-cs2-brand-600 focus:text-white focus:rounded-xl focus:shadow-lg focus:font-extrabold focus:outline-none">
+    Aller au contenu principal
+  </a>
+
+  <div class="flex h-screen overflow-hidden bg-white">
+    <!-- Sidebar Mount Point -->
+    <div id="sidebar-mount"></div>
+
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <!-- Header Mount Point -->
+      <div id="header-mount"></div>
+
+      <main id="main-content" tabindex="-1" class="flex-1 overflow-y-auto p-4 md:p-8 max-w-7xl w-full mx-auto space-y-6 focus:outline-none">
+        <!-- {% block content %} -->
+
+        <!-- 🚫 Header Indisponibilités -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-cs2-neutral-200">
+          <div>
+            <h1 class="text-xl sm:text-2xl font-extrabold text-cs2-neutral-950 font-title tracking-tight">Mes indisponibilités</h1>
+            <p class="text-xs font-medium text-cs2-neutral-500 mt-0.5">Gestion des congés, formations, réunions et récurrences hebdomadaires.</p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <button type="button" onclick="openRecurringModal()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-cs2-neutral-200 bg-white hover:bg-cs2-neutral-50 text-cs2-neutral-800 font-bold text-xs transition shadow-2xs">
+              <svg class="w-4 h-4 text-cs2-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              <span>Planifier récurrence</span>
+            </button>
+            <button type="button" onclick="openUnavailabilityModal()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs transition shadow-2xs">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+              <span>Ajouter une indisponibilité</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 📅 Calendar Preview & Recurring Card -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+          <!-- Colonne 1: Indisponibilité Récurrente Configurée -->
+          <div class="bg-white rounded-2xl border border-cs2-neutral-200 shadow-2xs p-6 space-y-4">
+            <div class="border-b border-cs2-neutral-200 pb-3">
+              <h2 class="text-base font-extrabold text-cs2-neutral-950 font-title">Indisponibilités Récurrentes</h2>
+              <p class="text-[11px] text-cs2-neutral-500">Règles d'absence automatiques.</p>
+            </div>
+
+            <div class="p-3.5 rounded-xl border border-amber-200 bg-amber-50/50 space-y-2 shadow-2xs">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 rounded text-[9px] font-extrabold bg-amber-600 text-white">Récurrence active</span>
+                <button type="button" onclick="deleteRecurringRule()" class="text-rose-600 text-xs font-bold hover:underline">Supprimer</button>
+              </div>
+              <h3 class="text-xs font-extrabold text-cs2-neutral-950">Tous les vendredis après-midi</h3>
+              <p class="text-[11px] text-cs2-neutral-600">Verrouillage automatique des créneaux de 14:00 à 18:00 pour réunions de service.</p>
+            </div>
+          </div>
+
+          <!-- Colonne 2 & 3: Vue Calendrier Mensuelle -->
+          <div class="lg:col-span-2 bg-white rounded-2xl border border-cs2-neutral-200 shadow-2xs p-6 space-y-4">
+            <div class="border-b border-cs2-neutral-200 pb-3 flex items-center justify-between">
+              <h2 class="text-base font-extrabold text-cs2-neutral-950 font-title">Vue Calendrier (Septembre 2026)</h2>
+              <span class="text-xs font-mono text-cs2-neutral-500">2 Périodes bloquées</span>
+            </div>
+
+            <!-- Grille Mini-Calendrier Mensuel -->
+            <div class="grid grid-cols-7 gap-1 text-center text-xs font-bold border-b border-cs2-neutral-100 pb-2">
+              <span class="text-cs2-neutral-400">Lun</span>
+              <span class="text-cs2-neutral-400">Mar</span>
+              <span class="text-cs2-neutral-400">Mer</span>
+              <span class="text-cs2-neutral-400">Jeu</span>
+              <span class="text-cs2-neutral-400">Ven</span>
+              <span class="text-cs2-neutral-400">Sam</span>
+              <span class="text-cs2-neutral-400">Dim</span>
+            </div>
+
+            <div class="grid grid-cols-7 gap-1 text-center text-xs">
+              <!-- Jours du mois avec surbrillance d'indisponibilité -->
+              <div class="p-2 border border-cs2-neutral-100 rounded-lg">31</div>
+              <div class="p-2 border border-cs2-neutral-100 rounded-lg">1</div>
+              <div class="p-2 border border-cs2-neutral-100 rounded-lg">2</div>
+              <div class="p-2 border border-cs2-neutral-100 rounded-lg">3</div>
+              <div class="p-2 border border-amber-200 bg-amber-50 rounded-lg font-extrabold text-amber-800">4 (Récur.)</div>
+              <div class="p-2 border border-cs2-neutral-100 rounded-lg text-cs2-neutral-400">5</div>
+              <div class="p-2 border border-cs2-neutral-100 rounded-lg text-cs2-neutral-400">6</div>
+
+              <div class="p-2 border border-cs2-neutral-100 rounded-lg">7</div>
+              <div class="p-2 border border-cs2-neutral-100 rounded-lg">8</div>
+              <div class="p-2 border border-cs2-neutral-100 rounded-lg">9</div>
+              <div class="p-2 border border-cs2-neutral-100 rounded-lg">10</div>
+              <div class="p-2 border border-amber-200 bg-amber-50 rounded-lg font-extrabold text-amber-800">11 (Récur.)</div>
+              <div class="p-2 border border-cs2-neutral-100 rounded-lg text-cs2-neutral-400">12</div>
+              <div class="p-2 border border-cs2-neutral-100 rounded-lg text-cs2-neutral-400">13</div>
+
+              <!-- Période Congés (15 - 20) -->
+              <div class="p-2 border border-cs2-neutral-100 rounded-lg">14</div>
+              <div class="p-2 border border-rose-200 bg-rose-50 font-extrabold text-rose-800 rounded-lg">15 (Congés)</div>
+              <div class="p-2 border border-rose-200 bg-rose-50 font-extrabold text-rose-800 rounded-lg">16 (Congés)</div>
+              <div class="p-2 border border-rose-200 bg-rose-50 font-extrabold text-rose-800 rounded-lg">17 (Congés)</div>
+              <div class="p-2 border border-rose-200 bg-rose-50 font-extrabold text-rose-800 rounded-lg">18 (Congés)</div>
+              <div class="p-2 border border-rose-200 bg-rose-50 font-extrabold text-rose-800 rounded-lg">19 (Congés)</div>
+              <div class="p-2 border border-rose-200 bg-rose-50 font-extrabold text-rose-800 rounded-lg">20 (Congés)</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 📋 Tableau des Indisponibilités -->
+        <div class="bg-white rounded-2xl border border-cs2-neutral-200 shadow-2xs p-6 space-y-4">
+          <div class="flex items-center justify-between border-b border-cs2-neutral-200 pb-3">
+            <h2 class="text-base font-extrabold text-cs2-neutral-950 font-title">Liste des Périodes d'Indisponibilité</h2>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-cs2-neutral-200 bg-white text-xs font-extrabold text-cs2-neutral-900">
+                  <th class="p-3">Date Début</th>
+                  <th class="p-3">Date Fin</th>
+                  <th class="p-3">Motif</th>
+                  <th class="p-3">Statut</th>
+                  <th class="p-3 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-cs2-neutral-100 text-xs">
+                <tr>
+                  <td class="p-3 font-mono font-bold text-cs2-neutral-900">15/09/2026</td>
+                  <td class="p-3 font-mono font-bold text-cs2-neutral-900">20/09/2026</td>
+                  <td class="p-3 font-extrabold text-cs2-neutral-950">Congé annuel</td>
+                  <td class="p-3"><span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-white text-cs2-brand-700 border border-cs2-brand-200">Planifié</span></td>
+                  <td class="p-3 text-right space-x-2">
+                    <button type="button" onclick="editUnavailability('15/09/2026')" class="text-cs2-brand-600 font-extrabold">Modifier</button>
+                    <button type="button" onclick="cancelUnavailability('Congé annuel')" class="text-rose-600 font-extrabold">Annuler</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-mono font-bold text-cs2-neutral-900">28/09/2026</td>
+                  <td class="p-3 font-mono font-bold text-cs2-neutral-900">28/09/2026</td>
+                  <td class="p-3 font-extrabold text-cs2-neutral-950">Formation Médicale Continue</td>
+                  <td class="p-3"><span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-white text-emerald-700 border border-emerald-200">Confirmé</span></td>
+                  <td class="p-3 text-right space-x-2">
+                    <button type="button" onclick="editUnavailability('28/09/2026')" class="text-cs2-brand-600 font-extrabold">Modifier</button>
+                    <button type="button" onclick="cancelUnavailability('Formation')" class="text-rose-600 font-extrabold">Annuler</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Modale Indisponibilité Récurrente -->
+        <div id="recurring-modal" class="hidden modal">
+          <div class="modal-backdrop" onclick="closeRecurringModal()"></div>
+          <div class="modal-content max-w-md w-full bg-white p-6 rounded-2xl border border-cs2-neutral-200 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b border-cs2-neutral-200 pb-3">
+              <h3 class="text-base font-extrabold text-cs2-neutral-950 font-title">Planifier une indisponibilité récurrente</h3>
+              <button type="button" onclick="closeRecurringModal()" class="text-cs2-neutral-400 hover:text-cs2-neutral-700">✕</button>
+            </div>
+            
+            <form onsubmit="handleSaveRecurring(event)" class="space-y-3">
+              <div>
+                <label class="text-xs font-bold text-cs2-neutral-700 block mb-1">Jour de récurrence</label>
+                <select class="w-full px-3 py-2 text-xs border border-cs2-neutral-200 rounded-xl bg-white text-cs2-neutral-900 font-bold focus:outline-none focus:border-cs2-brand-600">
+                  <option value="Vendredi après-midi">Tous les vendredis après-midi (14h-18h)</option>
+                  <option value="Mercredi matin">Tous les mercredis matin (8h-12h)</option>
+                  <option value="Samedi matin">Tous les samedis matin (8h-12h)</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="text-xs font-bold text-cs2-neutral-700 block mb-1">Motif</label>
+                <input type="text" value="Réunion de service hebdomadaire" class="w-full px-3 py-2 text-xs border border-cs2-neutral-200 rounded-xl bg-white text-cs2-neutral-900 font-bold focus:outline-none focus:border-cs2-brand-600">
+              </div>
+
+              <div class="flex items-center justify-end gap-2 pt-3 border-t border-cs2-neutral-200">
+                <button type="button" onclick="closeRecurringModal()" class="px-4 py-2 rounded-xl border border-cs2-neutral-200 bg-white hover:bg-cs2-neutral-50 text-cs2-neutral-800 font-bold text-xs">Annuler</button>
+                <button type="submit" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs shadow-2xs">Activer la récurrence</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Modale Indisponibilité Standard Include -->
+        <div id="unavailability-modal" class="hidden modal">
+          <div class="modal-backdrop" onclick="closeUnavailabilityModal()"></div>
+          <div class="modal-content max-w-md w-full bg-white p-6 rounded-2xl border border-cs2-neutral-200 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b border-cs2-neutral-200 pb-3">
+              <h3 class="text-base font-extrabold text-cs2-neutral-950 font-title">Ajouter une indisponibilité</h3>
+              <button type="button" onclick="closeUnavailabilityModal()" class="text-cs2-neutral-400 hover:text-cs2-neutral-700">✕</button>
+            </div>
+            
+            <form onsubmit="handleSaveUnavailability(event)" class="space-y-3">
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="text-xs font-bold text-cs2-neutral-700 block mb-1">Date Début</label>
+                  <input type="date" value="2026-09-15" class="w-full px-3 py-2 text-xs border border-cs2-neutral-200 rounded-xl bg-white text-cs2-neutral-900 font-bold focus:outline-none focus:border-cs2-brand-600">
+                </div>
+                <div>
+                  <label class="text-xs font-bold text-cs2-neutral-700 block mb-1">Date Fin</label>
+                  <input type="date" value="2026-09-20" class="w-full px-3 py-2 text-xs border border-cs2-neutral-200 rounded-xl bg-white text-cs2-neutral-900 font-bold focus:outline-none focus:border-cs2-brand-600">
+                </div>
+              </div>
+
+              <div>
+                <label class="text-xs font-bold text-cs2-neutral-700 block mb-1">Motif</label>
+                <select class="w-full px-3 py-2 text-xs border border-cs2-neutral-200 rounded-xl bg-white text-cs2-neutral-900 font-bold focus:outline-none focus:border-cs2-brand-600">
+                  <option value="conge">Congé</option>
+                  <option value="formation">Formation</option>
+                  <option value="reunion">Réunion</option>
+                  <option value="maladie">Maladie</option>
+                </select>
+              </div>
+
+              <div class="flex items-center justify-end gap-2 pt-3 border-t border-cs2-neutral-200">
+                <button type="button" onclick="closeUnavailabilityModal()" class="px-4 py-2 rounded-xl border border-cs2-neutral-200 bg-white hover:bg-cs2-neutral-50 text-cs2-neutral-800 font-bold text-xs">Annuler</button>
+                <button type="submit" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs shadow-2xs">Valider l'indisponibilité</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- {% endblock %} -->
+      </main>
+    </div>
+  </div>
+
+  <script src="../../../../static/js/core/cs2-paths.js"></script>
+  <script src="../../../../static/js/components/cs2-logo.js"></script>
+  <script src="../../../../static/js/loaders/sidebar-loader.js"></script>
+  <script src="../../../../static/js/loaders/header-loader.js"></script>
+  <script src="../../../../static/js/core/theme.js"></script>
+  <script src="../../../../static/js/components/navigation.js"></script>
+  <script src="../../../../static/js/components/modal.js"></script>
+  <script src="../../../../static/js/components/dropdown.js"></script>
+  <script src="../../../../static/js/core/app.js"></script>
+  <!-- {% block extra_js %} -->
+  <script src="../../../../static/js/modules/medical/unavailabilities.js"></script>
+  <!-- {% endblock %} -->
+</body>
+</html>

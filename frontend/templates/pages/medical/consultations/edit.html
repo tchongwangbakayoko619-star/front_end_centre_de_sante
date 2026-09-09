@@ -1,0 +1,135 @@
+<!-- {% extends "layouts/app.html" %} -->
+<!-- {% load static %} -->
+
+<!-- {% block title %}CS² Health — Modifier la Consultation #PR-2026-0042{% endblock %} -->
+
+<!DOCTYPE html>
+<html lang="fr" class="h-full bg-white antialiased text-cs2-neutral-900 scroll-smooth" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS² Health — Modifier la Consultation #PR-2026-0042</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="../../../../static/css/styles.css">
+  <script>window.SIDEBAR_ACTIVE = 'medical-consultations';</script>
+</head>
+<body class="h-full bg-white text-cs2-neutral-900 font-sans flex flex-col antialiased selection:bg-cs2-brand-600 selection:text-white">
+
+  <!-- Accessibilité : Skip Link -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-cs2-brand-600 focus:text-white focus:rounded-xl focus:shadow-lg focus:font-extrabold focus:outline-none">
+    Aller au contenu principal
+  </a>
+
+  <div class="flex h-screen overflow-hidden bg-white">
+    <!-- Sidebar Mount Point -->
+    <div id="sidebar-mount"></div>
+
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <!-- Header Mount Point -->
+      <div id="header-mount"></div>
+
+      <main id="main-content" tabindex="-1" class="flex-1 overflow-y-auto p-4 md:p-8 max-w-4xl w-full mx-auto space-y-6 focus:outline-none">
+        <!-- {% block content %} -->
+
+        <!-- 🩺 Header Formulaire Édition -->
+        <div class="flex items-center justify-between gap-3 pb-4 border-b border-cs2-neutral-200">
+          <div>
+            <h1 class="text-xl sm:text-2xl font-extrabold text-cs2-neutral-950 font-title tracking-tight">Modifier la consultation</h1>
+            <p class="text-xs font-medium text-cs2-neutral-500 mt-0.5">Consultation #PR-2026-0042 • Patient : Alice KONÉ</p>
+          </div>
+          <!-- Django: {% include "components/ui/button.html" with label="← Annuler" href="history.html" variant="secondary" size="sm" %} -->
+          <a href="history.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-cs2-neutral-200 bg-white hover:bg-cs2-neutral-50 text-cs2-neutral-800 font-extrabold text-xs transition shadow-2xs">← Annuler</a>
+        </div>
+
+        <!-- 🛡️ Avertissement d'Audit & Historique -->
+        <div class="p-3.5 rounded-2xl border border-amber-200 bg-amber-50/50 space-y-1.5 shadow-2xs">
+          <div class="flex items-center gap-2 text-amber-900 font-extrabold text-xs">
+            <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+            <span>Journal d'audit &amp; Traçabilité :</span>
+          </div>
+          <p class="text-xs text-amber-800 font-medium">
+            Toute modification de cette consultation est <strong>tracée dans le journal d'audit</strong> de l'établissement.<br>
+            <span class="text-[11px] font-mono text-amber-700">Dernière modification : Dr. Mansouri le 26/08/2026 à 14:30</span>
+          </p>
+        </div>
+
+        <!-- 📝 Formulaire prérempli -->
+        <form onsubmit="handleUpdateConsultation(event)" class="bg-white rounded-2xl border border-cs2-neutral-200 shadow-2xs p-6 space-y-5">
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Libellé -->
+            <div class="space-y-1">
+              <label class="text-xs font-extrabold text-cs2-neutral-800">Libellé de la prestation *</label>
+              <input type="text" required value="Suivi Cardiologie — Bilan posologique" class="w-full px-3.5 py-2.5 text-xs font-medium text-cs2-neutral-900 bg-white border border-cs2-neutral-200 rounded-xl focus:border-cs2-brand-600 focus:outline-none">
+            </div>
+
+            <!-- Catégorie -->
+            <div class="space-y-1">
+              <label class="text-xs font-extrabold text-cs2-neutral-800">Catégorie *</label>
+              <select required class="w-full px-3.5 py-2.5 text-xs font-bold text-cs2-neutral-900 bg-white border border-cs2-neutral-200 rounded-xl focus:border-cs2-brand-600 focus:outline-none">
+                <option value="Consultation" selected>Consultation</option>
+                <option value="Imagerie">Imagerie</option>
+                <option value="Biologie">Biologie</option>
+                <option value="Soin">Soin</option>
+                <option value="Urgence">Urgence</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Date & Diagnostic -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-1">
+              <label class="text-xs font-extrabold text-cs2-neutral-800">Date de réalisation *</label>
+              <input type="date" required value="2026-08-26" class="w-full px-3.5 py-2.5 text-xs font-bold text-cs2-neutral-900 bg-white border border-cs2-neutral-200 rounded-xl focus:border-cs2-brand-600 focus:outline-none">
+            </div>
+
+            <div class="space-y-1">
+              <label class="text-xs font-extrabold text-cs2-neutral-800">Diagnostic (CIM-10)</label>
+              <input type="text" value="I10 — Hypertension Artérielle Essentielle" class="w-full px-3.5 py-2.5 text-xs font-medium text-cs2-neutral-900 bg-white border border-cs2-neutral-200 rounded-xl focus:border-cs2-brand-600 focus:outline-none">
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="space-y-1">
+            <label class="text-xs font-extrabold text-cs2-neutral-800">Description</label>
+            <input type="text" value="Ajustement de traitement suite à palpitations légères." class="w-full px-3.5 py-2.5 text-xs font-medium text-cs2-neutral-900 bg-white border border-cs2-neutral-200 rounded-xl focus:border-cs2-brand-600 focus:outline-none">
+          </div>
+
+          <!-- Compte-rendu -->
+          <div class="space-y-1">
+            <label class="text-xs font-extrabold text-cs2-neutral-800">Compte-rendu médical *</label>
+            <textarea required rows="5" class="w-full p-3 text-xs font-medium text-cs2-neutral-900 bg-white border border-cs2-neutral-200 rounded-xl focus:border-cs2-brand-600 focus:outline-none">Patient rapporte des palpitations occasionnelles. Électrocardiogramme normal, ajustement posologique effectué avec renouvellement Amlodipine 5mg.</textarea>
+          </div>
+
+          <!-- Actions -->
+          <div class="flex items-center justify-end gap-3 pt-4 border-t border-cs2-neutral-200">
+            <!-- Django: {% include "components/ui/button.html" with label="Annuler" href="history.html" variant="secondary" size="md" %} -->
+            <a href="history.html" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-cs2-neutral-200 bg-white hover:bg-cs2-neutral-50 text-cs2-neutral-800 font-extrabold text-xs transition shadow-2xs">Annuler</a>
+            <!-- Django: {% include "components/ui/button.html" with label="Enregistrer les modifications" type="submit" variant="primary" size="md" %} -->
+            <button type="submit" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-cs2-brand-600 hover:bg-cs2-brand-700 text-white font-extrabold text-xs transition shadow-2xs">Enregistrer les modifications</button>
+          </div>
+
+        </form>
+
+        <!-- {% endblock %} -->
+      </main>
+    </div>
+  </div>
+
+  <script src="../../../../static/js/core/cs2-paths.js"></script>
+  <script src="../../../../static/js/components/cs2-logo.js"></script>
+  <script src="../../../../static/js/loaders/sidebar-loader.js"></script>
+  <script src="../../../../static/js/loaders/header-loader.js"></script>
+  <script src="../../../../static/js/core/theme.js"></script>
+  <script src="../../../../static/js/components/navigation.js"></script>
+  <script src="../../../../static/js/components/modal.js"></script>
+  <script src="../../../../static/js/components/dropdown.js"></script>
+  <script src="../../../../static/js/core/app.js"></script>
+  <!-- {% block extra_js %} -->
+  <script src="../../../../static/js/modules/medical/edit-consultation.js"></script>
+  <!-- {% endblock %} -->
+</body>
+</html>

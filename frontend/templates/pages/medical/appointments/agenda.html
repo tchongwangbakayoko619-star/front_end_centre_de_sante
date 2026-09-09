@@ -1,0 +1,294 @@
+<!-- {% extends "layouts/app.html" %} -->
+<!-- {% load static %} -->
+
+<!-- {% block title %}CS² Health — Mon Agenda Médecin{% endblock %} -->
+
+<!DOCTYPE html>
+<html lang="fr" class="h-full bg-white antialiased text-cs2-neutral-900 scroll-smooth" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS² Health — Mon Agenda Médecin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="../../../../static/css/styles.css">
+  <script>window.SIDEBAR_ACTIVE = 'medical-agenda';</script>
+</head>
+<body class="h-full bg-white text-cs2-neutral-900 font-sans flex flex-col antialiased selection:bg-cs2-brand-600 selection:text-white">
+
+  <!-- Accessibilité : Skip Link -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-cs2-brand-600 focus:text-white focus:rounded-xl focus:shadow-lg focus:font-extrabold focus:outline-none">
+    Aller au contenu principal
+  </a>
+
+  <div class="flex h-screen overflow-hidden bg-white">
+    <!-- Sidebar Mount Point -->
+    <div id="sidebar-mount"></div>
+
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <!-- Header Mount Point -->
+      <div id="header-mount"></div>
+
+      <main id="main-content" tabindex="-1" class="flex-1 overflow-y-auto p-4 md:p-8 max-w-7xl w-full mx-auto space-y-6 focus:outline-none">
+        <!-- {% block content %} -->
+
+        <!-- 📅 Header Agenda & Controls -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-cs2-neutral-200">
+          <div>
+            <h1 class="text-xl sm:text-2xl font-extrabold text-cs2-neutral-950 font-title tracking-tight">Mon agenda</h1>
+            <p class="text-xs font-medium text-cs2-neutral-500 mt-0.5">Planning hebdomadaire des consultations et rendez-vous médicaux.</p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <!-- Navigation Période -->
+            <div class="flex items-center gap-1 bg-white border border-cs2-neutral-200 rounded-xl p-1 shadow-2xs">
+              <button type="button" onclick="navigatePeriod(-1)" class="p-1.5 rounded-lg hover:bg-cs2-neutral-100 text-cs2-neutral-700 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+              </button>
+              <button type="button" onclick="goToToday()" class="px-3 py-1 text-xs font-extrabold text-cs2-neutral-800 hover:bg-cs2-neutral-100 rounded-lg transition">Aujourd'hui</button>
+              <button type="button" onclick="navigatePeriod(1)" class="p-1.5 rounded-lg hover:bg-cs2-neutral-100 text-cs2-neutral-700 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+
+            <!-- Bascule Vue Semaine / Mois -->
+            <div class="flex items-center bg-white border border-cs2-neutral-200 rounded-xl p-1 shadow-2xs">
+              <button type="button" id="btn-view-week" onclick="switchAgendaView('week')" class="px-3 py-1 rounded-lg text-xs font-extrabold bg-cs2-brand-600 text-white transition">Semaine</button>
+              <button type="button" id="btn-view-month" onclick="switchAgendaView('month')" class="px-3 py-1 rounded-lg text-xs font-extrabold text-cs2-neutral-700 hover:bg-cs2-neutral-100 transition">Mois</button>
+            </div>
+
+            <!-- Actions principales -->
+            <button type="button" onclick="openAppointmentModal()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-cs2-brand-600 hover:bg-cs2-brand-700 text-white font-extrabold text-xs transition shadow-2xs">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+              <span>Prendre un rendez-vous</span>
+            </button>
+
+            <!-- Django: {% include "components/ui/button.html" with label="Gérer mes créneaux" href="../slots/index.html" variant="secondary" size="md" %} -->
+            <a href="../slots/index.html" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-cs2-neutral-200 bg-white hover:bg-cs2-neutral-50 text-cs2-neutral-800 font-extrabold text-xs transition shadow-2xs">Gérer mes créneaux</a>
+          </div>
+        </div>
+
+        <!-- 🏷️ Légende des Statuts -->
+        <div class="flex items-center justify-between flex-wrap gap-3 bg-white p-3.5 rounded-2xl border border-cs2-neutral-200 shadow-2xs text-xs">
+          <span class="font-extrabold text-cs2-neutral-700 text-[11px]">Légende :</span>
+          <div class="flex items-center gap-3 flex-wrap text-[11px]">
+            <span class="inline-flex items-center gap-1.5 font-bold text-cs2-neutral-700"><span class="w-2.5 h-2.5 rounded-full bg-cs2-brand-500"></span> Planifié</span>
+            <span class="inline-flex items-center gap-1.5 font-bold text-cs2-neutral-700"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Confirmé</span>
+            <span class="inline-flex items-center gap-1.5 font-bold text-cs2-neutral-700"><span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> Réalisé</span>
+            <span class="inline-flex items-center gap-1.5 font-bold text-cs2-neutral-700"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Annulé</span>
+            <span class="inline-flex items-center gap-1.5 font-bold text-cs2-neutral-700"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Non présent</span>
+          </div>
+          <span class="font-mono text-cs2-neutral-500 font-bold text-[11px]" id="current-period-text">31 Août - 05 Septembre 2026</span>
+        </div>
+
+        <!-- 🕒 Grille Horaire Agenda (8h - 20h) -->
+        <div class="bg-white rounded-2xl border border-cs2-neutral-200 shadow-2xs overflow-x-auto">
+          <table class="w-full text-left border-collapse min-w-[700px]">
+            <thead>
+              <tr class="border-b border-cs2-neutral-200 bg-white">
+                <th class="p-3 w-20 text-[11px] font-extrabold text-cs2-neutral-400 uppercase tracking-wider text-center border-r border-cs2-neutral-100">Heure</th>
+                <th class="p-3 text-xs font-extrabold text-cs2-neutral-900 text-center border-r border-cs2-neutral-100 bg-cs2-brand-50/40">Lun 31/08</th>
+                <th class="p-3 text-xs font-extrabold text-cs2-neutral-900 text-center border-r border-cs2-neutral-100">Mar 01/09</th>
+                <th class="p-3 text-xs font-extrabold text-cs2-neutral-900 text-center border-r border-cs2-neutral-100">Mer 02/09</th>
+                <th class="p-3 text-xs font-extrabold text-cs2-neutral-900 text-center border-r border-cs2-neutral-100">Jeu 03/09</th>
+                <th class="p-3 text-xs font-extrabold text-cs2-neutral-900 text-center border-r border-cs2-neutral-100">Ven 04/09</th>
+                <th class="p-3 text-xs font-extrabold text-cs2-neutral-900 text-center">Sam 05/09</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-cs2-neutral-100 text-xs">
+              
+              <!-- 08:00 -->
+              <tr>
+                <td class="p-3 font-mono text-[11px] font-extrabold text-cs2-neutral-400 text-center border-r border-cs2-neutral-100">08:00</td>
+                <td class="p-2 border-r border-cs2-neutral-100 bg-emerald-50/50">
+                  <div class="p-2 rounded-xl border border-emerald-200 bg-white shadow-2xs space-y-1">
+                    <div class="flex items-center justify-between">
+                      <span class="font-extrabold text-cs2-neutral-950 text-[11px]">Mendouga Mbarga J.</span>
+                      <span class="px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-white text-emerald-700 border border-emerald-200">Réalisé</span>
+                    </div>
+                    <p class="text-[10px] text-cs2-neutral-500">Suivi HTA</p>
+                  </div>
+                </td>
+                <td class="p-2 border-r border-cs2-neutral-100"></td>
+                <td class="p-2 border-r border-cs2-neutral-100"></td>
+                <td class="p-2 border-r border-cs2-neutral-100"></td>
+                <td class="p-2 border-r border-cs2-neutral-100"></td>
+                <td class="p-2"></td>
+              </tr>
+
+              <!-- 09:30 -->
+              <tr>
+                <td class="p-3 font-mono text-[11px] font-extrabold text-cs2-neutral-400 text-center border-r border-cs2-neutral-100">09:30</td>
+                <td class="p-2 border-r border-cs2-neutral-100 bg-emerald-50/50">
+                  <div class="p-2 rounded-xl border border-emerald-300 bg-white shadow-2xs space-y-1 ring-1 ring-emerald-200">
+                    <div class="flex items-center justify-between">
+                      <span class="font-extrabold text-cs2-neutral-950 text-[11px]">Alice KONÉ</span>
+                      <span class="px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-white text-emerald-700 border border-emerald-200">Confirmé</span>
+                    </div>
+                    <p class="text-[10px] text-cs2-neutral-500">Douleurs Thoraciques</p>
+                  </div>
+                </td>
+                <td class="p-2 border-r border-cs2-neutral-100">
+                  <div class="p-2 rounded-xl border border-cs2-brand-200 bg-white shadow-2xs space-y-1">
+                    <div class="flex items-center justify-between">
+                      <span class="font-extrabold text-cs2-neutral-950 text-[11px]">Koffi EMMANUEL</span>
+                      <span class="px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-white text-cs2-brand-700 border border-cs2-brand-200">Planifié</span>
+                    </div>
+                    <p class="text-[10px] text-cs2-neutral-500">Consultation Générale</p>
+                  </div>
+                </td>
+                <td class="p-2 border-r border-cs2-neutral-100"></td>
+                <td class="p-2 border-r border-cs2-neutral-100"></td>
+                <td class="p-2 border-r border-cs2-neutral-100"></td>
+                <td class="p-2"></td>
+              </tr>
+
+              <!-- 11:00 -->
+              <tr>
+                <td class="p-3 font-mono text-[11px] font-extrabold text-cs2-neutral-400 text-center border-r border-cs2-neutral-100">11:00</td>
+                <td class="p-2 border-r border-cs2-neutral-100 bg-cs2-brand-50/20">
+                  <div class="p-2 rounded-xl border border-cs2-brand-200 bg-white shadow-2xs space-y-1">
+                    <div class="flex items-center justify-between">
+                      <span class="font-extrabold text-cs2-neutral-950 text-[11px]">Bisseck Amadou</span>
+                      <span class="px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-white text-cs2-brand-700 border border-cs2-brand-200">Planifié</span>
+                    </div>
+                    <p class="text-[10px] text-cs2-neutral-500">ECG Contrôle</p>
+                  </div>
+                </td>
+                <td class="p-2 border-r border-cs2-neutral-100"></td>
+                <td class="p-2 border-r border-cs2-neutral-100">
+                  <div class="p-2 rounded-xl border border-emerald-300 bg-white shadow-2xs space-y-1">
+                    <div class="flex items-center justify-between">
+                      <span class="font-extrabold text-cs2-neutral-950 text-[11px]">Jeanne DUPONT</span>
+                      <span class="px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-white text-emerald-700 border border-emerald-200">Confirmé</span>
+                    </div>
+                    <p class="text-[10px] text-cs2-neutral-500">Bilan Lipidique</p>
+                  </div>
+                </td>
+                <td class="p-2 border-r border-cs2-neutral-100"></td>
+                <td class="p-2 border-r border-cs2-neutral-100"></td>
+                <td class="p-2"></td>
+              </tr>
+
+              <!-- 14:00 -->
+              <tr>
+                <td class="p-3 font-mono text-[11px] font-extrabold text-cs2-neutral-400 text-center border-r border-cs2-neutral-100">14:00</td>
+                <td class="p-2 border-r border-cs2-neutral-100"></td>
+                <td class="p-2 border-r border-cs2-neutral-100"></td>
+                <td class="p-2 border-r border-cs2-neutral-100"></td>
+                <td class="p-2 border-r border-cs2-neutral-100">
+                  <div class="p-2 rounded-xl border border-cs2-brand-200 bg-white shadow-2xs space-y-1">
+                    <div class="flex items-center justify-between">
+                      <span class="font-extrabold text-cs2-neutral-950 text-[11px]">Awa DIABATÉ</span>
+                      <span class="px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-white text-cs2-brand-700 border border-cs2-brand-200">Planifié</span>
+                    </div>
+                    <p class="text-[10px] text-cs2-neutral-500">Suivi Cardiologie</p>
+                  </div>
+                </td>
+                <td class="p-2 border-r border-cs2-neutral-100"></td>
+                <td class="p-2"></td>
+              </tr>
+
+              <!-- 16:00 -->
+              <tr>
+                <td class="p-3 font-mono text-[11px] font-extrabold text-cs2-neutral-400 text-center border-r border-cs2-neutral-100">16:00</td>
+                <td class="p-2 border-r border-cs2-neutral-100 bg-rose-50/30">
+                  <div class="p-2 rounded-xl border border-rose-200 bg-white shadow-2xs space-y-1">
+                    <div class="flex items-center justify-between">
+                      <span class="font-extrabold text-cs2-neutral-950 text-[11px]">Sarr Fatou</span>
+                      <span class="px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-white text-rose-600 border border-rose-200">Non présent</span>
+                    </div>
+                    <p class="text-[10px] text-cs2-neutral-500">Routine</p>
+                  </div>
+                </td>
+                <td class="p-2 border-r border-cs2-neutral-100"></td>
+                <td class="p-2 border-r border-cs2-neutral-100"></td>
+                <td class="p-2 border-r border-cs2-neutral-100"></td>
+                <td class="p-2 border-r border-cs2-neutral-100"></td>
+                <td class="p-2"></td>
+              </tr>
+
+              <!-- 18:00 - 20:00 -->
+              <tr>
+                <td class="p-3 font-mono text-[11px] font-extrabold text-cs2-neutral-400 text-center border-r border-cs2-neutral-100">18:00</td>
+                <td class="p-2 border-r border-cs2-neutral-100"></td>
+                <td class="p-2 border-r border-cs2-neutral-100"></td>
+                <td class="p-2 border-r border-cs2-neutral-100"></td>
+                <td class="p-2 border-r border-cs2-neutral-100"></td>
+                <td class="p-2 border-r border-cs2-neutral-100"></td>
+                <td class="p-2 text-center text-[10px] text-cs2-neutral-400 italic">Fermé</td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Modale Prendre un Rendez-Vous -->
+        <div id="appointment-modal" class="hidden modal">
+          <div class="modal-backdrop" onclick="closeAppointmentModal()"></div>
+          <div class="modal-content max-w-lg w-full bg-white p-6 rounded-2xl border border-cs2-neutral-200 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b border-cs2-neutral-200 pb-3">
+              <h3 class="text-base font-extrabold text-cs2-neutral-950 font-title">Prendre un Rendez-Vous</h3>
+              <button type="button" onclick="closeAppointmentModal()" class="text-cs2-neutral-400 hover:text-cs2-neutral-700">✕</button>
+            </div>
+            
+            <form onsubmit="handleCreateAppointment(event)" class="space-y-3">
+              <div>
+                <label class="text-xs font-bold text-cs2-neutral-700 block mb-1">Sélectionner le Patient</label>
+                <select class="w-full px-3 py-2 text-xs border border-cs2-neutral-200 rounded-xl bg-white text-cs2-neutral-900 font-bold focus:outline-none focus:border-cs2-brand-600">
+                  <option value="1">Alice KONÉ (NSS: 284-901-342)</option>
+                  <option value="2">Mendouga Mbarga Joseph (NSS: 189-401-890)</option>
+                  <option value="3">Bisseck Amadou (NSS: 301-889-102)</option>
+                </select>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="text-xs font-bold text-cs2-neutral-700 block mb-1">Date</label>
+                  <input type="date" value="2026-09-01" class="w-full px-3 py-2 text-xs border border-cs2-neutral-200 rounded-xl bg-white text-cs2-neutral-900 font-bold focus:outline-none focus:border-cs2-brand-600">
+                </div>
+                <div>
+                  <label class="text-xs font-bold text-cs2-neutral-700 block mb-1">Heure</label>
+                  <select class="w-full px-3 py-2 text-xs border border-cs2-neutral-200 rounded-xl bg-white text-cs2-neutral-900 font-bold focus:outline-none focus:border-cs2-brand-600">
+                    <option value="09:00">09:00 - 09:30</option>
+                    <option value="10:00">10:00 - 10:30</option>
+                    <option value="11:30">11:30 - 12:00</option>
+                    <option value="15:00">15:00 - 15:30</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="text-xs font-bold text-cs2-neutral-700 block mb-1">Motif de consultation</label>
+                <input type="text" placeholder="Ex: Suivi cardiologie, ECG..." class="w-full px-3 py-2 text-xs border border-cs2-neutral-200 rounded-xl bg-white text-cs2-neutral-900 font-bold focus:outline-none focus:border-cs2-brand-600">
+              </div>
+
+              <div class="flex items-center justify-end gap-2 pt-3 border-t border-cs2-neutral-200">
+                <button type="button" onclick="closeAppointmentModal()" class="px-4 py-2 rounded-xl border border-cs2-neutral-200 bg-white hover:bg-cs2-neutral-50 text-cs2-neutral-800 font-bold text-xs">Annuler</button>
+                <button type="submit" class="px-4 py-2 rounded-xl bg-cs2-brand-600 hover:bg-cs2-brand-700 text-white font-extrabold text-xs shadow-2xs">Valider le rendez-vous</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- {% endblock %} -->
+      </main>
+    </div>
+  </div>
+
+  <script src="../../../../static/js/core/cs2-paths.js"></script>
+  <script src="../../../../static/js/components/cs2-logo.js"></script>
+  <script src="../../../../static/js/loaders/sidebar-loader.js"></script>
+  <script src="../../../../static/js/loaders/header-loader.js"></script>
+  <script src="../../../../static/js/core/theme.js"></script>
+  <script src="../../../../static/js/components/navigation.js"></script>
+  <script src="../../../../static/js/components/modal.js"></script>
+  <script src="../../../../static/js/components/dropdown.js"></script>
+  <script src="../../../../static/js/core/app.js"></script>
+  <!-- {% block extra_js %} -->
+  <script src="../../../../static/js/modules/medical/agenda.js"></script>
+  <!-- {% endblock %} -->
+</body>
+</html>
