@@ -1,19 +1,21 @@
-<!-- Django usage:
-A modal structure that can be toggled via JS or used for confirmation pages.
--->
-<div class="modal d-none" id="example-modal">
+<!-- CS² Health Design System — Generic Modal Component -->
+<div class="modal hidden" id="example-modal" aria-hidden="true">
     <div class="modal-backdrop"></div>
     <div class="modal-content">
         <div class="modal-header">
-            <h3>Titre de la Modale</h3>
-            <button class="modal-close">&times;</button>
+            <h3 class="text-sm font-extrabold text-cs2-neutral-950 font-title">Titre de la Modale</h3>
+            <button type="button" class="w-8 h-8 rounded-xl flex items-center justify-center text-cs2-neutral-400 hover:text-cs2-neutral-800 hover:bg-cs2-neutral-100 transition modal-close">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body text-xs text-cs2-neutral-600 space-y-3">
             <p>Contenu de la modale.</p>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-secondary modal-close-btn">Annuler</button>
-            <button class="btn btn-primary">Confirmer</button>
+            <button type="button" class="btn-secondary modal-close-btn">Annuler</button>
+            <button type="button" class="btn-primary">Confirmer</button>
         </div>
     </div>
 </div>
